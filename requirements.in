@@ -1,0 +1,12 @@
+Django==3.2.5
+django-crispy-forms==1.12.0
+django-environ==0.4.5
+django-split-settings==1.0.1
+#gunicorn[gevent]==20.1.0
+gunicorn==20.1.0
+jinja2==2.11.2
+psycopg2-binary==2.9.1
+pyjwt==2.1.0
+requests==2.26.0
+uvicorn==0.15.0
+  

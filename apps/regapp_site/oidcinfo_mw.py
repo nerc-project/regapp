@@ -8,12 +8,20 @@ class OIDCMiddleware:
 
     def __call__(self, request):
 
-        userinfo_str = request.META.get('HTTP_OIDC_USERINFO_JSON', "{}")
-        userinfo = json.loads(userinfo_str)
+        access_token = request.META.get('HTTP_X_AUTH_REQUEST_ACCESS_TOKEN', None)
+        idp = request.META.get('HTTP_X_AUTH_IDP', None)
 
-        userinfo['storageportal_roles'] = userinfo.get(
-            f'{settings.PORTAL_CLIENT_NAME}_roles', []
-        )
+        if access_token and idp:
+            if idp == "nerc":
+                userinfo = {
+                    'name': "Jim Nercman",
+                    'email': 'test@google.com',
+                }
+            elif idp == "cilogon":
+                userinfo = {
+                    'name': "Jim Logon",
+                    'email': "culbertj@mghpcc.org"
+                }
 
         if "name" in userinfo:
             display_username = userinfo['name']
@@ -31,7 +39,6 @@ class OIDCMiddleware:
         userinfo['display_username'] = display_username
 
         request.oidc_userinfo = userinfo
-        request.oidc_client = request.META.get('HTTP_OIDC_CLIENT', "")
 
         response = self.get_response(request)
 

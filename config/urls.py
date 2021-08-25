@@ -18,4 +18,5 @@ from django.urls import re_path, include
 
 urlpatterns = [
     re_path(r'^', include('regapp.apps.regapp_site.urls')),
+    re_path(r'^registration/', include('regapp.apps.registration.urls')), 
 ]
