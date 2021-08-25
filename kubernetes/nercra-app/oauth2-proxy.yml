@@ -1,0 +1,129 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: oauth2-proxy
+  name: oauth2-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: oauth2-proxy
+  template:
+    metadata:
+      labels:
+        k8s-app: oauth2-proxy
+    spec:
+      hostAliases:
+        - ip: 192.168.39.203
+          hostnames:
+            - keycloak.nerc.mghpcc.org
+
+      initContainers:
+      - name: wait-for-kc
+        image: mghpcc/nercra-util
+        command: ['sh', '-c', "wget --tries=0 --retry-on-http-error=404,503,502 --wait=5 --no-check-certificate --retry-connrefused  --output-file=/dev/null https://keycloak.nerc.mghpcc.org/auth/realms/nerc/.well-known/openid-configuration"]
+
+      containers:
+      - name: oauth2-proxy-kc
+        image: quay.io/oauth2-proxy/oauth2-proxy:latest
+        imagePullPolicy: Always
+        args:
+          - --provider-display-name="NERC"
+          - --insecure-oidc-allow-unverified-email
+          - --cookie-refresh=60s
+        envFrom:
+          - configMapRef:
+              name: oauth2-configmap-kc
+        ports:
+        - containerPort: 4180
+          protocol: TCP
+
+      - name: oauth2-proxy-cilogon
+        image: quay.io/oauth2-proxy/oauth2-proxy:latest
+        imagePullPolicy: Always
+        args:
+          - --provider-display-name="CILogon"
+          - --insecure-oidc-allow-unverified-email
+          - --cookie-refresh=60s
+        envFrom:
+          - configMapRef:
+              name: oauth2-configmap-cilogon
+        ports:
+        - containerPort: 4188
+          protocol: TCP
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oauth2-configmap-kc
+data:
+  OAUTH2_PROXY_PROXY_PREFIX: /oauth2kc
+  OAUTH2_PROXY_COOKIE_NAME: _oauth2_proxy_kc
+  #OAUTH2_PROXY_COOKIE_DOMAIN: .mghpcc.org
+  OAUTH2_PROXY_SET_XAUTHREQUEST: "true"
+  OAUTH2_PROXY_PASS_ACCESS_TOKEN: "true"
+  OAUTH2_PROXY_LOGIN_URL: https://keycloak.nerc.mghpcc.org/auth/realms/nerc/protocol/openid-connect/auth
+  OAUTH2_PROXY_REDEEM_URL: https://keycloak.nerc.mghpcc.org/auth/realms/nerc/protocol/openid-connect/token
+  OAUTH2_PROXY_PROFILE_URL: https://keycloak.nerc.mghpcc.org/auth/realms/nerc/protocol/openid-connect/userinfo
+  OAUTH2_PROXY_VALIDATE_URL: https://keycloak.nerc.mghpcc.org/auth/realms/nerc/protocol/openid-connect/userinfo
+  OAUTH2_PROXY_OIDC_ISSUER_URL: https://keycloak.nerc.mghpcc.org/auth/realms/nerc
+  OAUTH2_PROXY_HTTP_ADDRESS: "0.0.0.0:4180"
+  OAUTH2_PROXY_UPSTREAMS: file:///dev/null
+  OAUTH2_PROXY_PROVIDER: oidc
+  OAUTH2_PROXY_CLIENT_ID: regapp
+  OAUTH2_PROXY_CLIENT_SECRET: dd7919cd-eb28-4795-81d0-8acbd38bf375
+  OAUTH2_PROXY_COOKIE_SECRET: dXc3ZHlZd0xsdnBrWkVVRVNLaW9BUT09
+  OAUTH2_PROXY_SCOPE: openid email profile
+  OAUTH2_PROXY_EMAIL_DOMAINS: "*"
+  OAUTH2_PROXY_SSL_INSECURE_SKIP_VERIFY: "true"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oauth2-configmap-cilogon
+data:
+  OAUTH2_PROXY_PROXY_PREFIX: /oauth2cilogon
+  OAUTH2_PROXY_COOKIE_NAME: _oauth2_proxy_cilogon
+  #OAUTH2_PROXY_COOKIE_DOMAIN: .mghpcc.org
+  OAUTH2_PROXY_SET_XAUTHREQUEST: "true"
+  OAUTH2_PROXY_PASS_ACCESS_TOKEN: "true"
+  OAUTH2_PROXY_LOGIN_URL: https://cilogon.org/authorize 
+  OAUTH2_PROXY_REDEEM_URL: https://cilogon.org/oauth2/token
+  OAUTH2_PROXY_PROFILE_URL: https://cilogon.org/oauth2/userinfo 
+  OAUTH2_PROXY_VALIDATE_URL: https://cilogon.org/oauth2/userinfo 
+  OAUTH2_PROXY_OIDC_ISSUER_URL: https://cilogon.org
+  OAUTH2_PROXY_HTTP_ADDRESS: "0.0.0.0:4188"
+  OAUTH2_PROXY_UPSTREAMS: file:///dev/null
+  OAUTH2_PROXY_PROVIDER: oidc
+  OAUTH2_PROXY_CLIENT_ID: cilogon:/client_id/ab05912d88d9f9cc5ea155accf420f3
+  OAUTH2_PROXY_CLIENT_SECRET: C2z-thf2Ukj72dw65qXFP5yCeDZfQd4aWlYtK7nZXVTfyhZNprewJkwnE-_XmfZOgaPvAoTvZIkTk-6Zwar4Fg
+  OAUTH2_PROXY_COOKIE_SECRET: dXc3ZHlZd0xsdnBrWkVVRVNLaW9BUT09
+  OAUTH2_PROXY_SCOPE: openid email profile org.cilogon.userinfo
+  OAUTH2_PROXY_EMAIL_DOMAINS: "*"
+  OAUTH2_PROXY_SSL_INSECURE_SKIP_VERIFY: "true"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    k8s-app: oauth2-proxy
+  name: oauth2-proxy
+spec:
+  ports:
+  - name: oauth2kc
+    port: 4180
+    protocol: TCP
+    targetPort: 4180
+
+  - name: oauth2cilogon
+    port: 4188
+    protocol: TCP
+    targetPort: 4188  
+
+  selector:
+    k8s-app: oauth2-proxy

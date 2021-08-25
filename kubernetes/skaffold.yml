@@ -1,0 +1,38 @@
+# skaffold.yaml
+apiVersion: skaffold/v2beta20
+kind: Config
+metadata:
+  name: nercra-skaffold
+build:
+  tagPolicy:
+    sha256: {}
+  artifacts:
+    - image: mghpcc/nercra-util
+      context: ../containers/nercra-util
+      docker:
+        dockerfile: Containerfile
+    - image: mghpcc/nercra-radb
+      context: ../containers/nercra-radb
+      docker:
+        dockerfile: Containerfile
+    - image: mghpcc/nercra-app
+      context: ..
+      sync:
+        infer:
+          - "apps/**"
+          - "config/**"
+          - "jinja2/**"
+          - "manage.py"
+      docker:
+        dockerfile: containers/nercra-app/Containerfile
+    - image: mghpcc/nercra-keycloak
+      context: ../containers/nercra-keycloak
+      docker:
+        dockerfile: Containerfile
+deploy:
+  kubectl:
+    manifests:
+      - nercra-kc/*.yml
+      - nercra-app/*.yml
+  kubeContext: minikube
+

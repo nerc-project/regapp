@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nercra-kc-configmap
+data:
+  POSTGRES_DB: keycloak
+  DB_VENDOR: POSTGRES
+  DB_ADDR: localhost
+  DB_DATABASE: keycloak

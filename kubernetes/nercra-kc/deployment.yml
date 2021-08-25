@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nercra-kc-deployment
+  labels:
+    app: nercra-kc
+spec:
+  serviceName: nercra-kc
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nercra-kc
+  template:
+    metadata:
+      labels:
+        app: nercra-kc
+        tier: backend
+    spec:
+      containers:
+        - name: nercra-kcdb-container
+          image: postgres:10
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: nercra-kc-secrets
+            - configMapRef:
+                name: nercra-kc-configmap
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: nercra-kcdb-pvc-mount
+              mountPath: /var/lib/postgresql/data
+        
+        - name: nercra-kc-container
+          image: mghpcc/nercra-keycloak:latest
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: nercra-kc-secrets
+            - configMapRef:
+                name: nercra-kc-configmap
+          args: 
+            - "-Dkeycloak.profile=preview -b 0.0.0.0"
+          ports:
+            - containerPort: 7443
+          volumeMounts:
+            - name: tls-data
+              mountPath: /etc/x509/https
+
+      volumes:
+        - name: tls-data
+          secret:
+            secretName: nercra-kc-tls
+
+        - name: nercra-kcdb-pvc-mount
+          persistentVolumeClaim:
+            claimName: nercra-kcdb-pvc
+

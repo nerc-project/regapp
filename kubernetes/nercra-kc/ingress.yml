@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nercra-kc-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  tls:
+  - hosts:
+      - keycloak.nerc.mghpcc.org
+    secretName: nercra-kc-tls
+  rules:
+    - host: keycloak.nerc.mghpcc.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nercra-kc
+                port:
+                  number: 8443
+

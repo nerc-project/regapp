@@ -1,0 +1,90 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:  
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: http://oauth2-proxy.default.svc.cluster.local:4180/oauth2kc/auth
+    nginx.ingress.kubernetes.io/auth-signin: https://regapp.nerc.mghpcc.org/oauth2kc/start?rd=$escaped_request_uri
+    nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-Access-Token
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header x-auth-idp nerc;
+  name: nercra-app-ingress
+spec:
+  tls:
+  - hosts:
+      - regapp.nerc.mghpcc.org
+    secretName: nercra-app-tls
+  rules:
+    - host: regapp.nerc.mghpcc.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nercra-app
+                port:
+                  number: 8123
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:  
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: http://oauth2-proxy.default.svc.cluster.local:4188/oauth2cilogon/auth
+    nginx.ingress.kubernetes.io/auth-signin: https://regapp.nerc.mghpcc.org/oauth2cilogon/start?rd=$escaped_request_uri
+    nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-Access-Token
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header x-auth-idp cilogon;    
+  name: nercra-registration-ingress
+spec:
+  tls:
+  - hosts:
+      - regapp.nerc.mghpcc.org
+    secretName: nercra-app-tls
+  rules:
+    - host: regapp.nerc.mghpcc.org
+      http:
+        paths:
+          - path: /registration
+            pathType: Prefix
+            backend:
+              service:
+                name: nercra-app
+                port:
+                  number: 8123
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
+    nginx.ingress.kubernetes.io/proxy-max-temp-file-size: "1024m"
+  name: oauth2-proxy
+spec:
+  tls:
+  - hosts:
+      - regapp.nerc.mghpcc.org
+    secretName: nercra-app-tls
+  rules:
+    - host: regapp.nerc.mghpcc.org
+      http:
+        paths:
+          - path: /oauth2kc
+            pathType: Prefix
+            backend:
+              service:
+                name: oauth2-proxy
+                port:
+                  number: 4180
+
+          - path: /oauth2cilogon
+            pathType: Prefix
+            backend:
+              service:
+                name: oauth2-proxy
+                port:
+                  number: 4188

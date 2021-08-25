@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nercra-app-deployment
+spec:
+  serviceName: nercra-app
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nercra-app
+  template:
+    metadata:
+      labels:
+        app: nercra-app
+    spec:
+
+      volumes:
+        - name: static-data
+          emptyDir: {}
+        - name: nercra-radb-volume-mount
+          persistentVolumeClaim:
+            claimName: nercra-radb-pvc
+
+
+      containers:
+
+        - name: nercra-app-container
+          image: mghpcc/nercra-app:latest
+          imagePullPolicy: IfNotPresent
+          workingDir: "/code"
+          command: 
+            - "/scripts/entrypoint.sh"
+          args:
+            - "--devel"
+          envFrom:
+            - configMapRef:
+                name: nercra-app-configmap
+            - secretRef:
+                name: nercra-app-secrets
+          ports:
+            - containerPort: 8123
+          volumeMounts:
+            - name: static-data
+              mountPath: /static
+
+        - name: nercra-radb-container
+          image: mghpcc/nercra-radb:latest
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: nercra-app-configmap
+            - secretRef:
+                name: nercra-app-secrets
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: nercra-radb-volume-mount
+              mountPath: /var/lib/postgresql/data
+
+
+
