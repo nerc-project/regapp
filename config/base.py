@@ -55,7 +55,7 @@ TEMPLATES = [
         'DIRS': [PROJECT_ROOT("jinja2")],
         'APP_DIRS': True,
         'OPTIONS': {
-            'environment': 'regapp.config.jinja2env.environment',
+            'environment': 'regapp.config.jinja2env.environment', 
         },
     },
     {

@@ -52,7 +52,8 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="{{ url(index_page) }}">Profile</a>
-                        <a class="dropdown-item" href="{{redirect_uri}}?logout={{request.build_absolute_uri('/index') | urlencode}}">Logout</a>
+                        {{ glom }}
+                        <a class="dropdown-item" href="{{ logout_uri }}">Logout</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ url(claims_page) }}">Claims</a>
                     </div>

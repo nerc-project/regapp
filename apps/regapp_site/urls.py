@@ -10,5 +10,4 @@ urlpatterns = [
     path('index', views.index, name='site_index'),
     path('claims', views.claims, name='site_claims'),
 ]
-
-
+ 

@@ -4,18 +4,18 @@ import re
 import json
 
 
-
 def index(request):
     return render(request, 'regapp_site/index.j2', {})
- 
+
+
 def claims(request):
     print(request.META)
     context = {
         'headers': request.META,
-        'userinfo': {}
+        'userinfo': request.oidc_userinfo
     }
     return render(request, 'regapp_site/claims.j2', context)
- 
+
 
 def claimsx(request):
     regex = re.compile('^HTTP_')

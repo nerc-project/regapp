@@ -1,3 +1,4 @@
 {% extends "common/base.j2" %}
 {% set index_page = 'reg_index' %}
 {% set claims_page = 'reg_claims' %}
+{% set logout_uri = oauth2proxy_cilogon_logout_url + "?rd=" + (cilogon_logout_url | urlencode) %}

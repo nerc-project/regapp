@@ -33,6 +33,7 @@ spec:
           - --provider-display-name="NERC"
           - --insecure-oidc-allow-unverified-email
           - --cookie-refresh=60s
+          - --whitelist-domain=keycloak.nerc.mghpcc.org
         envFrom:
           - configMapRef:
               name: oauth2-configmap-kc
@@ -47,6 +48,7 @@ spec:
           - --provider-display-name="CILogon"
           - --insecure-oidc-allow-unverified-email
           - --cookie-refresh=60s
+          - --whitelist-domain=cilogon.org          
         envFrom:
           - configMapRef:
               name: oauth2-configmap-cilogon
@@ -65,6 +67,7 @@ data:
   #OAUTH2_PROXY_COOKIE_DOMAIN: .mghpcc.org
   OAUTH2_PROXY_SET_XAUTHREQUEST: "true"
   OAUTH2_PROXY_PASS_ACCESS_TOKEN: "true"
+  #OAUTH2_PROXY_PASS_WHITELIST_DOMAIN: "nerc.mghpcc.org"
   OAUTH2_PROXY_LOGIN_URL: https://keycloak.nerc.mghpcc.org/auth/realms/nerc/protocol/openid-connect/auth
   OAUTH2_PROXY_REDEEM_URL: https://keycloak.nerc.mghpcc.org/auth/realms/nerc/protocol/openid-connect/token
   OAUTH2_PROXY_PROFILE_URL: https://keycloak.nerc.mghpcc.org/auth/realms/nerc/protocol/openid-connect/userinfo
@@ -91,6 +94,7 @@ data:
   #OAUTH2_PROXY_COOKIE_DOMAIN: .mghpcc.org
   OAUTH2_PROXY_SET_XAUTHREQUEST: "true"
   OAUTH2_PROXY_PASS_ACCESS_TOKEN: "true"
+  OAUTH2_PROXY_PASS_WHITELIST_DOMAIN: "cilogon.org"
   OAUTH2_PROXY_LOGIN_URL: https://cilogon.org/authorize 
   OAUTH2_PROXY_REDEEM_URL: https://cilogon.org/oauth2/token
   OAUTH2_PROXY_PROFILE_URL: https://cilogon.org/oauth2/userinfo 
