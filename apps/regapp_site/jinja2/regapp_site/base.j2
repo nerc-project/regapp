@@ -1,4 +1,3 @@
 {% extends "common/base.j2" %}
 {% set index_page = 'site_index' %}
-{% set claims_page = 'site_claims' %}
-{% set logout_uri = oauth2proxy_nerc_logout_url +"?rd=" + ((nerc_logout_url + "?redirect_uri=" + ((request.META['HTTP_X_FORWARDED_PROTO'] + "://" + request.META['HTTP_X_FORWARDED_HOST'] + url(index_page)) | urlencode)) | urlencode) %}
+{% set logout_uri = '/logout' %}

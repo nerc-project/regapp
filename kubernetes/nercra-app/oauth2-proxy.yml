@@ -16,7 +16,7 @@ spec:
         k8s-app: oauth2-proxy
     spec:
       hostAliases:
-        - ip: 192.168.39.203
+        - ip: 192.168.64.3
           hostnames:
             - keycloak.nerc.mghpcc.org
 
@@ -65,7 +65,7 @@ data:
   OAUTH2_PROXY_PROXY_PREFIX: /oauth2kc
   OAUTH2_PROXY_COOKIE_NAME: _oauth2_proxy_kc
   #OAUTH2_PROXY_COOKIE_DOMAIN: .mghpcc.org
-  OAUTH2_PROXY_SET_XAUTHREQUEST: "true"
+  #OAUTH2_PROXY_SET_XAUTHREQUEST: "true"
   OAUTH2_PROXY_PASS_ACCESS_TOKEN: "true"
   #OAUTH2_PROXY_PASS_WHITELIST_DOMAIN: "nerc.mghpcc.org"
   OAUTH2_PROXY_LOGIN_URL: https://keycloak.nerc.mghpcc.org/auth/realms/nerc/protocol/openid-connect/auth
@@ -77,7 +77,8 @@ data:
   OAUTH2_PROXY_UPSTREAMS: file:///dev/null
   OAUTH2_PROXY_PROVIDER: oidc
   OAUTH2_PROXY_CLIENT_ID: regapp
-  OAUTH2_PROXY_CLIENT_SECRET: dd7919cd-eb28-4795-81d0-8acbd38bf375
+  #OAUTH2_PROXY_CLIENT_SECRET: dd7919cd-eb28-4795-81d0-8acbd38bf375
+  OAUTH2_PROXY_CLIENT_SECRET: fc397b9d-5eb0-44db-803e-d700d43a91c4
   OAUTH2_PROXY_COOKIE_SECRET: dXc3ZHlZd0xsdnBrWkVVRVNLaW9BUT09
   OAUTH2_PROXY_SCOPE: openid email profile
   OAUTH2_PROXY_EMAIL_DOMAINS: "*"
@@ -92,7 +93,7 @@ data:
   OAUTH2_PROXY_PROXY_PREFIX: /oauth2cilogon
   OAUTH2_PROXY_COOKIE_NAME: _oauth2_proxy_cilogon
   #OAUTH2_PROXY_COOKIE_DOMAIN: .mghpcc.org
-  OAUTH2_PROXY_SET_XAUTHREQUEST: "true"
+  #OAUTH2_PROXY_SET_XAUTHREQUEST: "true"
   OAUTH2_PROXY_PASS_ACCESS_TOKEN: "true"
   OAUTH2_PROXY_PASS_WHITELIST_DOMAIN: "cilogon.org"
   OAUTH2_PROXY_LOGIN_URL: https://cilogon.org/authorize 

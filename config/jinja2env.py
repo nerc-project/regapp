@@ -18,24 +18,8 @@ def environment(**options):
         'static': static,
         'url': reverse,
         'crispy': render_crispy_form,
-        'redirect_uri': "FOOOO",
-        'nerc_logout_url': ENV.str(
-            'REGAPP_KEYCLOAK_LOGOUT_URL',
-            "https://keycloak.nerc.mghpcc.org/auth/realms/nerc/protocol/openid-connect/logout"
-        ),
-        'cilogon_logout_url': ENV.str(
-            'REGAPP_CILOGON_LOGOUT_URL',
-            "https://cilogon.org/logout"
-        ),
-        'oauth2proxy_nerc_logout_url': ENV.str(
-            'REGAPP_OAUTH2PROXY_NERC_LOGOUT_URL',
-            "/oauth2kc/sign_out"
-        ),
-        'oauth2proxy_cilogon_logout_url': ENV.str(
-            'REGAPP_OAUTH2PROXY_CILOGON_LOGOUT_URL',
-            "/oauth2cilogon/sign_out"
-        ),
         'get_messages': messages.get_messages,
         'DEFAULT_MESSAGE_LEVELS': DEFAULT_LEVELS,
     })
-    return env         
+
+    return env 

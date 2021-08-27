@@ -5,7 +5,7 @@ from django.urls import reverse
 
 
 def index(request):
-    return render(request, 'registration/index.j2', {})
+    return render(request, 'profile/index.j2', {})
 
 
 def claims(request):
@@ -14,11 +14,12 @@ def claims(request):
         'headers': request.META,
         'userinfo': request.oidc_userinfo
     }
-    return render(request, 'registration/claims.j2', context)
+    return render(request, 'profile/claims.j2', context) 
 
 
 def logout(request):
     # clear the django session information
+
     try:
         del request.session[request.idp]
     except KeyError:
@@ -30,17 +31,17 @@ def logout(request):
         request.META['HTTP_X_FORWARDED_PROTO'] +
         "://" +
         request.META['HTTP_X_FORWARDED_HOST'] +
-        reverse(index) 
+        reverse(index)
     )
 
     redirect_to_keycloak = (
-        settings.CILOGON_LOGOUT_URL +
+        settings.NERC_LOGOUT_URL +
         "?" +
         urlencode({'redirect_uri': redirect_to_regapp})
     )
 
     redirect_to_oauth2_proxy = (
-        settings.OAUTH2PROXY_CILOGON_LOGOUT_URL +
+        settings.OAUTH2PROXY_NERC_LOGOUT_URL +
         "?" +
         urlencode({'rd': redirect_to_keycloak})
     )
