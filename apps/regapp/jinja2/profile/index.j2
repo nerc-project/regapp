@@ -16,7 +16,7 @@
 
         <h4>Accout Profile information</h4>
 
-        <form id="{{form.helper.form_id}}" action="{{request.path_info}}" method="POST">
+        <form id="{{form.helper.form_id}}" action="{{request.path_info}}" method="GET">
             {{ csrf_input }}
             {{ crispy(form) }}
             <div class="float-right">

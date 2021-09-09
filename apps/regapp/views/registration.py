@@ -82,8 +82,15 @@ def registration(request):
         return redirect(target)
 
     # Initiate account creation
-    if request.method == 'POST':
-        form = CreateAccountForm(request.POST)
+    # Handling as get to survive oidc redirection
+    # TODO: Handle more sensibly...
+    if request.method != "GET":
+        raise Exception
+
+    # Using presence of email as indicator of form
+    # submission intent.
+    if 'email' in request.GET:
+        form = CreateAccountForm(request.GET)
         if form.is_valid():
             # Create pending registration
             pending_registration = AccountAction(

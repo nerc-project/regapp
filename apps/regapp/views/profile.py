@@ -19,8 +19,14 @@ def profile(request):
         'email': nerc_uinfo.get('email', None)
     }
 
-    if request.method == 'POST':
-        form = CreateAccountForm(request.POST, initial=data)
+    # TODO: Better guard here...
+    if request.method != 'GET':
+        raise Exception
+
+    # Signal that request was from a form submission
+    # Using GET to survive oidc redirect/return pattern.
+    if 'email' in request.GET:
+        form = CreateAccountForm(request.GET, initial=data)
 
         if form.is_valid():
 
