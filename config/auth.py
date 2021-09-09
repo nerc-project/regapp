@@ -1,7 +1,8 @@
 from regapp.config.env import ENV
 import json
-import base64
-# from regapp.config.base import INSTALLED_APPS, AUTHENTICATION_BACKENDS, TEMPLATES
+
+# from regapp.config.base import INSTALLED_APPS, AUTHENTICATION_BACKENDS,
+# TEMPLATES
 
 # ------------------------------------------------------------------------------
 # Regapp default authentication settings
@@ -43,12 +44,29 @@ kckeys_mac = {
     }
 }
 
-kckeys = kckeys_mac
+kckeys = kckeys_linux
 KEYCLOAK_KEYS_JSON = ENV.str('REGAPP_KEYCLOAK_KEYS_JSON', json.dumps(kckeys))
 
-NERC_LOGOUT_URL =  ENV.str(
+NERC_KC_SERVER = ENV.str(
+    'REGAPP_NERC_KC_SERVER',
+    'https://keycloak.nerc.mghpcc.org'
+)
+
+NERC_KC_REALM = ENV.str(
+    'REGAPP_NERC_KC_REALM',
+    'nerc'
+)
+
+NERC_KC_CLIENT = ENV.str('REGAPP_NERCKC_CLIENT', 'regapp')
+
+# NERC_KC_CLIENT_SECRET = ENV.str('','')
+
+NERC_LOGOUT_URL = ENV.str(
     'REGAPP_NERC_LOGOUT_URL',
-    "https://keycloak.nerc.mghpcc.org/auth/realms/nerc/protocol/openid-connect/logout"
+    (
+        f"{NERC_KC_SERVER}/auth/realms/"
+        f"{NERC_KC_REALM}/protocol/openid-connect/logout"
+    )
 )
 
 CILOGON_LOGOUT_URL = ENV.str(
@@ -71,10 +89,11 @@ SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_SAMESITE = 'Strict'
 SESSION_COOKIE_SECURE = True
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # Enable administrators to login as other users
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # if ENV.bool('ENABLE_SU', default=True):
 #     AUTHENTICATION_BACKENDS += ['django_su.backends.SuBackend',]
 #     INSTALLED_APPS.insert(0, 'django_su')
-#     TEMPLATES[0]['OPTIONS']['context_processors'].extend(['django_su.context_processors.is_su', ])
+#     TEMPLATES[0]['OPTIONS']['context_processors'] \
+#       .extend(['django_su.context_processors.is_su', ])

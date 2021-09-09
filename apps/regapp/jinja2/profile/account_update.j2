@@ -1,0 +1,18 @@
+NERC Account Update Validation
+
+An account update with the following details is pending 
+verification at the New England Research Cloud (NERC).
+
+  * First Name: {{ pending_update.firstName }}
+  * Last Name: {{ pending_update.lastName }}
+  * Username: {{ pending_update.username }}
+  * Email: {{ pending_update.email }}
+
+Please validate the update by visiting the following URL:
+
+https://{{ SITENAME }}{{ url('site_validate') }}?regcode={{ regcode }}
+
+If you did not initiate an account creation at NERC, please
+contact the NERC team at support@nerc.mghpcc.org.
+
+The NERC Team

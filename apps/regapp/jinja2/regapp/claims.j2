@@ -1,0 +1,26 @@
+{% extends "regapp/base.j2" %}
+
+{% block content %}
+<div class="mt-4">
+
+    <h3>Welcome: {{request.oidc_userinfo.display_username}}</h3>
+
+<hr/>
+<span class="text-info">USER INFO (OIDC_USERINFO_JSON)</span>
+<pre>
+{{ userinfo | pprint}}
+</pre>
+
+<hr/>
+<span class="text-info">OTHER CLAIMS</span>
+<ul>
+    {% for k,v in headers.items() %}
+        {% if k != 'OIDC_USERINFO_JSON' %} 
+            <li>{{k}}: {{v}}</li> 
+        {% endif %}
+    {% endfor %}
+</ul>
+</div>
+
+
+{% endblock %} 

@@ -16,7 +16,7 @@ spec:
         k8s-app: oauth2-proxy
     spec:
       hostAliases:
-        - ip: 192.168.64.3
+        - ip: 192.168.39.203
           hostnames:
             - keycloak.nerc.mghpcc.org
 
@@ -77,8 +77,8 @@ data:
   OAUTH2_PROXY_UPSTREAMS: file:///dev/null
   OAUTH2_PROXY_PROVIDER: oidc
   OAUTH2_PROXY_CLIENT_ID: regapp
-  #OAUTH2_PROXY_CLIENT_SECRET: dd7919cd-eb28-4795-81d0-8acbd38bf375
-  OAUTH2_PROXY_CLIENT_SECRET: fc397b9d-5eb0-44db-803e-d700d43a91c4
+  OAUTH2_PROXY_CLIENT_SECRET: dd7919cd-eb28-4795-81d0-8acbd38bf375
+  #OAUTH2_PROXY_CLIENT_SECRET: fc397b9d-5eb0-44db-803e-d700d43a91c4
   OAUTH2_PROXY_COOKIE_SECRET: dXc3ZHlZd0xsdnBrWkVVRVNLaW9BUT09
   OAUTH2_PROXY_SCOPE: openid email profile
   OAUTH2_PROXY_EMAIL_DOMAINS: "*"

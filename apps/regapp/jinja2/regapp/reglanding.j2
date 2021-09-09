@@ -1,0 +1,72 @@
+{% extends "regapp/base.j2" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col">
+        <h1>NERC Account Portal - How To Register</h1>
+    </div>
+</div>
+<div class='row mt-4'>
+    <div class='col'>
+    <p>
+    The first step in gaining access to NERC resources is creating a NERC account.
+    NERC accounts link your instititutional identity (e.g. your university login) with
+    a NERC identity that is used to make access decisions when you use NERC
+    resources.
+    </p>
+    <p>
+    Once you have a NERC account, NERC resource owners will be able to grant you access
+    to resources that they control. The steps to create a NERC account are:
+    </p>
+    <ul>
+        <li>Visit the NERC Registration Page (link at bottom of this page) 
+        <li>You will be redirected to a logon page where you will select your university
+        <li>You will logon with your university credentials 
+        <li> After successful logon, your browser will redirect back to the 
+        NERC Registraton Page to complete the account creation process.
+        <li>When done, you will have linked your university ID with your NERC account.   
+        You will use your university logon to access NERC resource.
+    </ul> 
+    <h2>Multiple University Credentials</h2>
+    <p>
+    You can only link one university account to a NERC account. If you have multiple university accounts and
+    want to change which account is connected to your NERC identity you will need to contact <a href=#>NERC Account Support</a>
+    </p>
+    <h2>No Institutional Credentials or Institution not Known to InCommon</h2>
+    <p>
+    Some users do not have instititutional credentials or their institution is not on the <a href=#>list of institutions
+    in the InCommon federation</a>. In those cases, users can link from one of the following commercial identity providers (all of 
+    the listed providers have free account creation):
+    </p>
+    <ul>
+        <li>Google
+        <li>GitHub
+        <li>I dunno
+        <li>Maybe this gal
+    </ul>
+
+    <p class='pl-2'>
+        <em>
+        Note that, if you have an institutional identity, it's preferrable that you use that identity to create your NERC account.
+        Institutional identities are vetted by identity managemnet teams and provide a higher level of confidence to resource owners
+        that requests for resource access are from valid accounts.
+        </em>
+    </p>
+
+    <p>
+    Clicking the link below will initiate the account creation process. You will be redirected to a site managed by 
+    <a href="https://www.cilogon.org/faq">CiLogon</a>
+    where you will select your institutional or commercial identity provider. Once selected, you will be redirected
+    to your instititution or commercial identity provider where you will login. At the completion of that logon, your
+    browser will be redirected to the NERC Account Management site where you will complete your NERC account creation process.
+    </p>
+    </div>
+</div>
+<div class='row mt-4 mb-4'>
+    <div class='col'>
+        <a href="{{ url('reg_home') }}" type="button" class="btn btn-primary">Begin NERC Account Creation Process</a>
+    </div>
+</div>
+
+{% endblock %}

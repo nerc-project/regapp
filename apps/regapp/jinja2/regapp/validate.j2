@@ -1,0 +1,56 @@
+{% extends "regapp/base.j2" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col">
+        <h1>NERC Account Portal - Account Validation</h1>
+    </div>
+</div>
+<div class='row mt-4'>
+    <div class='col'>
+        <p>
+            {% if account_action.error %}
+                An error occurred validating your account request.<br/><br/>
+                {{ account_action.error }}
+            {% else %}
+                <p>
+                {% if account_action.opcode == 'update_verify_new_email' %}
+                    An email has been sent to your account at:
+                    <br><br>
+                    <em>{{ account_action.email }}</em>
+                    <br><br>
+                    Click on the link in that email to complete your account update.
+                {% elif account_action.opcode == 'update' %}
+                    Account updated successfully.
+                {% elif account_action.opcode == 'create' %}
+                    Account created successfully.
+                {% else %}
+                    Unrecognized account action: {{ account_action.opcode }}
+                {% endif%}
+                </p>
+                <p>
+                    Account Information
+                </p>
+                <dl class="row mt-4">
+
+                    <dt class="col-sm-3">Username</dt>
+                    <dd class="col-sm-9">{{account_action.username}}</dd>
+                    <dt class="col-sm-3">First Name</dt>
+                    <dd class="col-sm-9">{{account_action.firstName}}</dd>
+                    <dt class="col-sm-3">Last Name</dt>
+                    <dd class="col-sm-9">{{account_action.lastName}}</dd>
+                    <dt class="col-sm-3">Email</dt>
+                    <dd class="col-sm-9">{{account_action.email}}</dd>
+                    <!--
+                    <dt class="col-sm-3">Linked Institutional Account</dt>
+                    <dd class="col-sm-9">{{account_action.email}}</dd>
+                    -->
+                </dl>
+            {% endif %}
+
+    </div>
+</div>
+
+
+{% endblock %}

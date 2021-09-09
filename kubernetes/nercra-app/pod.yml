@@ -14,6 +14,11 @@ spec:
         app: nercra-app
     spec:
 
+      hostAliases:
+        - ip: 192.168.39.203
+          hostnames:
+            - keycloak.nerc.mghpcc.org    
+
       volumes:
         - name: static-data
           emptyDir: {}

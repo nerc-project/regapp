@@ -1,0 +1,27 @@
+{% extends "regapp/base.j2" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col">
+        <h1>NERC Account Creation - Account Email Verification</h1>
+        <p class="mt-4">
+        {% if error %}
+            An error occurred attempting to send your account
+            confirmation email.
+            <br><br>
+            There is no account creation in progress 
+            for sub, {{ sub }}
+        {% else %}
+            An account creation confirmation email was sent to you at:
+            <br><br>
+            {{ email }}
+            <br><br>
+            If the message does not show up shortly you should look 
+            for it in your junk/spam folder(s).
+        {% endif %}
+        </p>
+    </div> 
+</div>
+
+{% endblock %}

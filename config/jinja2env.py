@@ -1,4 +1,3 @@
-import os
 from regapp.config.env import ENV
 
 from django.templatetags.static import static
@@ -20,6 +19,7 @@ def environment(**options):
         'crispy': render_crispy_form,
         'get_messages': messages.get_messages,
         'DEFAULT_MESSAGE_LEVELS': DEFAULT_LEVELS,
+        'SITENAME': ENV.str('SITENAME')
     })
 
-    return env 
+    return env

@@ -1,0 +1,31 @@
+
+{% extends "regapp/base.j2" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col">
+        <h1>NERC Registration Portal - Profile Management</h1>
+        <p class="mt-4">
+            You may update your NERC user profile here
+        </p>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col">
+
+        <h4>Accout Profile information</h4>
+
+        <form id="{{form.helper.form_id}}" action="{{request.path_info}}" method="POST">
+            {{ csrf_input }}
+            {{ crispy(form) }}
+            <div class="float-right">
+                <input id="updateaccount" name="updateaccount" type="submit" class="btn btn-primary" value="Update NERC Account" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+{% endblock %} 

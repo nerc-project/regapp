@@ -1,0 +1,25 @@
+{% extends "regapp/base.j2" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col">
+        <h1>NERC Account Update - Account Update Email Verification</h1>
+        <p class="mt-4">
+        {% if error %}
+            An error occurred attempting to send your account update
+            confirmation email. There is no account update in progress
+            for the user:<br><br>
+            {{ sub }}
+        {% else %}
+            An email has been sent to your account at:
+            <br><br>
+            <em>{{ validation_recipient }}</em>
+            <br><br>
+            Follow the instructions in that email to continue your account update.
+        {% endif %}
+        </p>
+    </div> 
+</div>
+
+{% endblock %}

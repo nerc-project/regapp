@@ -16,9 +16,9 @@ DEBUG = ENV.bool('DEBUG', default=False)
 ALLOWED_HOSTS = ENV.list('ALLOWED_HOSTS', default=['*'])
 
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # Django Apps
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 INSTALLED_APPS = [
     'django.contrib.sessions',
@@ -33,8 +33,7 @@ INSTALLED_APPS += [
 
 # NERC REGAPP Apps
 INSTALLED_APPS += [
-    'regapp.apps.regapp_site',
-    'regapp.apps.registration',
+    'regapp.apps.regapp',
 ]
 
 MIDDLEWARE = [
@@ -44,7 +43,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'regapp.apps.regapp_site.oidcinfo_mw.OIDCMiddleware',
+    'regapp.apps.regapp.oidcinfo_mw.OIDCMiddleware',
 ]
 
 ROOT_URLCONF = 'regapp.config.urls'
@@ -55,7 +54,7 @@ TEMPLATES = [
         'DIRS': [PROJECT_ROOT("jinja2")],
         'APP_DIRS': True,
         'OPTIONS': {
-            'environment': 'regapp.config.jinja2env.environment', 
+            'environment': 'regapp.config.jinja2env.environment',
         },
     },
     {
@@ -86,3 +85,10 @@ STATIC_ROOT = ENV.str('STATIC_ROOT', default=PROJECT_ROOT('/static/'))
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = ENV.str("REGAPP_EMAIL_HOST")
+EMAIL_USE_TLS = ENV.bool('REGAPP_EMAIL_USE_TLS')
+EMAIL_PORT = ENV.int("REGAPP_EMAIL_PORT")
+EMAIL_HOST_USER = ENV.str("REGAPP_EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = ENV.str("REGAPP_EMAIL_HOST_PASSWORD")
