@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    k8s-app: oauth2-proxy
+  name: oauth2-proxy
+spec:
+  ports:
+  - name: oauth2kc
+    port: 4180
+    protocol: TCP
+    targetPort: 4180
+
+  - name: oauth2cilogon
+    port: 4188
+    protocol: TCP
+    targetPort: 4188  
+
+  selector:
+    k8s-app: oauth2-proxy

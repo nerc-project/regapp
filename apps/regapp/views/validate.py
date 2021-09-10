@@ -6,6 +6,9 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import get_template
 from ..models import AccountAction
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def validate(request):
@@ -13,14 +16,18 @@ def validate(request):
 
     data = {}
     if regcode is None:
-        data["error"] = "No regcode supplied. Cannot complete registration."
+        logmsg = "No regcode supplied. Cannot complete registration."
+        logger.warn(logmsg)
+        data["error"] = logmsg
     else:
         try:
             pending_account_action = AccountAction.objects.get(
                 regcode=regcode
             )
         except AccountAction.DoesNotExist:
-            data["error"] = f"Unrecognized registration code {regcode}"
+            logmsg = f"Unrecognized registration code {regcode}"
+            logger.warn(logmsg)
+            data["error"] = logmsg
             pending_account_action = None
 
         if pending_account_action is not None:
@@ -48,6 +55,11 @@ def validate(request):
             # convert to a normal pending update
             # and validate with user at new address
             if opcode == 'update_verify_new_email':
+                logger.debug(
+                    f"User {pending_account_action.username} accepted email "
+                    f"change to {pending_account_action.email}. Proceding to "
+                    "verify new address."
+                )
                 http_verb = None
                 regcode = token_urlsafe(16)
                 pending_account_action.regcode = regcode
@@ -71,6 +83,10 @@ def validate(request):
                         fail_silently=False
                     )
                 except SMTPException as smtp_error:
+                    logger.error(
+                        "Error sending email confirmation email."
+                        f"Exception: {smtp_error}"
+                    )
                     # TODO: Log error and redirect user some place
                     # where they can try again and/or contact support.
                     raise smtp_error
@@ -83,7 +99,9 @@ def validate(request):
                         f"{api_endpoint}/{pending_account_action.sub}"
                     )
                 else:
-                    raise RuntimeError("Update action must specify a subject")
+                    logmsg = "Update action must specify a subject"
+                    logger.error(logmsg)
+                    raise RuntimeError(logmsg)
 
             # CREATE
             else:
@@ -98,27 +116,56 @@ def validate(request):
             # MAKE CHAGES IF CREATE OR UPDATE (NO EMAIL CHANGE)
             # Email change cause additional validation email...
             if http_verb is not None:
-                # TODO FIXME - get cert to validate!!
-                r = requests.request(
-                    http_verb,
-                    api_endpoint,
-                    json=data,
-                    headers=headers,
-                    verify=False
-                )
+                try:
+                    r = requests.request(
+                        http_verb,
+                        api_endpoint,
+                        json=data,
+                        headers=headers
+                    )
 
-                if r.ok:
-                    pending_account_action.delete()
-                    # Clear cached nerc user info so that
-                    # next request fetches from keycloak
-                    if opcode == 'update' and 'nerc' in request.session:
-                        del request.session['nerc']
+                    if r.ok:
+                        logger.info(
+                            f"Acocunt {opcode} completed successfully for "
+                            f"subject {pending_account_action.sub}."
+                        )
+                        pending_account_action.delete()
+                        # Clear cached nerc user info so that
+                        # next request fetches from keycloak
+                        if opcode == 'update' and 'nerc' in request.session:
+                            del request.session['nerc']
 
-                else:
-                    try:
-                        data['error'] = r.json()['errorMessage']
-                    except Exception:
-                        data['error'] = "Unknown error."
+                    else:
+                        server_error = r.json()['errorMessage']
+                        logger.error(
+                            f"Error in account {opcode} for sub "
+                            f"{pending_account_action.sub}. server returned "
+                            f"{server_error}."
+                        )
+                        data['error'] = server_error
+
+                except requests.exceptions.RequestException as re:
+                    logmsg = (
+                        f"Error with account {opcode} for "
+                        f"{pending_account_action.sub} A problem occurred "
+                        f"communicating with the server. {re}"
+                    )
+                    logger.debug(logmsg)
+                    data['error'] = logmsg
+
+                except requests.exceptions.JSONDecodeError as decode_error:
+                    logger.debug(
+                        f"Error decoding server response. {decode_error}"
+                    )
+                    data['error'] = "Unknown error."
+
+                except Exception:
+                    logger.error(
+                        f"An unknown error occurred while performing "
+                        f"account {opcode} for sub "
+                        f"{pending_account_action.sub}"
+                    )
+                    data['error'] = "Unknown error."
 
             # Have to set after sending request because server
             # does not recognize option "opcode"

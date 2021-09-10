@@ -34,5 +34,6 @@ deploy:
     manifests:
       - nercra-kc/*.yml
       - nercra-app/*.yml
+      - oauth2-proxy/*.yml
   kubeContext: minikube
 

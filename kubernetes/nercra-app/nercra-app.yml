@@ -37,11 +37,22 @@ spec:
             - "/scripts/entrypoint.sh"
           args:
             - "--devel"
+          env:
+            - name: REGAPP_REGAPP_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: oauth2-secret-kc
+                  key: OAUTH2_PROXY_CLIENT_ID
+            - name: REGAPP_REGAPP_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: oauth2-secret-kc
+                  key: OAUTH2_PROXY_CLIENT_SECRET                  
           envFrom:
             - configMapRef:
                 name: nercra-app-configmap
             - secretRef:
-                name: nercra-app-secrets
+                name: nercra-app-secrets                
           ports:
             - containerPort: 8123
           volumeMounts:

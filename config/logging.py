@@ -1,4 +1,6 @@
 from django.contrib.messages import constants as messages
+from regapp.config.env import ENV
+
 
 # ------------------------------------------------------------------------------
 # ColdFront logging config
@@ -15,24 +17,28 @@ MESSAGE_TAGS = {
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'regapp_formatter': {
+            'class': 'logging.Formatter',
+            'format': '%(asctime)s %(name)-20s %(levelname)-8s  %(message)s'
+        }
+    },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
+            'formatter': 'regapp_formatter',
         },
-        # 'file': {
-        #     'class': 'logging.FileHandler',
-        #     'filename': '/tmp/debug.log',
-        # },
     },
     'loggers': {
         'regapp': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': ENV.str('REGAPP_REGAPP_LOG_LEVEL', 'INFO'),
             'propagate': True,
         },
         'django': {
             'handlers': ['console'],
-            'level': 'INFO',
+            'level': ENV.str('REGAPP_DJANGO_LOG_LEVEL', 'INFO'),
+            'propagate': True,
         },
     },
 }

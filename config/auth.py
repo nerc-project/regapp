@@ -16,7 +16,6 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = ENV.str('LOGOUT_REDIRECT_URL', LOGIN_URL)
 
 # keycloak
-PORTAL_CLIENT_NAME = ENV.str('REGAPP_CLIENT_NAME', 'nercra_regapp')
 
 kckeys_linux = {
     # RS256 RSA Signing pubkey
@@ -57,7 +56,10 @@ NERC_KC_REALM = ENV.str(
     'nerc'
 )
 
-NERC_KC_CLIENT = ENV.str('REGAPP_NERCKC_CLIENT', 'regapp')
+# Used by middleware to get the client_token for the
+# service account
+NERC_KC_CLIENT_ID = ENV.str('REGAPP_REGAPP_CLIENT_ID')
+NERC_KC_CLIENT_SECRET = ENV.str('REGAPP_REGAPP_CLIENT_SECRET')
 
 # NERC_KC_CLIENT_SECRET = ENV.str('','')
 

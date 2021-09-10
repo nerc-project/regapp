@@ -9,6 +9,9 @@ from django.shortcuts import redirect, render
 from django.template.loader import get_template
 from django.urls import reverse
 import requests
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def registration(request):
@@ -53,15 +56,29 @@ def registration(request):
         params = {
             'idpUserId': cilogon_uinfo['sub']
         }
-        # TODO FIXME - get cert to validate!!
-        r = requests.get(
-            api_endpoint,
-            params=params,
-            headers=headers,
-            verify=False
-        )
 
-        nerc_userinfo_result = r.json()
+        try:
+            r = requests.get(
+                api_endpoint,
+                params=params,
+                headers=headers
+            )
+
+            nerc_userinfo_result = r.json()
+
+        # TODO: Do something reasonable with exceptions!
+        except requests.exceptions.RequestException as re:
+            logger.error(
+                "An error occurred getting user info from "
+                f"server. The error was: {re}"
+            )
+            raise re
+
+        except requests.exceptions.JSONDecodeError as decode_error:
+            logger.error(
+                f"Error decoding server response. {decode_error}"
+            )
+            raise decode_error
 
         if len(nerc_userinfo_result) > 0:
             existing_nerc_account_info = nerc_userinfo_result[0]
@@ -69,14 +86,18 @@ def registration(request):
     # Handle existing account or registration-in-flight
     # here.
     if pending_registration is not None:
-        print(
+        logmsg = (
             f"Outstanding regisration for {cilogon_uinfo['sub']} "
             f"with code {pending_registration.regcode}"
         )
+        logger.warn(logmsg)
         return redirect('reg_inflight')
 
     elif existing_nerc_account_info is not None:
         uid = existing_nerc_account_info['id']
+
+        logger.info(f"An account already exists for {uid}")
+
         query = urlencode({'acctid': uid})
         target = f"{reverse('reg_accountexists')}?{query}"
         return redirect(target)
@@ -85,11 +106,15 @@ def registration(request):
     # Handling as get to survive oidc redirection
     # TODO: Handle more sensibly...
     if request.method != "GET":
+        logger.error(
+            f"Non-get method for registration page - {request.method}"
+        )
         raise Exception
 
     # Using presence of email as indicator of form
     # submission intent.
     if 'email' in request.GET:
+        logger.info(f"Creating account action for sub {cilogon_uinfo['sub']}")
         form = CreateAccountForm(request.GET)
         if form.is_valid():
             # Create pending registration
@@ -120,7 +145,11 @@ def registration(request):
             }
         )
 
-    return render(request, 'registration/index.j2', {'form': form})
+    return render(
+        request,
+        'registration/index.j2',
+        {'form': form, 'user_info': cilogon_uinfo}
+    )
 
 
 def sendvalidation(request):
@@ -153,12 +182,20 @@ def sendvalidation(request):
         )
 
     except AccountAction.DoesNotExist as e:
+        logger.error(
+            f"Attempt to send validation for sub {cilogon_uinfo['sub']} "
+            "but no pending account creation exists."
+        )
         ctx['error'] = e
         pending_registration = None
 
     except SMTPException as smtp_error:
+        logger.error(
+            "Error attempting to send email for account "
+            f"creation for sub {cilogon_uinfo['sub']}. Exception: {smtp_error}"
+        )
         ctx['error'] = smtp_error
-        # TODO: Log error and redirect user some place
+        # TODO: Redirect user some place
         # where they can try again and/or contact support.
         raise smtp_error
 
@@ -188,14 +225,27 @@ def accountexists(request):
     headers = {
         'Authorization': f"Bearer {request.client_token}"
     }
-    # TODO FIXME - get cert to validate!!
-    r = requests.get(
-        api_endpoint,
-        headers=headers,
-        verify=False
-    )
+    try:
+        r = requests.get(
+            api_endpoint,
+            headers=headers
+        )
 
-    userinfo_result = r.json()
+        if r.ok:
+            logger.debug(f"Account {uid} exists")
+            userinfo_result = r.json()
+        else:
+            server_error = r.json()['errorMessage']
+            logger.error(
+                f"Error fetching account information for {uid}"
+                f"Server returned {server_error}."
+            )
+
+    except requests.exceptions.RequestException as re:
+        logger.debug(f"Error fetching userinfo in requests.get. {re}")
+
+    except requests.exceptions.JSONDecodeError as decode_error:
+        logger.debug(f"Error decoding server response. {decode_error}")
 
     return render(
         request,
@@ -218,7 +268,7 @@ def logout(request):
         request.META['HTTP_X_FORWARDED_PROTO'] +
         "://" +
         request.META['HTTP_X_FORWARDED_HOST'] +
-        reverse('index')
+        reverse('site_index')
     )
 
     redirect_to_keycloak = (

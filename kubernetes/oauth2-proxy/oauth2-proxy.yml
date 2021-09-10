@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: oauth2-proxy
+  name: oauth2-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: oauth2-proxy
+  template:
+    metadata:
+      labels:
+        k8s-app: oauth2-proxy
+    spec:
+      hostAliases:
+        - ip: 192.168.39.203
+          hostnames:
+            - keycloak.nerc.mghpcc.org
+
+      initContainers:
+      - name: wait-for-kc
+        image: mghpcc/nercra-util
+        command: ['sh', '-c', "wget --tries=0 --retry-on-http-error=404,503,502 --wait=5 --no-check-certificate --retry-connrefused  --output-file=/dev/null https://keycloak.nerc.mghpcc.org/auth/realms/nerc/.well-known/openid-configuration"]
+
+      containers:
+      - name: oauth2-proxy-kc
+        image: quay.io/oauth2-proxy/oauth2-proxy:latest
+        imagePullPolicy: Always
+        args:
+          - --provider-display-name="NERC"
+          - --insecure-oidc-allow-unverified-email
+          - --cookie-refresh=60s
+          - --whitelist-domain=keycloak.nerc.mghpcc.org
+        envFrom:
+          - secretRef:
+              name: oauth2-secret-kc
+          - configMapRef:
+              name: oauth2-configmap-kc
+        ports:
+        - containerPort: 4180
+          protocol: TCP
+
+      - name: oauth2-proxy-cilogon
+        image: quay.io/oauth2-proxy/oauth2-proxy:latest
+        imagePullPolicy: Always
+        args:
+          - --provider-display-name="CILogon"
+          - --insecure-oidc-allow-unverified-email
+          - --cookie-refresh=60s
+          - --whitelist-domain=cilogon.org          
+        envFrom:
+          - secretRef:
+              name: oauth2-secret-cilogon
+          - configMapRef:
+              name: oauth2-configmap-cilogon
+        ports:
+        - containerPort: 4188
+          protocol: TCP

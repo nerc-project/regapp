@@ -1,5 +1,6 @@
 from urllib.parse import urlencode
 from secrets import token_urlsafe
+from smtplib import SMTPException
 from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import redirect, render
@@ -7,6 +8,9 @@ from django.urls import reverse
 from django.template.loader import get_template
 from ..forms import CreateAccountForm
 from ..models import AccountAction
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def profile(request):
@@ -19,8 +23,11 @@ def profile(request):
         'email': nerc_uinfo.get('email', None)
     }
 
-    # TODO: Better guard here...
+    # TODO: Better handling here...
     if request.method != 'GET':
+        logger.error(
+            f"Non-get method for profile page - {request.method}"
+        )
         raise Exception
 
     # Signal that request was from a form submission
@@ -32,7 +39,12 @@ def profile(request):
 
             # Rock beats scissors. Kill any extant update
             # for this user.
-            AccountAction.objects.filter(sub=nerc_uinfo['sub']).delete()
+            updates_inflight = AccountAction.objects.filter(
+                sub=nerc_uinfo['sub']
+            )
+            if updates_inflight.count() > 0:
+                logger.debug("Updates were inflight. Silently deleting them")
+                updates_inflight.delete()
 
             pending_update = AccountAction(
                 regcode="",
@@ -45,6 +57,10 @@ def profile(request):
 
             pending_update.save()
         else:
+            logger.debug(
+                "Errors in profile update form submission. "
+                f"{form.errors}"
+            )
             print(form.errors)
 
         return redirect('profile_sendupdate')
@@ -70,6 +86,11 @@ def sendupdate(request):
 
         # Check if pending update request is changing email
         if pending_update.email != nerc_uinfo.get('email', None):
+            logger.debug(
+                f"Sub {pending_update.sub} is changing email from "
+                f"{nerc_uinfo.get('email', None)} to "
+                f"{pending_update.email}"
+            )
             pending_update.opcode = 'update_verify_new_email'
             validation_recipient = nerc_uinfo['email']
             update_with_email_tmpl = get_template(
@@ -111,6 +132,19 @@ def sendupdate(request):
             'sub': nerc_uinfo['sub']
         }
         pending_update = None
+
+    except SMTPException as smtp_error:
+        logger.error(
+            "Error attempting to send email for account "
+            f"update for sub {nerc_uinfo['sub']}. Exception: {smtp_error}"
+        )
+        ctx = {
+            'error': smtp_error,
+            'sub': nerc_uinfo['sub']
+        }
+        # TODO: Redirect user some place
+        # where they can try again and/or contact support.
+        raise smtp_error
 
     return render(request, 'profile/sendupdate.j2', ctx)
 
