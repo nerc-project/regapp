@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: regreaper
+spec:
+  schedule: "*/10 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: regreaper
+            image: mghpcc/nercra-app:latest
+            imagePullPolicy: IfNotPresent
+            workingDir: "/code"
+            command: 
+              - python
+              - manage.py
+              - regreaper
+            env:
+              - name: REGAPP_REGAPP_CLIENT_ID
+                value: DONTCARE
+              - name: REGAPP_REGAPP_CLIENT_SECRET
+                value: DONTCARE
+            envFrom:
+              - configMapRef:
+                  name: nercra-app-configmap
+              - secretRef:
+                  name: nercra-app-secrets                         
+
+          restartPolicy: OnFailure

@@ -43,4 +43,4 @@ class AccountAction(TimeStampedModel):
     firstName = models.CharField(max_length=128)
     lastName = models.CharField(max_length=128)
     email = models.EmailField(max_length=128, unique=True)
-    username = models.CharField(max_length=128)
+    username = models.CharField(max_length=128) 

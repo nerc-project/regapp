@@ -1,9 +1,9 @@
+---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: nercra-app-deployment
 spec:
-  serviceName: nercra-app
   replicas: 1
   selector:
     matchLabels:
@@ -22,10 +22,6 @@ spec:
       volumes:
         - name: static-data
           emptyDir: {}
-        - name: nercra-radb-volume-mount
-          persistentVolumeClaim:
-            claimName: nercra-radb-pvc
-
 
       containers:
 
@@ -59,6 +55,30 @@ spec:
             - name: static-data
               mountPath: /static
 
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nercra-radb-statefulset
+spec:
+  serviceName: nercra-radb
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nercra-radb
+  template:
+    metadata:
+      labels:
+        app: nercra-radb
+    spec:
+
+      volumes:
+        - name: nercra-radb-volume-mount
+          persistentVolumeClaim:
+            claimName: nercra-radb-pvc
+
+      containers:
+
         - name: nercra-radb-container
           image: mghpcc/nercra-radb:latest
           imagePullPolicy: IfNotPresent
@@ -72,6 +92,3 @@ spec:
           volumeMounts:
             - name: nercra-radb-volume-mount
               mountPath: /var/lib/postgresql/data
-
-
-
