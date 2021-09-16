@@ -1,3 +1,9 @@
+"""
+Author: Jim Culbert
+Copyright (c) 2021 MGHPCC
+All rights reserved. No warranty, explicit or implicit, provided.
+"""
+
 import requests
 from secrets import token_urlsafe
 from smtplib import SMTPException

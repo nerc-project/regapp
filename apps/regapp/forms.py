@@ -1,3 +1,9 @@
+"""
+Author: Jim Culbert
+Copyright (c) 2021 MGHPCC
+All rights reserved. No warranty, explicit or implicit, provided.
+"""
+
 from django import forms
 from crispy_forms.helper import FormHelper
 

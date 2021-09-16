@@ -1,3 +1,9 @@
+"""
+Author: Jim Culbert
+Copyright (c) 2021 MGHPCC
+All rights reserved. No warranty, explicit or implicit, provided.
+"""
+
 from django.db import models
 
 
@@ -43,4 +49,4 @@ class AccountAction(TimeStampedModel):
     firstName = models.CharField(max_length=128)
     lastName = models.CharField(max_length=128)
     email = models.EmailField(max_length=128, unique=True)
-    username = models.CharField(max_length=128) 
+    username = models.CharField(max_length=128)

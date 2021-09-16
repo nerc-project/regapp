@@ -1,3 +1,8 @@
+"""
+Author: Jim Culbert
+Copyright (c) 2021 MGHPCC
+All rights reserved. No warranty, explicit or implicit, provided.
+"""
 
 from split_settings.tools import optional, include
 from regapp.config.env import ENV, PROJECT_ROOT
@@ -9,7 +14,7 @@ nercra_configs = [
     'database.py',
     'auth.py',
     'logging.py',
-#    'core.py',
+    # 'core.py',
 ]
 
 # Local settings overrides

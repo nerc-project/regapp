@@ -1,3 +1,9 @@
+"""
+Author: Jim Culbert
+Copyright (c) 2021 MGHPCC
+All rights reserved. No warranty, explicit or implicit, provided.
+"""
+
 from regapp.config.env import ENV
 import json
 

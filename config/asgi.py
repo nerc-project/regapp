@@ -1,15 +1,15 @@
 """
-ASGI config for regapp project.
-
-It exposes the ASGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/3.2/howto/deployment/asgi/
+Author: Jim Culbert
+Copyright (c) 2021 MGHPCC
+All rights reserved. No warranty, explicit or implicit, provided.
 """
 
 import os
-
 from django.core.asgi import get_asgi_application
+
+"""
+ASGI config for regapp project.
+"""
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'regapp.config.settings')
 

@@ -1,11 +1,16 @@
 """
-regapp URL Configuration
+Author: Jim Culbert
+Copyright (c) 2021 MGHPCC
+All rights reserved. No warranty, explicit or implicit, provided.
 """
 
 from django.urls import path
 from django.views.generic import TemplateView
-
 from . import views
+
+"""
+regapp URL Configuration
+"""
 
 urlpatterns = [
     # ############################

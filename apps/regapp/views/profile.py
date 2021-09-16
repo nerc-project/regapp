@@ -1,8 +1,15 @@
+"""
+Author: Jim Culbert
+Copyright (c) 2021 MGHPCC
+All rights reserved. No warranty, explicit or implicit, provided.
+"""
+
 from urllib.parse import urlencode
 from secrets import token_urlsafe
 from smtplib import SMTPException
 from django.conf import settings
 from django.core.mail import send_mail
+from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.template.loader import get_template
@@ -10,11 +17,26 @@ from ..forms import CreateAccountForm
 from ..models import AccountAction
 import logging
 
+
 logger = logging.getLogger(__name__)
 
 
 def profile(request):
 
+    """View for editing account information.
+
+    Args:
+        request: Django HttpRequest object.
+
+    Returns:
+        A Django HttpResponse object
+    
+    View to handle display and update of user profile 
+    information.
+    """
+
+    # Profile is protected under path that authenticates
+    # via NERC IdP. Userinfo in this session is from NERC.
     nerc_uinfo = request.oidc_userinfo
     data = {
         'first_name': nerc_uinfo.get('given_name', None),
@@ -23,12 +45,11 @@ def profile(request):
         'email': nerc_uinfo.get('email', None)
     }
 
-    # TODO: Better handling here...
     if request.method != 'GET':
         logger.error(
             f"Non-get method for profile page - {request.method}"
         )
-        raise Exception
+        raise Http404("Profile URL does not handle HTTP POST.")
 
     # Signal that request was from a form submission
     # Using GET to survive oidc redirect/return pattern.

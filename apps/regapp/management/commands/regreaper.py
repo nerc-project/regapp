@@ -1,3 +1,9 @@
+"""
+Author: Jim Culbert
+Copyright (c) 2021 MGHPCC
+All rights reserved. No warranty, explicit or implicit, provided.
+"""
+
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from django.conf import settings

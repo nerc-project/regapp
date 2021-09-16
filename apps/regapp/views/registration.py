@@ -1,3 +1,9 @@
+"""
+Author: Jim Culbert
+Copyright (c) 2021 MGHPCC
+All rights reserved. No warranty, explicit or implicit, provided.
+"""
+
 from ..forms import CreateAccountForm
 from ..models import AccountAction
 from urllib.parse import urlencode
