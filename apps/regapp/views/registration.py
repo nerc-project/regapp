@@ -263,7 +263,6 @@ def accountexists(request):
 def logout(request):
     # clear the django session information
     try:
-        del request.session[request.idp]
         del request.session['client_token_info']
     except KeyError:
         pass

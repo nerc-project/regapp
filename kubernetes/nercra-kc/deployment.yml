@@ -30,6 +30,8 @@ spec:
           volumeMounts:
             - name: nercra-kcdb-pvc-mount
               mountPath: /var/lib/postgresql/data
+          # command: [ "/bin/bash", "-c", "--" ]
+          # args: [ "while true; do sleep 30; done;" ]
         
         - name: nercra-kc-container
           image: mghpcc/nercra-keycloak:latest

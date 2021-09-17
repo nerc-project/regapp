@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app: keycloak
+  name: keycloak
+  namespace: my-keycloak-operator
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  tls:
+  - hosts:
+      - keycloak.nerc.mghpcc.org
+    secretName: keycloak-tls
+  rules:
+    - host: keycloak.nerc.mghpcc.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak
+                port:
+                  number: 8443
+

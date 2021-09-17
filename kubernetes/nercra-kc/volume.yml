@@ -1,13 +1,31 @@
 ---
 apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nercra-kcdb-pvc
+  namespace: default
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  volumeName: nercra-kcdb-pv
+---
+apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: nercra-kcdb-pv
 spec:
   storageClassName: standard
+  claimRef:
+    name: nercra-kcdb-pvc
+    namespace: default
   capacity:
     storage: 2Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
     path: /data/nercra-kcdb-pv
+

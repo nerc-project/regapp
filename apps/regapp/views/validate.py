@@ -136,10 +136,6 @@ def validate(request):
                             f"subject {pending_account_action.sub}."
                         )
                         pending_account_action.delete()
-                        # Clear cached nerc user info so that
-                        # next request fetches from keycloak
-                        if opcode == 'update' and 'nerc' in request.session:
-                            del request.session['nerc']
 
                     else:
                         server_error = r.json()['errorMessage']

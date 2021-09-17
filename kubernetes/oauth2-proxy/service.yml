@@ -7,12 +7,12 @@ metadata:
   name: oauth2-proxy
 spec:
   ports:
-  - name: oauth2kc
+  - name: profile
     port: 4180
     protocol: TCP
     targetPort: 4180
 
-  - name: oauth2cilogon
+  - name: registration
     port: 4188
     protocol: TCP
     targetPort: 4188  

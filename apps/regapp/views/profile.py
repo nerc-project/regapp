@@ -30,8 +30,8 @@ def profile(request):
 
     Returns:
         A Django HttpResponse object
-    
-    View to handle display and update of user profile 
+
+    View to handle display and update of user profile
     information.
     """
 
@@ -171,12 +171,6 @@ def sendupdate(request):
 
 
 def logout(request):
-    # clear the django session information
-
-    try:
-        del request.session[request.idp]
-    except KeyError:
-        pass
 
     # redirect the user to logout of the IdP
 

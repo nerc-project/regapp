@@ -10,6 +10,7 @@
 		"python.linting.pylintEnabled": false,
 		"python.analysis.extraPaths": [
 			"${workspaceFolder}/.."
-		]
+		],
+		"editor.parameterHints.enabled": false
 	}
 }

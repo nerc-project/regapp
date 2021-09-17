@@ -1,0 +1,305 @@
+---
+apiVersion: keycloak.org/v1alpha1
+kind: Keycloak
+metadata:
+  namespace: my-keycloak-operator
+  name: nerc-keycloak
+  labels:
+   app: nerc-keycloak 
+spec:
+  instances: 1
+  externalAccess:
+    enabled: false
+    
+# ---
+# apiVersion: keycloak.org/v1alpha1
+# kind: KeycloakRealm
+# metadata:
+#   name: example-keycloakrealm
+#   labels:
+#     app: nerc-keycloak
+# spec:
+#   realm:
+#     id: basic
+#     realm: basic
+#     enabled: true
+#     displayName: Basic Realm
+#   instanceSelector:
+#     matchLabels:
+#       app: nerc-keycloak
+
+---
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakRealm
+metadata:
+  namespace: my-keycloak-operator
+  name: nerc
+  labels:
+    realm: nerc
+spec:
+  instanceSelector:
+    matchLabels:
+      app: nerc-keycloak
+  realm:
+    realm: "nerc"
+    enabled: true
+    displayName: "NERC"
+    userManagedAccessAllowed: false
+    registrationAllowed: false
+    editUsernameAllowed: false
+    resetPasswordAllowed: false
+    rememberMe: false
+    verifyEmail: false
+    sslRequired: "external"
+    # authenticationFlows:
+    #   - alias: "NERC first broker login"
+    #     description: "Actions taken after first broker login with identity provider account, which is not yet linked to any Keycloak account"
+    #     providerId: "basic-flow"
+    #     topLevel: true
+    #     builtIn: false
+    #     authenticationExecutions:
+    #       - authenticatorConfig: "review profile config"
+    #         authenticator: "idp-review-profile"
+    #         requirement: "REQUIRED"
+    #         priority: 10
+    #         userSetupAllowed: false
+    #         authenticatorFlow: false
+    # authenticatorConfig:
+    #   - alias: review profile config
+    #     config:
+    #       update.profile.on.first.login: "missing"
+    identityProviders:
+      - alias: "cilogon"
+        displayName: "cilogon"
+        providerId: "oidc"
+        enabled: true
+        # updateProfileFirstLoginMode: "on"
+        trustEmail: true
+        storeToken: false
+        addReadTokenRoleOnCreate: false
+        # authenticateByDefault: false
+        linkOnly: false
+        # firstBrokerLoginFlowAlias: "Nerc first broker login"
+        firstBrokerLoginFlowAlias: "browser"
+        config:
+          clientId: "cilogon:/client_id/ab05912d88d9f9cc5ea155accf420f3"
+          clientSecret: "C2z-thf2Ukj72dw65qXFP5yCeDZfQd4aWlYtK7nZXVTfyhZNprewJkwnE-_XmfZOgaPvAoTvZIkTk-6Zwar4Fg"
+          tokenUrl: "https://cilogon.org/oauth2/token"
+          authorizationUrl: "https://cilogon.org/authorize"
+          clientAuthMethod: "client_secret_post"
+          syncMode: "IMPORT"
+          allowedClockSkew: "5"
+          defaultScope: "openid email profile org.cilogon.userinfo"
+          useJwksUrl: "true"
+    clients:
+      - clientId: regapp
+        secret: "dd7919cd-eb28-4795-81d0-8acbd38bf375"
+        enabled: true
+        protocol: "openid-connect"
+        clientAuthenticatorType: "client-secret"
+        redirectUris:
+          - "https://regapp.nerc.mghpcc.org/*"
+        webOrigins: []
+        surrogateAuthRequired: false
+        # alwaysDisplayInConsole: false
+        notBefore: 0
+        bearerOnly: false
+        consentRequired: false
+        standardFlowEnabled: true
+        implicitFlowEnabled: false
+        directAccessGrantsEnabled: true
+        serviceAccountsEnabled: true
+        publicClient: false
+        frontchannelLogout: false
+        attributes:
+          id.token.as.detached.signature: "false"
+          saml.assertion.signature: "false"
+          access.token.lifespan: "60"
+          saml.force.post.binding: "false"
+          saml.multivalued.roles: "false"
+          saml.encrypt: "false"
+          oauth2.device.authorization.grant.enabled: "false"
+          backchannel.logout.revoke.offline.tokens: "false"
+          saml.server.signature: "false"
+          saml.server.signature.keyinfo.ext: "false"
+          use.refresh.tokens: "true"
+          exclude.session.state.from.auth.response: "false"
+          oidc.ciba.grant.enabled: "false"
+          saml.artifact.binding: "false"
+          backchannel.logout.session.required: "true"
+          client_credentials.use_refresh_token: "false"
+          saml_force_name_id_format: "false"
+          require.pushed.authorization.requests: "false"
+          saml.client.signature: "false"
+          tls.client.certificate.bound.access.tokens: "false"
+          saml.authnstatement: "false"
+          display.on.consent.screen: "false"
+          saml.onetimeuse.condition: "false"
+        authenticationFlowBindingOverrides:
+        fullScopeAllowed: true
+        nodeReRegistrationTimeout: -1
+        defaultClientScopes:
+          - "web-origins"
+          - "roles"
+          - "profile"
+          - "email"
+        optionalClientScopes:
+          - "address"
+          - "phone"
+          - "offline_access"
+          - "microprofile-jwt"
+        protocolMappers:
+          - name: "username"
+            protocol: "openid-connect"
+            protocolMapper: "oidc-usermodel-property-mapper"
+            consentRequired: false
+            config:
+              userinfo.token.claim: "true"
+              user.attribute: "username"
+              id.token.claim: "true"
+              access.token.claim: "false"
+              claim.name: "preferred_username"
+              jsonType.label: "String"
+          - name: "Client Host"
+            protocol: "openid-connect"
+            protocolMapper: "oidc-usersessionmodel-note-mapper"
+            consentRequired: false
+            config:
+              user.session.note: "clientHost"
+              id.token.claim: "true"
+              access.token.claim: "true"
+              claim.name: "clientHost"
+              jsonType.label: "String"
+          - name: "Client IP Address"
+            protocol: "openid-connect"
+            protocolMapper: "oidc-usersessionmodel-note-mapper"
+            consentRequired: false
+            config:
+              user.session.note: "clientAddress"
+              id.token.claim: "true"
+              access.token.claim: "true"
+              claim.name: "clientAddress"
+              jsonType.label: "String"
+          - name: "Client ID"
+            protocol: "openid-connect"
+            protocolMapper: "oidc-usersessionmodel-note-mapper"
+            consentRequired: false
+            config:
+              user.session.note: "clientId"
+              id.token.claim: "true"
+              access.token.claim: "true"
+              claim.name: "clientId"
+              jsonType.label: "String"
+
+          # - name: "cilogon_idp"
+          #   protocol: "openid-connect"
+          #   protocolMapper: "oidc-usermodel-attribute-mapper"
+          #   consentRequired: false
+          #   config:
+          #     userinfo.token.claim: "true"
+          #     user.attribute: "cilogon_idp"
+          #     id.token.claim: "true"
+          #     access.token.claim: "false"
+          #     claim.name: "cilogon_idp"
+          #     jsonType.label: "String"              
+          # - name: "cilogon_idp_name"
+          #   protocol: "openid-connect"
+          #   protocolMapper: "oidc-usermodel-attribute-mapper"
+          #   consentRequired: false
+          #   config:
+          #     userinfo.token.claim: "true"
+          #     user.attribute: "cilogon_idp_name"
+          #     id.token.claim: "true"
+          #     access.token.claim: "false"
+          #     claim.name: "cilogon_idp_name"
+          #     jsonType.label: "String"              
+          # - name: "cilogon_email"
+          #   protocol: "openid-connect"
+          #   protocolMapper: "oidc-usermodel-attribute-mapper"
+          #   consentRequired: false
+          #   config:
+          #     user.attribute: "cilogon_email"
+          #     id.token.claim: "true"
+          #     access.token.claim: "false"
+          #     claim.name: "cilogon_email"
+          #     userinfo.token.claim: "true"              
+          # - name: "cilogon_eppn"
+          #   protocol: "openid-connect"
+          #   protocolMapper: "oidc-usermodel-attribute-mapper"
+          #   consentRequired: false
+          #   config:
+          #     userinfo.token.claim: "true"
+          #     user.attribute: "cilogon_eppn"
+          #     id.token.claim: "true"
+          #     access.token.claim: "false"
+          #     claim.name: "cilogon_eppn"
+          #     jsonType.label: "String"              
+          # - name: "cilogon_eptid"
+          #   protocol: "openid-connect"
+          #   protocolMapper: "oidc-usermodel-attribute-mapper"
+          #   consentRequired: false
+          #   config:
+          #     userinfo.token.claim: "true"
+          #     user.attribute: "cilogon_eptid"
+          #     id.token.claim: "true"
+          #     access.token.claim: "false"
+          #     claim.name: "cilogon_eptid"
+          #     jsonType.label: "String" 
+
+#  "identityProviderMappers": [
+#     {
+#       "id": "b51d564f-1667-4e37-840b-172f0a4cf707",
+#       "name": "cilogon_idp_name",
+#       "identityProviderAlias": "cilogon",
+#       "identityProviderMapper": "oidc-user-attribute-idp-mapper",
+#       "config": {
+#         "syncMode": "FORCE",
+#         "claim": "idp_name",
+#         "user.attribute": "cilogon_idp_name"
+#       }
+#     },
+#     {
+#       "id": "42c8e35a-1ca7-4cff-a8f2-02681b040049",
+#       "name": "cilogon_eptid",
+#       "identityProviderAlias": "cilogon",
+#       "identityProviderMapper": "oidc-user-attribute-idp-mapper",
+#       "config": {
+#         "syncMode": "FORCE",
+#         "claim": "eptid",
+#         "user.attribute": "cilogon_eptid"
+#       }
+#     },
+#     {
+#       "id": "091f1a43-741b-46ad-b9d8-7e271dfe5444",
+#       "name": "cilogon_eppn",
+#       "identityProviderAlias": "cilogon",
+#       "identityProviderMapper": "oidc-user-attribute-idp-mapper",
+#       "config": {
+#         "syncMode": "FORCE",
+#         "claim": "eppn",
+#         "user.attribute": "cilogon_eppn"
+#       }
+#     },
+#     {
+#       "id": "2c85474b-a067-4346-acf2-f3efd4bb8d00",
+#       "name": "cilogon_email",
+#       "identityProviderAlias": "cilogon",
+#       "identityProviderMapper": "oidc-user-attribute-idp-mapper",
+#       "config": {
+#         "syncMode": "FORCE",
+#         "claim": "email",
+#         "user.attribute": "cilogon_email"
+#       }
+#     },
+#     {
+#       "id": "b229b21a-2fff-46b6-b3d7-03c369457774",
+#       "name": "cilogon_idp",
+#       "identityProviderAlias": "cilogon",
+#       "identityProviderMapper": "oidc-user-attribute-idp-mapper",
+#       "config": {
+#         "syncMode": "FORCE",
+#         "claim": "idp",
+#         "user.attribute": "cilogon_idp"
+#       }
+#     }
+#   ],
