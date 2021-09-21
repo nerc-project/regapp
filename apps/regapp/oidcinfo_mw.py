@@ -129,8 +129,8 @@ class OIDCMiddleware:
             logger.debug(f"Decoded idp: {request.idp}")
             logger.debug(f"Decoded token: {id_token_dict}")
 
-        except Exception:
-            logger.debug("No ID token decoded")
+        except Exception as e:
+            logger.debug(f"No ID token decoded. Exception: {e}")
             request.idp = None
             request.oidc_userinfo = None
 

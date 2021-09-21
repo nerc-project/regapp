@@ -178,7 +178,7 @@ def logout(request):
         request.META['HTTP_X_FORWARDED_PROTO'] +
         "://" +
         request.META['HTTP_X_FORWARDED_HOST'] +
-        reverse('index')
+        reverse('site_index')
     )
 
     redirect_to_keycloak = (

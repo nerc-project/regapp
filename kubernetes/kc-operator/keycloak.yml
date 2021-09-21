@@ -1,4 +1,16 @@
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: credential-nerc-keycloak
+  namespace: my-keycloak-operator
+type: Opaque
+data:
+  # ADMIN_USERNAME: admin
+  ADMIN_USERNAME: YWRtaW4=
+  # ADMIN_PASSWORD: kzGxFzWGi7_Vfw==
+  ADMIN_PASSWORD: a3pHeEZ6V0dpN19WZnc9PQ==
+---
 apiVersion: keycloak.org/v1alpha1
 kind: Keycloak
 metadata:
@@ -8,6 +20,15 @@ metadata:
    app: nerc-keycloak 
 spec:
   instances: 1
+  keycloakDeploymentSpec:
+    # experimental: 
+    #   env:
+    #     - name: KEYCLOAK_LOGLEVEL
+    #       value: "DEBUG"
+    #     - name: ROOT_LOGLEVEL
+    #       value: "DEBUG"          
+  externalDatabase:
+    enabled: true  
   externalAccess:
     enabled: false
     
@@ -149,6 +170,17 @@ spec:
           - "offline_access"
           - "microprofile-jwt"
         protocolMappers:
+          - name: "cilogon_idp_name"
+            protocol: "openid-connect"
+            protocolMapper: "oidc-usermodel-attribute-mapper"
+            consentRequired: false
+            config:
+              userinfo.token.claim: "true"
+              user.attribute: "cilogon_idp_name"
+              id.token.claim: "true"
+              access.token.claim: "false"
+              claim.name: "cilogon_idp_name"
+              jsonType.label: "String"         
           - name: "username"
             protocol: "openid-connect"
             protocolMapper: "oidc-usermodel-property-mapper"

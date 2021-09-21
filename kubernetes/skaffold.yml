@@ -32,8 +32,7 @@ build:
 deploy:
   kubectl:
     manifests:
-      # - nercra-kc/*.yml
-      # - nercra-app/*.yml
-      # - oauth2-proxy/*.yml
+      - nercra-app/*.yml
+      - oauth2-proxy/*.yml
       - kc-operator/*.yml
   kubeContext: minikube
