@@ -118,6 +118,9 @@ def validate(request):
                     'userName': pending_account_action.username
                 }
                 data['federatedIdentities'] = [idp_link]
+                data['attributes'] = {
+                    'cilogon_idp_name': pending_account_action.linked_idp_name
+                }
 
             # MAKE CHAGES IF CREATE OR UPDATE (NO EMAIL CHANGE)
             # Email change cause additional validation email...

@@ -18,12 +18,12 @@ kind: Service
 metadata:
   name: nercra-radb
 spec:
+  clusterIP: None
   selector:
     app: nercra-radb
   ports:
     - protocol: TCP
       port: 5432
       targetPort: 5432
-  type: NodePort
 
   

@@ -71,14 +71,7 @@ spec:
       labels:
         app: nercra-radb
     spec:
-
-      volumes:
-        - name: nercra-radb-volume-mount
-          persistentVolumeClaim:
-            claimName: nercra-radb-pvc
-
       containers:
-
         - name: nercra-radb-container
           image: mghpcc/nercra-radb:latest
           imagePullPolicy: IfNotPresent
@@ -92,3 +85,13 @@ spec:
           volumeMounts:
             - name: nercra-radb-volume-mount
               mountPath: /var/lib/postgresql/data
+  
+  volumeClaimTemplates:
+  - metadata:
+      name: nercra-radb-volume-mount
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard"
+      resources:
+        requests:
+          storage: 1Gi

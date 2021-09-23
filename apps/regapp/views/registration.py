@@ -129,6 +129,7 @@ def registration(request):
                 opcode="create",
                 linked_sub=cilogon_uinfo['sub'],
                 linked_iss=cilogon_uinfo['iss'],
+                linked_idp_name=cilogon_uinfo['idp_name'],
                 firstName=form.cleaned_data['first_name'],
                 lastName=form.cleaned_data['last_name'],
                 email=form.cleaned_data['email'],

@@ -46,6 +46,7 @@ class AccountAction(TimeStampedModel):
     sub = models.CharField(max_length=128, unique=True, default="")
     linked_sub = models.CharField(max_length=128, unique=True, default="")
     linked_iss = models.CharField(max_length=128, default="")
+    linked_idp_name = models.CharField(max_length=128, default="")
     firstName = models.CharField(max_length=128)
     lastName = models.CharField(max_length=128)
     email = models.EmailField(max_length=128, unique=True)
