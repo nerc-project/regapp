@@ -1,0 +1,18 @@
+---
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: "regapp-db" 
+  labels:
+    app.kubernetes.io/name: regapp-db-buildconfig
+    app.kubernetes.io/part-of: regapp  
+spec:
+  source:
+    type: Binary
+  strategy:
+    type: dockerStrategy
+    dockerStrategy: {}
+  output: 
+    to:
+      kind: "ImageStreamTag"
+      name: "regapp-db:latest"

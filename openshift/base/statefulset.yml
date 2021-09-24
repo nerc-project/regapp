@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: regapp-db-statefulset
+  labels:
+    app.kubernetes.io/name: regapp-db
+    app.kubernetes.io/part-of: regapp
+spec:
+  serviceName: regapp-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: regapp-db
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: regapp-db-container
+        app.kubernetes.io/part-of: regapp
+        app: regapp-db
+    spec:
+      containers:
+        - name: regapp-dbdb-container
+          image: regapp-db:latest
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: regapp-db-configmap
+            - secretRef:
+                name: regapp-db-secrets
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: regapp-db-volume-mount
+              mountPath: /var/lib/postgresql/data
+  
+  volumeClaimTemplates:
+  - spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard"
+      resources:
+        requests:
+          storage: 1Gi
+    metadata:
+      name: regapp-db-volume-mount
+      labels:
+        app.kubernetes.io/name: regapp-db-volume-mount
+        app.kubernetes.io/part-of: regapp

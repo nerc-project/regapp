@@ -1,0 +1,9 @@
+namespace: regapp
+resources:
+  - namespace.yml
+  - imagestream.yml
+  - buildconfig.yml
+  - configmap.yml
+  - secrets.yml
+  - service.yml
+  - statefulset.yml
