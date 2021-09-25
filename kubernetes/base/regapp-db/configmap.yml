@@ -5,7 +5,7 @@ metadata:
   name: regapp-db-configmap
   labels:
     app.kubernetes.io/name: regapp-db-configmap
-    app.kubernetes.io/part-of: regapp
 data:
   POSTGRES_USER: postgres
   POSTGRES_DB: postgres
+  PGDATA: /var/lib/postgresql/data/pgdata

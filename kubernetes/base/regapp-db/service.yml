@@ -5,7 +5,6 @@ metadata:
   name: regapp-db
   labels:
     app.kubernetes.io/name: regapp-db-svc
-    app.kubernetes.io/part-of: regapp
 spec:
   clusterIP: None
   selector:

@@ -7,12 +7,12 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
     nginx.ingress.kubernetes.io/proxy-buffer-size: "256k"
     nginx.ingress.kubernetes.io/proxy-max-temp-file-size: "1024m"  
-  name: nercra-app-ingress
+  name: regapp-ingress
 spec:
   tls:
   - hosts:
       - regapp.nerc.mghpcc.org
-    secretName: nercra-app-tls
+    secretName: regapp-tls
   rules:
     - host: regapp.nerc.mghpcc.org
       http:
@@ -21,7 +21,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: nercra-app
+                name: regapp
                 port:
                   number: 8123
 
@@ -56,3 +56,34 @@ spec:
                 name: oauth2-proxy
                 port:
                   number: 4188
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app: keycloak
+  name: keycloak
+  namespace: my-keycloak-operator
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "256k"
+    nginx.ingress.kubernetes.io/proxy-max-temp-file-size: "1024m"      
+spec:
+  tls:
+  - hosts:
+      - keycloak.nerc.mghpcc.org
+    secretName: keycloak-tls
+  rules:
+    - host: keycloak.nerc.mghpcc.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak
+                port:
+                  number: 8443

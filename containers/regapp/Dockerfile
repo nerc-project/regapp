@@ -16,7 +16,7 @@ COPY --from=0 /tmp/requirements.txt /code/
 RUN pip install --no-cache-dir -r requirements.txt
 # Patch around bug in runner for time being
 
-COPY containers/nercra-app/entrypoint.sh /scripts/
+COPY containers/regapp/entrypoint.sh /scripts/
 RUN chmod 755 /scripts/*.sh
 COPY . /code/regapp/  
   

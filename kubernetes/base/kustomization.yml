@@ -1,0 +1,19 @@
+namespace: regapp
+commonLabels:
+  app.kubernetes.io/part-of: regapp
+resources:
+  - namespace.yml
+  - imagestream.yml
+  - buildconfig.yml
+  #
+  # - regapp/configmap.yml
+  # - regapp/cron.yml
+  # - regapp/regapp.yml
+  # - regapp/secrets.yml  
+  # - regapp/service.yml
+  #
+  - regapp-db/configmap.yml
+  - regapp-db/regapp-db.yml
+  - regapp-db/secrets.yml  
+  - regapp-db/service.yml
+

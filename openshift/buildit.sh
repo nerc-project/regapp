@@ -1,2 +1,2 @@
 #! /bin/sh
-oc start-build regapp-db --from-dir=/home/jculbert/development/nerc/regapp/openshift/regapp-db --follow
+oc start-build regapp-db -n regapp --from-dir=regapp-db --follow

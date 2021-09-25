@@ -5,7 +5,6 @@ metadata:
   name: regapp-db-statefulset
   labels:
     app.kubernetes.io/name: regapp-db
-    app.kubernetes.io/part-of: regapp
 spec:
   serviceName: regapp-db
   replicas: 1
@@ -16,11 +15,10 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: regapp-db-container
-        app.kubernetes.io/part-of: regapp
         app: regapp-db
     spec:
       containers:
-        - name: regapp-dbdb-container
+        - name: regapp-db-container
           image: regapp-db:latest
           imagePullPolicy: IfNotPresent
           envFrom:
@@ -37,7 +35,7 @@ spec:
   volumeClaimTemplates:
   - spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "standard"
+      storageClassName: "ocs-storagecluster-ceph-rbd"
       resources:
         requests:
           storage: 1Gi
@@ -45,4 +43,3 @@ spec:
       name: regapp-db-volume-mount
       labels:
         app.kubernetes.io/name: regapp-db-volume-mount
-        app.kubernetes.io/part-of: regapp

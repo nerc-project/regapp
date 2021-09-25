@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: regapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: regapp
+  template:
+    metadata:
+      labels:
+        app: regapp
+    spec:
+      # hostAliases:
+      #   - ip: 192.168.39.203
+      #     hostnames:
+      #       - keycloak.nerc.mghpcc.org    
+      volumes:
+        - name: static-data
+          emptyDir: {}
+
+      containers:
+
+        - name: regapp-container
+          image: mghpcc/regapp:latest
+          imagePullPolicy: IfNotPresent
+          workingDir: "/code"
+          command: 
+            - "/scripts/entrypoint.sh"
+          # TODO: Move --devel into overlay
+          args:
+            - "--devel"                
+          envFrom:
+            - configMapRef:
+                name: regapp-configmap
+            - secretRef:
+                name: regapp-secrets                
+          ports:
+            - containerPort: 8123
+          volumeMounts:
+            - name: static-data
+              mountPath: /static
