@@ -5,15 +5,25 @@ resources:
   - namespace.yml
   - imagestream.yml
   - buildconfig.yml
+  - ingress.yml
+  - test.yml
   #
-  # - regapp/configmap.yml
+  - regapp/configmap.yml
   # - regapp/cron.yml
-  # - regapp/regapp.yml
-  # - regapp/secrets.yml  
-  # - regapp/service.yml
+  - regapp/regapp.yml
+  - regapp/secrets.yml  
+  - regapp/service.yml
   #
   - regapp-db/configmap.yml
   - regapp-db/regapp-db.yml
   - regapp-db/secrets.yml  
   - regapp-db/service.yml
+  #
+  - oauth2-proxy/config.yml
+  - oauth2-proxy/oauth2-proxy.yml
+  - oauth2-proxy/service.yml
+  #
+  - kc-operator/secrets.yml
+  - kc-operator/keycloak-db.yml
+  - kc-operator/keycloak.yml
 

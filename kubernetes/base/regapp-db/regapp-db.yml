@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: regapp-db-statefulset
+  name: regapp-db
   labels:
     app.kubernetes.io/name: regapp-db
 spec:
@@ -19,7 +19,8 @@ spec:
     spec:
       containers:
         - name: regapp-db-container
-          image: regapp-db:latest
+          # image: regapp-db:latest
+          image: image-registry.openshift-image-registry.svc:5000/regapp/regapp-db:latest
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:

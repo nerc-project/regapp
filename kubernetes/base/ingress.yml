@@ -64,8 +64,8 @@ metadata:
   labels:
     app: keycloak
   name: keycloak
-  namespace: my-keycloak-operator
   annotations:
+    route.openshift.io/termination: "reencrypt"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/proxy-buffering: "on"
     nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
