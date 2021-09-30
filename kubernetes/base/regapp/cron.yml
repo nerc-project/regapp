@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
           - name: regreaper
-            image: mghpcc/nercra-app:latest
+            image: regapp:latest
             imagePullPolicy: IfNotPresent
             workingDir: "/code"
             command: 
@@ -24,8 +24,8 @@ spec:
                 value: DONTCARE
             envFrom:
               - configMapRef:
-                  name: nercra-app-configmap
+                  name: regapp-configmap
               - secretRef:
-                  name: nercra-app-secrets                         
+                  name: regapp-secrets                         
 
           restartPolicy: OnFailure

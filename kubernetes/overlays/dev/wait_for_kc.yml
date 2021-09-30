@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oauth2-proxy
+spec:
+    spec:
+      initContainers:
+      - name: wait-for-kc
+        image: mghpcc/nercra-util
+        command: ['sh', '-c', "wget --tries=0 --retry-on-http-error=404,503,502 --wait=5 --no-check-certificate --retry-connrefused  --output-file=/dev/null https://keycloak.nerc.mghpcc.org/auth/realms/nerc/.well-known/openid-configuration"]

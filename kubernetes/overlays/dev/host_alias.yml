@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yournamehere
+spec:
+    spec:
+      hostAliases:
+        - ip: 1192.168.39.203
+          hostnames:
+          - keycloak.nerc.mghpcc.org

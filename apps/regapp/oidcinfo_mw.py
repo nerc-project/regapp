@@ -88,7 +88,7 @@ class OIDCMiddleware:
                     f"Decode error: {invalid_error}"
                 )
 
-        logger.debug(f"Client token: {request.session['client_token_info']}")
+        logger.debug(f"Client token: {request.session.get('client_token_info', None)}")
         request.client_token = request.session['client_token_info']['token']
 
         # **********USERINFO AND IDP**************

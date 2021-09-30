@@ -18,5 +18,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY containers/regapp/entrypoint.sh /scripts/
 RUN chmod 755 /scripts/*.sh
-COPY . /code/regapp/  
+COPY . /code/regapp/ 
+# TODO: REMOVE ME AFTER DEV WORKING AGAIN...
+RUN chmod -R a+w /code
   

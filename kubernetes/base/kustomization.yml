@@ -1,3 +1,7 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
 namespace: regapp
 commonLabels:
   app.kubernetes.io/part-of: regapp
@@ -6,10 +10,10 @@ resources:
   - imagestream.yml
   - buildconfig.yml
   - ingress.yml
-  - test.yml
+  # - test.yml
   #
   - regapp/configmap.yml
-  # - regapp/cron.yml
+  - regapp/cron.yml
   - regapp/regapp.yml
   - regapp/secrets.yml  
   - regapp/service.yml
