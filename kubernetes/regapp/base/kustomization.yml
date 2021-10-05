@@ -7,11 +7,9 @@ commonLabels:
   app.kubernetes.io/part-of: regapp
 resources:
   - namespace.yml
-  - imagestream.yml
-  - buildconfig.yml
   - ingress.yml
   # - test.yml
-  #
+
   - regapp/configmap.yml
   - regapp/cron.yml
   - regapp/regapp.yml
@@ -26,8 +24,5 @@ resources:
   - oauth2-proxy/config.yml
   - oauth2-proxy/oauth2-proxy.yml
   - oauth2-proxy/service.yml
-  #
-  - kc-operator/secrets.yml
-  - kc-operator/keycloak-db.yml
-  - kc-operator/keycloak.yml
+
 

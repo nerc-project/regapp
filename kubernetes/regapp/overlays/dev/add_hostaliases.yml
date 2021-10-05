@@ -3,8 +3,9 @@ kind: Deployment
 metadata:
   name: yournamehere
 spec:
+  template:
     spec:
       hostAliases:
-        - ip: 1192.168.39.203
+        - ip: 192.168.39.76
           hostnames:
           - keycloak.nerc.mghpcc.org

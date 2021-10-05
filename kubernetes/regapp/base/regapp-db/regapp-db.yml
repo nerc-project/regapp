@@ -19,7 +19,6 @@ spec:
     spec:
       containers:
         - name: regapp-db-container
-          # image: regapp-db:latest
           image: image-registry.openshift-image-registry.svc:5000/regapp/regapp-db:latest
           imagePullPolicy: IfNotPresent
           envFrom:

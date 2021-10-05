@@ -7,15 +7,11 @@ build:
   tagPolicy:
     sha256: {}
   artifacts:
-    - image: mghpcc/nercra-util
-      context: ../containers/nercra-util
-      docker:
-        dockerfile: Containerfile
-    - image: mghpcc/nercra-radb
-      context: ../containers/nercra-radb
-      docker:
-        dockerfile: Containerfile
-    - image: mghpcc/nercra-app
+    - image: mghpcc/regapp-util
+      context: ../containers/regapp-util
+    - image: mghpcc/regapp-db
+      context: ../containers/regapp-db
+    - image: mghpcc/regapp
       context: ..
       sync:
         infer:
@@ -24,15 +20,10 @@ build:
           - "jinja2/**"
           - "manage.py"
       docker:
-        dockerfile: containers/nercra-app/Containerfile
-    - image: mghpcc/nercra-keycloak
-      context: ../containers/nercra-keycloak
-      docker:
-        dockerfile: Containerfile
+        dockerfile: containers/regapp/Dockerfile
 deploy:
-  kubectl:
-    manifests:
-      - nercra-app/*.yml
-      - oauth2-proxy/*.yml
-      - kc-operator/*.yml
+  kustomize:
+    paths: 
+      - regapp/overlays/dev
+
   kubeContext: minikube

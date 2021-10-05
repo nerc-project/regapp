@@ -21,14 +21,10 @@ spec:
 
         - name: regapp-container
           image: regapp:latest
-          #image: image-registry.openshift-image-registry.svc:5000/regapp/regapp:latest
           imagePullPolicy: IfNotPresent
           workingDir: "/code"
           command: 
-            - "/scripts/entrypoint.sh"
-          # TODO: Move --devel into overlay
-          args:
-            - "--devel"                
+            - "/scripts/entrypoint.sh"              
           envFrom:
             - configMapRef:
                 name: regapp-configmap

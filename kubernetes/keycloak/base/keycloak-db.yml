@@ -1,13 +1,3 @@
-# ---
-# apiVersion: storage.k8s.io/v1
-# kind: StorageClass
-# metadata: 
-#   name: nerc-keycloak-storage
-#   namespace: my-keycloak-operator
-# provisioner: k8s.io/minikube-hostpath
-# reclaimPolicy: Delete
-# volumeBindingMode: Immediate
-  
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -36,15 +26,12 @@ spec:
           volumeMounts:
             - name: keycloak-postgresql
               mountPath: /var/lib/postgresql/data
-          # command: [ "/bin/bash", "-c", "--" ]
-          # args: [ "while true; do sleep 30; done;" ]
          
   volumeClaimTemplates:
   - metadata:
       name: keycloak-postgresql
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      #storageClassName: "nerc-keycloak-storage"
       storageClassName: "ocs-storagecluster-ceph-rbd"
       resources:
         requests:
@@ -62,32 +49,3 @@ spec:
   clusterIP: None
   selector:
     app: keycloak-postgresql
-
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: nercra-kc-deployment
-#   namespace: my-keycloak-operator
-#   labels:
-#     app: nercra-kc
-# spec:
-#   selector:
-#     matchLabels:
-#       app: nercra-kc
-#   template:
-#     metadata:
-#       labels:
-#         app: nercra-kc
-#     spec:
-#       containers:
-#         - name: pgtest
-#           image: postgres:10
-#           imagePullPolicy: IfNotPresent
-#           envFrom:
-#             - secretRef:
-#                 name: keycloak-db-secret
-#           ports:
-#             - containerPort: 5433
-#           command: [ "/bin/bash", "-c", "--" ]
-#           args: [ "while true; do sleep 30; done;" ] 
