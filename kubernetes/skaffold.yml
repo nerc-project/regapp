@@ -6,12 +6,18 @@ metadata:
 build:
   tagPolicy:
     sha256: {}
+  local:
+    push: true
   artifacts:
-    - image: mghpcc/regapp-util
+    # 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
+    # - image: mghpcc/regapp-util
+    - image: ghcr.io/culbert/regapp-util
       context: ../containers/regapp-util
-    - image: mghpcc/regapp-db
+    # - image: mghpcc/regapp-db
+    - image: ghcr.io/culbert/regapp-db
       context: ../containers/regapp-db
-    - image: mghpcc/regapp
+    #- image: mghpcc/regapp
+    - image: ghcr.io/culbert/regapp
       context: ..
       sync:
         infer:
