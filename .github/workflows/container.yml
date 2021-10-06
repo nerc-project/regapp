@@ -21,8 +21,6 @@ env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
   IMAGE_NAME_DB: ${{ github.repository }}-db
-  IMAGE_NAME_UTIL: ${{ github.repository }}-util
-
 
 jobs:
   build:
@@ -79,18 +77,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta_regapp_db.outputs.tags }}
           labels: ${{ steps.meta_regapp_db.outputs.labels }}
-
-      # REGAPP-UTIL
-      - name: Extract regapp-util docker metadata
-        id: meta_regapp_util
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_UTIL }}
-
-      - name: Build and push regapp-util docker image
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-        with:
-          context: ./containers/regapp-util
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta_regapp_util.outputs.tags }}
-          labels: ${{ steps.meta_regapp_util.outputs.labels }}                    
+             
