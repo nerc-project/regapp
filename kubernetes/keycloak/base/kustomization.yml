@@ -8,6 +8,8 @@ resources:
   - namespace.yml
   - keycloak-operator.yml
   - ingress.yml
-  - secrets.yml
+  - keycloak_db_secret_sealed.yml
+  - keycloak_tls_secret_sealed.yml
+  - keycloak_pg_secret_sealed.yml
   - keycloak-db.yml
   - keycloak.yml
