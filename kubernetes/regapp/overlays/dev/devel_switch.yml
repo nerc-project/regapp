@@ -9,4 +9,4 @@ spec:
       containers:
         - name: regapp-container
           args:
-            "--devel"
+            - "--devel"

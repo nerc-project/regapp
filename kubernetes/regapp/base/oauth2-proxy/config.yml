@@ -25,20 +25,6 @@ data:
 
 ---
 apiVersion: v1
-kind: Secret
-metadata:
-  name: oauth2-secret-kc
-type: Opaque
-data:
-  #OAUTH2_PROXY_CLIENT_ID: regapp
-  OAUTH2_PROXY_CLIENT_ID: cmVnYXBw
-  #OAUTH2_PROXY_CLIENT_SECRET: dd7919cd-eb28-4795-81d0-8acbd38bf375
-  OAUTH2_PROXY_CLIENT_SECRET: ZGQ3OTE5Y2QtZWIyOC00Nzk1LTgxZDAtOGFjYmQzOGJmMzc1
-  #OAUTH2_PROXY_COOKIE_SECRET: dXc3ZHlZd0xsdnBrWkVVRVNLaW9BUT09
-  OAUTH2_PROXY_COOKIE_SECRET: ZFhjM1pIbFpkMHhzZG5CcldrVlZSVk5MYVc5QlVUMDk=
-
----
-apiVersion: v1
 kind: ConfigMap
 metadata:
   name: oauth2-configmap-cilogon
@@ -60,17 +46,3 @@ data:
   OAUTH2_PROXY_EMAIL_DOMAINS: "*"
   OAUTH2_PROXY_SSL_INSECURE_SKIP_VERIFY: "true"
   OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: "true"  
-
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: oauth2-secret-cilogon
-type: Opaque
-data:
-  # OAUTH2_PROXY_CLIENT_ID: cilogon:/client_id/ab05912d88d9f9cc5ea155accf420f3 
-  OAUTH2_PROXY_CLIENT_ID: Y2lsb2dvbjovY2xpZW50X2lkL2FiMDU5MTJkODhkOWY5Y2M1ZWExNTVhY2NmNDIwZjM=
-  # OAUTH2_PROXY_CLIENT_SECRET: C2z-thf2Ukj72dw65qXFP5yCeDZfQd4aWlYtK7nZXVTfyhZNprewJkwnE-_XmfZOgaPvAoTvZIkTk-6Zwar4Fg
-  OAUTH2_PROXY_CLIENT_SECRET: QzJ6LXRoZjJVa2o3MmR3NjVxWEZQNXlDZURaZlFkNGFXbFl0SzduWlhWVGZ5aFpOcHJld0prd25FLV9YbWZaT2dhUHZBb1R2WklrVGstNlp3YXI0Rmc=
-  # OAUTH2_PROXY_COOKIE_SECRET: dXc3ZHlZd0xsdnBrWkVVRVNLaW9BUT09
-  OAUTH2_PROXY_COOKIE_SECRET: ZFhjM1pIbFpkMHhzZG5CcldrVlZSVk5MYVc5QlVUMDk=
