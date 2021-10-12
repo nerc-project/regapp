@@ -22,7 +22,6 @@ spec:
       containers:
 
         - name: regapp-container
-          #image: regapp:latest
           image: image-registry.openshift-image-registry.svc:5000/regapp/regapp:latest
           imagePullPolicy: IfNotPresent
           workingDir: "/code"

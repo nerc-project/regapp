@@ -11,6 +11,8 @@
     * Select and add all for now
     * Likely need to tighten up
   * Should probably be implemented as a job
+* IdP secret
+  * need to copy secret from regapp secrets (oauth2-proxy-cilogon) to secret for cilogon in keycloak. Currently unable to protect secret in custom resource file.
 
 # Notes
 

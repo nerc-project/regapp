@@ -75,7 +75,7 @@ spec:
         firstBrokerLoginFlowAlias: "browser"
         config:
           clientId: "cilogon:/client_id/ab05912d88d9f9cc5ea155accf420f3"
-          clientSecret: "C2z-thf2Ukj72dw65qXFP5yCeDZfQd4aWlYtK7nZXVTfyhZNprewJkwnE-_XmfZOgaPvAoTvZIkTk-6Zwar4Fg"
+          clientSecret: "CHANGEME"
           tokenUrl: "https://cilogon.org/oauth2/token"
           authorizationUrl: "https://cilogon.org/authorize"
           clientAuthMethod: "client_secret_post"

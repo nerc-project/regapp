@@ -6,7 +6,9 @@ namespace: regapp
 commonLabels:
   app.kubernetes.io/part-of: regapp
 resources:
-  - namespace.yml
+  # Create manually in test env so skaffold
+  # does not delete...
+  # - namespace.yml
   - ingress.yml
   # - test.yml
 

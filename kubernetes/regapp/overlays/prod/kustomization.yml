@@ -11,5 +11,6 @@ bases:
 
 resources:
 # - buildconfig.yml
+- namespace.yml
 - imagestream.yml
 - pull_secret.yml
