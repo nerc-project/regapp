@@ -13,11 +13,11 @@ images:
     newName: mghpcc/regapp    
 
 patches:
-- path: replace_storageclass.json
+- patch: |-
+    - op: replace
+      path: /spec/volumeClaimTemplates/0/spec/storageClassName
+      value: minikube-dev-storage
   target:
-    kind: StatefulSet   
-# - path: add_hostaliases.yml
-#   target:
-#     kind: Deployment
+    kind: StatefulSet
 - path: wait_for_kc.yml
 - path: devel_switch.yml

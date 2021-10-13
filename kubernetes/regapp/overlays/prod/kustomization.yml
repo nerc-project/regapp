@@ -10,7 +10,35 @@ bases:
 - ../../base
 
 resources:
-# - buildconfig.yml
 - namespace.yml
 - imagestream.yml
-- pull_secret.yml
+- pull_secret_sealed.yml
+
+# Add pull secret to pods. Can do this in service account
+# but not declaratively unless you declare the full account
+# spec which requires adding tokens. Can link but not declaratively, i.e.,
+# oc secrets -n regapp link default ghcr-culbert-pullsecret --for=pull
+patches:
+- patch: |-
+    - op: add
+      path: /spec/template/spec/imagePullSecrets
+      value:
+        - name: ghcr-culbert-pullsecret
+  target:
+    kind: Deployment
+    name: regapp
+- patch: |-
+    - op: add
+      path: /spec/template/spec/imagePullSecrets
+      value:
+        - name: ghcr-culbert-pullsecret
+  target:
+    kind: StatefulSet
+    name: regapp-db
+- patch: |-
+    - op: add
+      path: /spec/jobTemplate/spec/template/spec/imagePullSecrets
+      value:
+        - name: ghcr-culbert-pullsecret
+  target:
+    kind: CronJob
