@@ -26,12 +26,12 @@ spec:
           volumeMounts:
             - name: keycloak-postgresql
               mountPath: /var/lib/postgresql/data
-         
+
   volumeClaimTemplates:
   - metadata:
       name: keycloak-postgresql
     spec:
-      accessModes: [ "ReadWriteOnce" ]
+      accessModes: ["ReadWriteOnce"]
       storageClassName: "ocs-storagecluster-ceph-rbd"
       resources:
         requests:

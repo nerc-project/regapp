@@ -15,7 +15,7 @@ spec:
   - name: registration
     port: 4188
     protocol: TCP
-    targetPort: 4188  
+    targetPort: 4188
 
   selector:
     k8s-app: oauth2-proxy

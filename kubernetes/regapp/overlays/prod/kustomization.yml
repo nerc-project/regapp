@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: regapp
 commonLabels:
   app.kubernetes.io/part-of: regapp
-  
+
 bases:
 - ../../base
 

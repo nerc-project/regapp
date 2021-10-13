@@ -23,7 +23,7 @@ build:
         dockerfile: containers/regapp/Dockerfile
 deploy:
   kustomize:
-    paths: 
+    paths:
       - regapp/overlays/dev
 
   kubeContext: minikube

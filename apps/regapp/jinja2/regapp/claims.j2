@@ -15,12 +15,12 @@
 <span class="text-info">OTHER CLAIMS</span>
 <ul>
     {% for k,v in headers.items() %}
-        {% if k != 'OIDC_USERINFO_JSON' %} 
-            <li>{{k}}: {{v}}</li> 
+        {% if k != 'OIDC_USERINFO_JSON' %}
+            <li>{{k}}: {{v}}</li>
         {% endif %}
     {% endfor %}
 </ul>
 </div>
 
 
-{% endblock %} 
+{% endblock %}

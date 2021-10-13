@@ -175,22 +175,15 @@ def logout(request):
     # redirect the user to logout of the IdP
 
     redirect_to_regapp = (
-        request.META['HTTP_X_FORWARDED_PROTO'] +
-        "://" +
-        request.META['HTTP_X_FORWARDED_HOST'] +
-        reverse('site_index')
+        request.META['HTTP_X_FORWARDED_PROTO'] + "://" + request.META['HTTP_X_FORWARDED_HOST'] + reverse('site_index')
     )
 
     redirect_to_keycloak = (
-        settings.NERC_LOGOUT_URL +
-        "?" +
-        urlencode({'redirect_uri': redirect_to_regapp})
+        settings.NERC_LOGOUT_URL + "?" + urlencode({'redirect_uri': redirect_to_regapp})
     )
 
     redirect_to_oauth2_proxy = (
-        settings.OAUTH2PROXY_NERC_LOGOUT_URL +
-        "?" +
-        urlencode({'rd': redirect_to_keycloak})
+        settings.OAUTH2PROXY_NERC_LOGOUT_URL + "?" + urlencode({'rd': redirect_to_keycloak})
     )
 
     return redirect(redirect_to_oauth2_proxy)
