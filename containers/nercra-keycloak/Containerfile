@@ -1,4 +1,0 @@
-FROM docker.io/jboss/keycloak
-COPY --chown=jboss:root x509-renewal.sh x509.sh /opt/jboss/tools/
-RUN chmod 775 /opt/jboss/tools/x509.sh && \
-chmod 775 /opt/jboss/tools/x509-renewal.sh
