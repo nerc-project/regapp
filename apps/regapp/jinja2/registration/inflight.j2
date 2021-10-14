@@ -6,8 +6,8 @@
     <div class="col">
         <h1>MGHPCC Shared Services Account Creation - Account Email Verification In Progress</h1>
         <p class="mt-4">
-            {{user_info.firstName}}, it looks like you started the account creation process but have 
-            not completed it. An email was sent to the addess {{user_info.email}} with a link to 
+            {{user_info.firstName}}, it looks like you started the account creation process but have
+            not completed it. An email was sent to the addess {{user_info.email}} with a link to
             complete the account creation process. If you cannot find that email or if you do find it but
             it has been more than 24hrs since that email was sent, you can click the "Resend" button
             below to send the email again.
@@ -26,7 +26,7 @@
             <dt class="col-sm-3">Email</dt>
             <dd class="col-sm-9">{{user_info.email}}</dd>
             <dt class="col-sm-3">Linked Institutional Account</dt>
-            <dd class="col-sm-9">{{user_info.linked_iss}}</dd>               
+            <dd class="col-sm-9">{{user_info.linked_iss}}</dd>
         </dl>
 
         <a class="btn btn-primary" href="{{url('reg_sendvalidation')}}">Resend</a>

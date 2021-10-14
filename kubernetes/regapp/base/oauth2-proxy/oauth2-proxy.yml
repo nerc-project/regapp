@@ -41,7 +41,7 @@ spec:
           - --provider-display-name="CILogon"
           - --insecure-oidc-allow-unverified-email
           - --cookie-refresh=60s
-          - --whitelist-domain=cilogon.org          
+          - --whitelist-domain=cilogon.org
         envFrom:
           - secretRef:
               name: oauth2-secret-cilogon

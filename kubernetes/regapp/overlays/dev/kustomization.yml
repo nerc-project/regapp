@@ -10,7 +10,7 @@ images:
   - name: image-registry.openshift-image-registry.svc:5000/regapp/regapp-db
     newName: mghpcc/regapp-db
   - name: image-registry.openshift-image-registry.svc:5000/regapp/regapp
-    newName: mghpcc/regapp    
+    newName: mghpcc/regapp
 
 patches:
 - patch: |-

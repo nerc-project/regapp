@@ -1,20 +1,22 @@
 # Managing secrets with kubeseal
 
-* Install controller 
+* Install controller
   * Minikube use files checked in
   * Openshift - ??
 
 * Create custom key pair
-  * https://github.com/bitnami-labs/sealed-secrets/blob/main/docs/bring-your-own-certificates.md
+  * `https://github.com/bitnami-labs/sealed-secrets/blob/main/docs/bring-your-own-certificates.md`
   * Setup convenience envars
-      export PRIVATEKEY="mytls.key"
+      export PRIVATEKEY="mytls.key" <!-- pragma: allowlist secret -->
       export PUBLICKEY="mytls.crt"
       export NAMESPACE="sealed-secrets"
-      export SECRETNAME="mycustomkeys"
+      export SECRETNAME="mycustomkeys" <!-- pragma: allowlist secret -->
   * Create the openssl key
-    * openssl req -x509 -nodes -newkey rsa:4096 -keyout "$PRIVATEKEY" -out "$PUBLICKEY" -subj "/CN=sealed-secret/O=sealed-secret"
+    * openssl req -x509 -nodes -newkey rsa:4096 -keyout "$PRIVATEKEY" -out \
+        "$PUBLICKEY" -subj "/CN=sealed-secret/O=sealed-secret"
   * Create and persist the custom keypair as a secret.yml file
-    * kubectl -n "$NAMESPACE" create secret tls "$SECRETNAME" --cert="$PUBLICKEY" --key="$PRIVATEKEY"
+    * kubectl -n "$NAMESPACE" create secret tls "$SECRETNAME" \
+        --cert="$PUBLICKEY" --key="$PRIVATEKEY"
     * kubectl -n sealed-secrets get secret mycustomkeys -o yaml > customkeys.yml
     * edit customkeys.yml and add the label
       * sealedsecrets.bitnami.com/sealed-secrets-key: active
@@ -40,9 +42,12 @@
 * Edit sealed secret
   * Create a secret fragment with the same name and namespace as the original secret
   * Encrypt the fragment as described above
-  * Cut the keys that you want out of the generated file and paste into the secret you want to edit
+  * Cut the keys that you want out of the generated file and paste into the secret
+  you want to edit
   * Done
 
-* Decrypt a sealed secret with local keys 
-  * Note that you can always browse the values on the cluster but if the cluster is gone bye bye...
-  * cat testsecret_sealed.yml | kubeseal --recovery-unseal --recovery-private-key $PRIVATEKEY
+* Decrypt a sealed secret with local keys
+  * Note that you can always browse the values on the cluster but if the cluster
+  is gone bye bye...
+  * cat testsecret_sealed.yml | kubeseal --recovery-unseal \
+      --recovery-private-key $PRIVATEKEY

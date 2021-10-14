@@ -1,6 +1,6 @@
 #! /bin/bash
- 
-# Twice the number of cores plus one 
+
+# Twice the number of cores plus one
 let NUM_WORKERS="2*`nproc`+1"
 
 export DJANGO_SETTINGS_MODULE=regapp.config.settings

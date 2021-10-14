@@ -5,18 +5,18 @@ metadata:
   name: mss-keycloak
   namespace: keycloak
   labels:
-   app: mss-keycloak 
+   app: mss-keycloak
 spec:
   instances: 1
   keycloakDeploymentSpec:
-    experimental: 
+    experimental:
       env:
         - name: KEYCLOAK_LOGLEVEL
           value: "DEBUG"
         - name: ROOT_LOGLEVEL
-          value: "DEBUG"          
+          value: "DEBUG"
   externalDatabase:
-    enabled: true  
+    enabled: true
   externalAccess:
     enabled: false
 
@@ -39,7 +39,7 @@ spec:
     userManagedAccessAllowed: false
     registrationAllowed: false
     editUsernameAllowed: false
-    resetPasswordAllowed: false
+    resetPasswordAllowed: false  # pragma: allowlist secret
     rememberMe: false
     verifyEmail: false
     sslRequired: "external"
@@ -75,7 +75,7 @@ spec:
         firstBrokerLoginFlowAlias: "browser"
         config:
           clientId: "cilogon:/client_id/ab05912d88d9f9cc5ea155accf420f3"
-          clientSecret: "CHANGEME"
+          clientSecret: "CHANGEME"  # pragma: allowlist secret
           tokenUrl: "https://cilogon.org/oauth2/token"
           authorizationUrl: "https://cilogon.org/authorize"
           clientAuthMethod: "client_secret_post"
@@ -151,7 +151,7 @@ spec:
               id.token.claim: "true"
               access.token.claim: "false"
               claim.name: "cilogon_idp_name"
-              jsonType.label: "String"         
+              jsonType.label: "String"
           - name: "username"
             protocol: "openid-connect"
             protocolMapper: "oidc-usermodel-property-mapper"
@@ -194,60 +194,60 @@ spec:
               claim.name: "clientId"
               jsonType.label: "String"
 
-          # - name: "cilogon_idp"
-          #   protocol: "openid-connect"
-          #   protocolMapper: "oidc-usermodel-attribute-mapper"
-          #   consentRequired: false
-          #   config:
-          #     userinfo.token.claim: "true"
-          #     user.attribute: "cilogon_idp"
-          #     id.token.claim: "true"
-          #     access.token.claim: "false"
-          #     claim.name: "cilogon_idp"
-          #     jsonType.label: "String"              
-          # - name: "cilogon_idp_name"
-          #   protocol: "openid-connect"
-          #   protocolMapper: "oidc-usermodel-attribute-mapper"
-          #   consentRequired: false
-          #   config:
-          #     userinfo.token.claim: "true"
-          #     user.attribute: "cilogon_idp_name"
-          #     id.token.claim: "true"
-          #     access.token.claim: "false"
-          #     claim.name: "cilogon_idp_name"
-          #     jsonType.label: "String"              
-          # - name: "cilogon_email"
-          #   protocol: "openid-connect"
-          #   protocolMapper: "oidc-usermodel-attribute-mapper"
-          #   consentRequired: false
-          #   config:
-          #     user.attribute: "cilogon_email"
-          #     id.token.claim: "true"
-          #     access.token.claim: "false"
-          #     claim.name: "cilogon_email"
-          #     userinfo.token.claim: "true"              
-          # - name: "cilogon_eppn"
-          #   protocol: "openid-connect"
-          #   protocolMapper: "oidc-usermodel-attribute-mapper"
-          #   consentRequired: false
-          #   config:
-          #     userinfo.token.claim: "true"
-          #     user.attribute: "cilogon_eppn"
-          #     id.token.claim: "true"
-          #     access.token.claim: "false"
-          #     claim.name: "cilogon_eppn"
-          #     jsonType.label: "String"              
-          # - name: "cilogon_eptid"
-          #   protocol: "openid-connect"
-          #   protocolMapper: "oidc-usermodel-attribute-mapper"
-          #   consentRequired: false
-          #   config:
-          #     userinfo.token.claim: "true"
-          #     user.attribute: "cilogon_eptid"
-          #     id.token.claim: "true"
-          #     access.token.claim: "false"
-          #     claim.name: "cilogon_eptid"
-          #     jsonType.label: "String" 
+# - name: "cilogon_idp"
+#   protocol: "openid-connect"
+#   protocolMapper: "oidc-usermodel-attribute-mapper"
+#   consentRequired: false
+#   config:
+#     userinfo.token.claim: "true"
+#     user.attribute: "cilogon_idp"
+#     id.token.claim: "true"
+#     access.token.claim: "false"
+#     claim.name: "cilogon_idp"
+#     jsonType.label: "String"
+# - name: "cilogon_idp_name"
+#   protocol: "openid-connect"
+#   protocolMapper: "oidc-usermodel-attribute-mapper"
+#   consentRequired: false
+#   config:
+#     userinfo.token.claim: "true"
+#     user.attribute: "cilogon_idp_name"
+#     id.token.claim: "true"
+#     access.token.claim: "false"
+#     claim.name: "cilogon_idp_name"
+#     jsonType.label: "String"
+# - name: "cilogon_email"
+#   protocol: "openid-connect"
+#   protocolMapper: "oidc-usermodel-attribute-mapper"
+#   consentRequired: false
+#   config:
+#     user.attribute: "cilogon_email"
+#     id.token.claim: "true"
+#     access.token.claim: "false"
+#     claim.name: "cilogon_email"
+#     userinfo.token.claim: "true"
+# - name: "cilogon_eppn"
+#   protocol: "openid-connect"
+#   protocolMapper: "oidc-usermodel-attribute-mapper"
+#   consentRequired: false
+#   config:
+#     userinfo.token.claim: "true"
+#     user.attribute: "cilogon_eppn"
+#     id.token.claim: "true"
+#     access.token.claim: "false"
+#     claim.name: "cilogon_eppn"
+#     jsonType.label: "String"
+# - name: "cilogon_eptid"
+#   protocol: "openid-connect"
+#   protocolMapper: "oidc-usermodel-attribute-mapper"
+#   consentRequired: false
+#   config:
+#     userinfo.token.claim: "true"
+#     user.attribute: "cilogon_eptid"
+#     id.token.claim: "true"
+#     access.token.claim: "false"
+#     claim.name: "cilogon_eptid"
+#     jsonType.label: "String"
 
 #  "identityProviderMappers": [
 #     {

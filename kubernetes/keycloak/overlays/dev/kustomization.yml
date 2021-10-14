@@ -4,7 +4,7 @@ kind: Kustomization
 
 resources:
   - minikube_storageclass.yml
-  - ../../base 
+  - ../../base
 
 patches:
 - patch: |-
@@ -13,4 +13,3 @@ patches:
       value: minikube-dev-storage
   target:
     kind: StatefulSet
-   

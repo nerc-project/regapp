@@ -16,7 +16,7 @@ spec:
             image: image-registry.openshift-image-registry.svc:5000/regapp/regapp:latest
             imagePullPolicy: IfNotPresent
             workingDir: "/code"
-            command: 
+            command:
               - python
               - manage.py
               - regreaper
@@ -29,6 +29,6 @@ spec:
               - configMapRef:
                   name: regapp-configmap
               - secretRef:
-                  name: regapp-secrets                         
+                  name: regapp-secrets
 
           restartPolicy: OnFailure

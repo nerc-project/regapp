@@ -175,10 +175,7 @@ def logout(request):
     # redirect the user to logout of the IdP
 
     redirect_to_regapp = (
-        request.META['HTTP_X_FORWARDED_PROTO'] +
-        "://" +
-        request.META['HTTP_X_FORWARDED_HOST'] +
-        reverse('site_index')
+        request.META['HTTP_X_FORWARDED_PROTO'] + "://" + request.META['HTTP_X_FORWARDED_HOST'] + reverse('site_index')
     )
 
     redirect_to_keycloak = (

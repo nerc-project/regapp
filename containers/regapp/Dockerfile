@@ -4,7 +4,7 @@ COPY requirements.in /tmp/requirements.in
 RUN pip-compile -o /tmp/requirements.txt /tmp/requirements.in
 
 FROM  docker.io/python:3.9.6
-ENV PYTHONUNBUFFERED 1 
+ENV PYTHONUNBUFFERED 1
 RUN mkdir /code /code/log /static /scripts
 WORKDIR /code
 
@@ -18,7 +18,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY containers/regapp/entrypoint.sh /scripts/
 RUN chmod 755 /scripts/*.sh
-COPY . /code/regapp/ 
+COPY . /code/regapp/
 # TODO: REMOVE ME AFTER DEV WORKING AGAIN...
 RUN chmod -R a+w /code
-  

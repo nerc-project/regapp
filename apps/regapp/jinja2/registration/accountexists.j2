@@ -6,7 +6,7 @@
     <div class="col">
         <h1>MGHPCC Shared Services Account Creation - Account Exists</h1>
         <p class="mt-4">
-            {{user_info.firstName}}, it looks like you alread have a MSS account!     
+            {{user_info.firstName}}, it looks like you alread have a MSS account!
         </p>
         <p>
             Here is the information that we currently have on record for you.
@@ -22,10 +22,10 @@
             <dt class="col-sm-3">Email</dt>
             <dd class="col-sm-9">{{user_info.email}}</dd>
             <dt class="col-sm-3">Linked Institutional Account</dt>
-            <dd class="col-sm-9">{{user_info.attributes.cilogon_idp_name[0]}}</dd>               
+            <dd class="col-sm-9">{{user_info.attributes.cilogon_idp_name[0]}}</dd>
         </dl>
         <p>
-            If you would like to change any of this information, you can manage your 
+            If you would like to change any of this information, you can manage your
             account by clicking below.
         </p>
         <a class="btn btn-primary" href="{{url('profile_home')}}">Manage Your MSS Account</a>
