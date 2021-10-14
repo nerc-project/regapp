@@ -36,13 +36,13 @@ def profile(request):
     """
 
     # Profile is protected under path that authenticates
-    # via NERC IdP. Userinfo in this session is from NERC.
-    nerc_uinfo = request.oidc_userinfo
+    # via MSS IdP. Userinfo in this session is from MSS.
+    mss_uinfo = request.oidc_userinfo
     data = {
-        'first_name': nerc_uinfo.get('given_name', None),
-        'last_name': nerc_uinfo.get('family_name', None),
-        'username': nerc_uinfo.get('preferred_username', None),
-        'email': nerc_uinfo.get('email', None)
+        'first_name': mss_uinfo.get('given_name', None),
+        'last_name': mss_uinfo.get('family_name', None),
+        'username': mss_uinfo.get('preferred_username', None),
+        'email': mss_uinfo.get('email', None)
     }
 
     if request.method != 'GET':
@@ -61,7 +61,7 @@ def profile(request):
             # Rock beats scissors. Kill any extant update
             # for this user.
             updates_inflight = AccountAction.objects.filter(
-                sub=nerc_uinfo['sub']
+                sub=mss_uinfo['sub']
             )
             if updates_inflight.count() > 0:
                 logger.debug("Updates were inflight. Silently deleting them")
@@ -69,7 +69,7 @@ def profile(request):
 
             pending_update = AccountAction(
                 regcode="",
-                sub=nerc_uinfo['sub'],
+                sub=mss_uinfo['sub'],
                 firstName=form.cleaned_data['first_name'],
                 lastName=form.cleaned_data['last_name'],
                 email=form.cleaned_data['email'],
@@ -98,27 +98,27 @@ def profile(request):
 
 
 def sendupdate(request):
-    nerc_uinfo = request.oidc_userinfo
+    mss_uinfo = request.oidc_userinfo
 
     try:
-        pending_update = AccountAction.objects.get(sub=nerc_uinfo['sub'])
+        pending_update = AccountAction.objects.get(sub=mss_uinfo['sub'])
         regcode = token_urlsafe(16)
         pending_update.regcode = regcode
 
         # Check if pending update request is changing email
-        if pending_update.email != nerc_uinfo.get('email', None):
+        if pending_update.email != mss_uinfo.get('email', None):
             logger.debug(
                 f"Sub {pending_update.sub} is changing email from "
-                f"{nerc_uinfo.get('email', None)} to "
+                f"{mss_uinfo.get('email', None)} to "
                 f"{pending_update.email}"
             )
             pending_update.opcode = 'update_verify_new_email'
-            validation_recipient = nerc_uinfo['email']
+            validation_recipient = mss_uinfo['email']
             update_with_email_tmpl = get_template(
                 "profile/account_update_email.j2"
             )
             msg = update_with_email_tmpl.render({
-                "old_email": nerc_uinfo['email'],
+                "old_email": mss_uinfo['email'],
                 'new_email': pending_update.email,
                 'regcode': regcode
             })
@@ -137,9 +137,9 @@ def sendupdate(request):
         pending_update.save()
 
         send_mail(
-            "NERC Account Update Validation",
+            "MSS Account Update Validation",
             msg,
-            "support@nerc.mghpcc.org",
+            "support@mss.mghpcc.org",
             [validation_recipient],
             fail_silently=False
         )
@@ -150,18 +150,18 @@ def sendupdate(request):
     except AccountAction.DoesNotExist as e:
         ctx = {
             'error': e,
-            'sub': nerc_uinfo['sub']
+            'sub': mss_uinfo['sub']
         }
         pending_update = None
 
     except SMTPException as smtp_error:
         logger.error(
             "Error attempting to send email for account "
-            f"update for sub {nerc_uinfo['sub']}. Exception: {smtp_error}"
+            f"update for sub {mss_uinfo['sub']}. Exception: {smtp_error}"
         )
         ctx = {
             'error': smtp_error,
-            'sub': nerc_uinfo['sub']
+            'sub': mss_uinfo['sub']
         }
         # TODO: Redirect user some place
         # where they can try again and/or contact support.
@@ -182,13 +182,13 @@ def logout(request):
     )
 
     redirect_to_keycloak = (
-        settings.NERC_LOGOUT_URL +
+        settings.MSS_LOGOUT_URL +
         "?" +
         urlencode({'redirect_uri': redirect_to_regapp})
     )
 
     redirect_to_oauth2_proxy = (
-        settings.OAUTH2PROXY_NERC_LOGOUT_URL +
+        settings.OAUTH2PROXY_MSS_LOGOUT_URL +
         "?" +
         urlencode({'rd': redirect_to_keycloak})
     )

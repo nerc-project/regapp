@@ -9,7 +9,7 @@ from regapp.config.env import ENV, PROJECT_ROOT
 from environ import Path
 
 # Regapp split settings
-nercra_configs = [
+mss_configs = [
     'base.py',
     'database.py',
     'auth.py',
@@ -23,17 +23,17 @@ local_configs = [
     'local_settings.py',
 
     # System wide settings for production deployments
-    '/etc/nercra/local_settings.py',
+    '/etc/mss/local_settings.py',
 
     # Local settings relative to regapp project root
     PROJECT_ROOT('local_settings.py')
 ]
 
-if ENV.str('NERCRA_CONFIG', default='') != '':
+if ENV.str('REGAPP_CONFIG', default='') != '':
     # Local settings from path specified via environment variable
-    local_configs.append(Path(ENV.str('NERCRA_CONFIG'))())
+    local_configs.append(Path(ENV.str('REGAPP_CONFIG'))())
 
 for lc in local_configs:
-    nercra_configs.append(optional(lc))
+    mss_configs.append(optional(lc))
 
-include(*nercra_configs)
+include(*mss_configs)

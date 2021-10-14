@@ -2,17 +2,17 @@
 apiVersion: skaffold/v2beta20
 kind: Config
 metadata:
-  name: nercra-skaffold
+  name: mss-skaffold
 build:
   tagPolicy:
     sha256: {}
   artifacts:
     - image: mghpcc/regapp-util
-      context: ../containers/regapp-util
+      context: ../../containers/regapp-util
     - image: mghpcc/regapp-db
-      context: ../containers/regapp-db
+      context: ../../containers/regapp-db
     - image: mghpcc/regapp
-      context: ..
+      context: ../..
       sync:
         infer:
           - "apps/**"
@@ -24,6 +24,6 @@ build:
 deploy:
   kustomize:
     paths: 
-      - regapp/overlays/dev
+      - overlays/dev
 
   kubeContext: minikube

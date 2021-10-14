@@ -11,10 +11,10 @@ metadata:
 spec:
   tls:
   - hosts:
-      - regapp.nerc.mghpcc.org
+      - regapp.mss.mghpcc.org
     secretName: regapp-tls
   rules:
-    - host: regapp.nerc.mghpcc.org
+    - host: regapp.mss.mghpcc.org
       http:
         paths:
           - path: /

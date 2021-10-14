@@ -70,7 +70,7 @@ urlpatterns = [
         name='reg_sendvalidation'
     ),
     # #################################
-    # Profile - authenticated at NERC
+    # Profile - authenticated at MSS
     # #################################
     path(
         'profile/',

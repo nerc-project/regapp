@@ -5,8 +5,6 @@ kind: Kustomization
 namespace: keycloak
 
 resources:
-  - namespace.yml
-  - keycloak-operator.yml
   - ingress.yml
   - keycloak_db_secret_sealed.yml
   - keycloak_tls_secret_sealed.yml

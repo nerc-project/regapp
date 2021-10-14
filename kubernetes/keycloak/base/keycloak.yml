@@ -2,10 +2,10 @@
 apiVersion: keycloak.org/v1alpha1
 kind: Keycloak
 metadata:
-  name: nerc-keycloak
+  name: mss-keycloak
   namespace: keycloak
   labels:
-   app: nerc-keycloak 
+   app: mss-keycloak 
 spec:
   instances: 1
   keycloakDeploymentSpec:
@@ -24,18 +24,18 @@ spec:
 apiVersion: keycloak.org/v1alpha1
 kind: KeycloakRealm
 metadata:
-  name: nerc
+  name: mss
   namespace: keycloak
   labels:
-    realm: nerc
+    realm: mss
 spec:
   instanceSelector:
     matchLabels:
-      app: nerc-keycloak
+      app: mss-keycloak
   realm:
-    realm: "nerc"
+    realm: "mss"
     enabled: true
-    displayName: "NERC"
+    displayName: "MSS"
     userManagedAccessAllowed: false
     registrationAllowed: false
     editUsernameAllowed: false
@@ -44,7 +44,7 @@ spec:
     verifyEmail: false
     sslRequired: "external"
     # authenticationFlows:
-    #   - alias: "NERC first broker login"
+    #   - alias: "MSS first broker login"
     #     description: "Actions taken after first broker login with identity provider account, which is not yet linked to any Keycloak account"
     #     providerId: "basic-flow"
     #     topLevel: true
@@ -71,7 +71,7 @@ spec:
         addReadTokenRoleOnCreate: false
         # authenticateByDefault: false
         linkOnly: false
-        # firstBrokerLoginFlowAlias: "Nerc first broker login"
+        # firstBrokerLoginFlowAlias: "mss first broker login"
         firstBrokerLoginFlowAlias: "browser"
         config:
           clientId: "cilogon:/client_id/ab05912d88d9f9cc5ea155accf420f3"
@@ -90,7 +90,7 @@ spec:
         protocol: "openid-connect"
         clientAuthenticatorType: "client-secret"
         redirectUris:
-          - "https://regapp.nerc.mghpcc.org/*"
+          - "https://regapp.mss.mghpcc.org/*"
         webOrigins: []
         surrogateAuthRequired: false
         # alwaysDisplayInConsole: false

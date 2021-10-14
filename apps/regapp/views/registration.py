@@ -30,7 +30,7 @@ def registration(request):
 
     cilogon_uinfo = request.oidc_userinfo
     client_token = request.client_token
-    existing_nerc_account_info = None
+    existing_mss_account_info = None
     pending_registration = None
 
     # Sanity
@@ -53,8 +53,8 @@ def registration(request):
     if pending_registration is None:
 
         api_endpoint = (
-            f"{settings.NERC_KC_SERVER}/auth/admin/realms/"
-            f"{settings.NERC_KC_REALM}/users"
+            f"{settings.MSS_KC_SERVER}/auth/admin/realms/"
+            f"{settings.MSS_KC_REALM}/users"
         )
         headers = {
             'Authorization': f"Bearer {client_token}"
@@ -70,7 +70,7 @@ def registration(request):
                 headers=headers
             )
 
-            nerc_userinfo_result = r.json()
+            mss_userinfo_result = r.json()
 
         # TODO: Do something reasonable with exceptions!
         except requests.exceptions.RequestException as re:
@@ -86,8 +86,8 @@ def registration(request):
             )
             raise decode_error
 
-        if len(nerc_userinfo_result) > 0:
-            existing_nerc_account_info = nerc_userinfo_result[0]
+        if len(mss_userinfo_result) > 0:
+            existing_mss_account_info = mss_userinfo_result[0]
 
     # Handle existing account or registration-in-flight
     # here.
@@ -99,8 +99,8 @@ def registration(request):
         logger.warn(logmsg)
         return redirect('reg_inflight')
 
-    elif existing_nerc_account_info is not None:
-        uid = existing_nerc_account_info['id']
+    elif existing_mss_account_info is not None:
+        uid = existing_mss_account_info['id']
 
         logger.info(f"An account already exists for {uid}")
 
@@ -181,9 +181,9 @@ def sendvalidation(request):
         })
 
         send_mail(
-            "NERC Account Creation Validation",
+            "MSS Account Creation Validation",
             msg,
-            "support@nerc.mghpcc.org",
+            "support@mss.mghpcc.org",
             [pending_registration.email],
             fail_silently=False
         )
@@ -226,8 +226,8 @@ def accountexists(request):
 
     uid = request.GET.get('acctid', None)
     api_endpoint = (
-        f"{settings.NERC_KC_SERVER}/auth/admin/realms/"
-        f"{settings.NERC_KC_REALM}/users/{uid}"
+        f"{settings.MSS_KC_SERVER}/auth/admin/realms/"
+        f"{settings.MSS_KC_REALM}/users/{uid}"
     )
     headers = {
         'Authorization': f"Bearer {request.client_token}"

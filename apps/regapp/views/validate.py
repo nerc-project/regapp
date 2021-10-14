@@ -40,8 +40,8 @@ def validate(request):
             opcode = pending_account_action.opcode
 
             api_endpoint = (
-                f"{settings.NERC_KC_SERVER}/auth/admin/realms/"
-                f"{settings.NERC_KC_REALM}/users"
+                f"{settings.MSS_KC_SERVER}/auth/admin/realms/"
+                f"{settings.MSS_KC_REALM}/users"
             )
 
             headers = {
@@ -82,9 +82,9 @@ def validate(request):
 
                 try:
                     send_mail(
-                        "NERC Account Update Validation",
+                        "MSS Account Update Validation",
                         msg,
-                        "support@nerc.mghpcc.org",
+                        "support@mss.mghpcc.org",
                         [pending_account_action.email],
                         fail_silently=False
                     )

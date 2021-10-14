@@ -21,10 +21,10 @@ spec:
         image: quay.io/oauth2-proxy/oauth2-proxy:latest
         imagePullPolicy: Always
         args:
-          - --provider-display-name="NERC"
+          - --provider-display-name="MSS"
           - --insecure-oidc-allow-unverified-email
           - --cookie-refresh=60s
-          - --whitelist-domain=keycloak.nerc.mghpcc.org
+          - --whitelist-domain=keycloak.mss.mghpcc.org
         envFrom:
           - secretRef:
               name: oauth2-secret-kc

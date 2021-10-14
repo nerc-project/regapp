@@ -9,10 +9,10 @@ data:
   DJANGO_DB_NAME: regapp
   POSTGRES_USER: postgres
   POSTGRES_DB: postgres
-  SITENAME: regapp.nerc.mghpcc.org
+  SITENAME: regapp.mss.mghpcc.org
   OIDCRedirectURI: "/"
-  REGAPP_NERC_KC_SERVER: https://keycloak.nerc.mghpcc.org
-  REGAPP_NERC_KC_REALM: nerc
+  REGAPP_MSS_KC_SERVER: https://keycloak.mss.mghpcc.org
+  REGAPP_MSS_KC_REALM: mss
   REGAPP_EMAIL_HOST: email-smtp.us-east-1.amazonaws.com
   REGAPP_EMAIL_PORT: "587"
   REGAPP_EMAIL_USE_TLS: "1"

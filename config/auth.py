@@ -52,28 +52,26 @@ kckeys_mac = {
 kckeys = kckeys_linux
 KEYCLOAK_KEYS_JSON = ENV.str('REGAPP_KEYCLOAK_KEYS_JSON', json.dumps(kckeys))
 
-NERC_KC_SERVER = ENV.str(
-    'REGAPP_NERC_KC_SERVER',
-    'https://keycloak.nerc.mghpcc.org'
+MSS_KC_SERVER = ENV.str(
+    'REGAPP_MSS_KC_SERVER',
+    'https://keycloak.mss.mghpcc.org'
 )
 
-NERC_KC_REALM = ENV.str(
-    'REGAPP_NERC_KC_REALM',
-    'nerc'
+MSS_KC_REALM = ENV.str(
+    'REGAPP_MS_KC_REALM',
+    'mss'
 )
 
 # Used by middleware to get the client_token for the
 # service account
-NERC_KC_CLIENT_ID = ENV.str('REGAPP_REGAPP_CLIENT_ID')
-NERC_KC_CLIENT_SECRET = ENV.str('REGAPP_REGAPP_CLIENT_SECRET')
+MSS_KC_CLIENT_ID = ENV.str('REGAPP_REGAPP_CLIENT_ID')
+MSS_KC_CLIENT_SECRET = ENV.str('REGAPP_REGAPP_CLIENT_SECRET')
 
-# NERC_KC_CLIENT_SECRET = ENV.str('','')
-
-NERC_LOGOUT_URL = ENV.str(
-    'REGAPP_NERC_LOGOUT_URL',
+MSS_LOGOUT_URL = ENV.str(
+    'REGAPP_MSS_LOGOUT_URL',
     (
-        f"{NERC_KC_SERVER}/auth/realms/"
-        f"{NERC_KC_REALM}/protocol/openid-connect/logout"
+        f"{MSS_KC_SERVER}/auth/realms/"
+        f"{MSS_KC_REALM}/protocol/openid-connect/logout"
     )
 )
 
@@ -82,8 +80,8 @@ CILOGON_LOGOUT_URL = ENV.str(
     "https://cilogon.org/logout"
 )
 
-OAUTH2PROXY_NERC_LOGOUT_URL = ENV.str(
-    'REGAPP_OAUTH2PROXY_NERC_LOGOUT_URL',
+OAUTH2PROXY_MSS_LOGOUT_URL = ENV.str(
+    'REGAPP_OAUTH2PROXY_MSS_LOGOUT_URL',
     "/oauth2kc/sign_out"
 )
 

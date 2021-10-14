@@ -36,7 +36,7 @@ INSTALLED_APPS += [
     'crispy_forms'
 ]
 
-# NERC REGAPP Apps
+# REGAPP Apps
 INSTALLED_APPS += [
     'regapp.apps.regapp',
 ]

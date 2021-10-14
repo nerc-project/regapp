@@ -6,4 +6,4 @@ namespace: sealed-secrets
 resources:
   - ../../base
   # - https://raw.githubusercontent.com/disposab1e/sealed-secrets-operator-helm/master/examples/ocp.yaml
-  - ocp.yml
+  - sealed_secrets_ocp.yml

@@ -15,10 +15,10 @@ metadata:
 spec:
   tls:
   - hosts:
-      - keycloak.nerc.mghpcc.org
+      - keycloak.mss.mghpcc.org
     secretName: keycloak-tls
   rules:
-    - host: keycloak.nerc.mghpcc.org
+    - host: keycloak.mss.mghpcc.org
       http:
         paths:
           - path: /

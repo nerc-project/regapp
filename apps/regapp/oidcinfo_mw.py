@@ -41,8 +41,8 @@ class OIDCMiddleware:
                     f"Expiry: {client_token_info['exp']}"
                 )
             token_url = (
-                f"{settings.NERC_KC_SERVER}/auth/realms/"
-                f"{settings.NERC_KC_REALM}/protocol/openid-connect/token"
+                f"{settings.MSS_KC_SERVER}/auth/realms/"
+                f"{settings.MSS_KC_REALM}/protocol/openid-connect/token"
             )
 
             try:
@@ -50,8 +50,8 @@ class OIDCMiddleware:
                     token_url,
                     data={'grant_type': 'client_credentials'},
                     auth=HTTPBasicAuth(
-                        settings.NERC_KC_CLIENT_ID,
-                        settings.NERC_KC_CLIENT_SECRET
+                        settings.MSS_KC_CLIENT_ID,
+                        settings.MSS_KC_CLIENT_SECRET
                     )
                 )
 
@@ -105,7 +105,7 @@ class OIDCMiddleware:
             if id_token_dict['iss'] == 'https://cilogon.org':
                 request.idp = 'cilogon'
             else:
-                request.idp = 'nerc'
+                request.idp = 'mss'
 
             # Make a nice display name
             if "name" in id_token_dict:
@@ -140,7 +140,7 @@ class OIDCMiddleware:
 
 
 def parse_jwt_validate(access_token):
-    # NERC access tokens have userinfo in them
+    # MSS access tokens have userinfo in them
     padarr = ['', '===', '==', '=']
     # Get the jwt header from the keycloak access token
     parts = access_token.split(".")
