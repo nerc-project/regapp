@@ -1,3 +1,4 @@
+---
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
@@ -12,23 +13,23 @@ spec:
             alpha.image.policy.openshift.io/resolve-names: '*'
         spec:
           containers:
-          - name: regreaper
-            image: image-registry.openshift-image-registry.svc:5000/regapp/regapp:latest
-            imagePullPolicy: IfNotPresent
-            workingDir: "/code"
-            command:
-              - python
-              - manage.py
-              - regreaper
-            env:
-              - name: REGAPP_REGAPP_CLIENT_ID
-                value: DONTCARE
-              - name: REGAPP_REGAPP_CLIENT_SECRET
-                value: DONTCARE
-            envFrom:
-              - configMapRef:
-                  name: regapp-configmap
-              - secretRef:
-                  name: regapp-secrets
+            - name: regreaper
+              image: image-registry.openshift-image-registry.svc:5000/regapp/regapp:latest
+              imagePullPolicy: IfNotPresent
+              workingDir: "/code"
+              command:
+                - python
+                - manage.py
+                - regreaper
+              env:
+                - name: REGAPP_REGAPP_CLIENT_ID
+                  value: DONTCARE
+                - name: REGAPP_REGAPP_CLIENT_SECRET
+                  value: DONTCARE
+              envFrom:
+                - configMapRef:
+                    name: regapp-configmap
+                - secretRef:
+                    name: regapp-secrets
 
           restartPolicy: OnFailure

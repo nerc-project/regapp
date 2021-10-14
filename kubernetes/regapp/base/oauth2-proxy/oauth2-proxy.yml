@@ -17,36 +17,36 @@ spec:
     spec:
 
       containers:
-      - name: oauth2-proxy-kc
-        image: quay.io/oauth2-proxy/oauth2-proxy:latest
-        imagePullPolicy: Always
-        args:
-          - --provider-display-name="MSS"
-          - --insecure-oidc-allow-unverified-email
-          - --cookie-refresh=60s
-          - --whitelist-domain=keycloak.mss.mghpcc.org
-        envFrom:
-          - secretRef:
-              name: oauth2-secret-kc
-          - configMapRef:
-              name: oauth2-configmap-kc
-        ports:
-        - containerPort: 4180
-          protocol: TCP
+        - name: oauth2-proxy-kc
+          image: quay.io/oauth2-proxy/oauth2-proxy:latest
+          imagePullPolicy: Always
+          args:
+            - --provider-display-name="MSS"
+            - --insecure-oidc-allow-unverified-email
+            - --cookie-refresh=60s
+            - --whitelist-domain=keycloak.mss.mghpcc.org
+          envFrom:
+            - secretRef:
+                name: oauth2-secret-kc
+            - configMapRef:
+                name: oauth2-configmap-kc
+          ports:
+            - containerPort: 4180
+              protocol: TCP
 
-      - name: oauth2-proxy-cilogon
-        image: quay.io/oauth2-proxy/oauth2-proxy:latest
-        imagePullPolicy: Always
-        args:
-          - --provider-display-name="CILogon"
-          - --insecure-oidc-allow-unverified-email
-          - --cookie-refresh=60s
-          - --whitelist-domain=cilogon.org
-        envFrom:
-          - secretRef:
-              name: oauth2-secret-cilogon
-          - configMapRef:
-              name: oauth2-configmap-cilogon
-        ports:
-        - containerPort: 4188
-          protocol: TCP
+        - name: oauth2-proxy-cilogon
+          image: quay.io/oauth2-proxy/oauth2-proxy:latest
+          imagePullPolicy: Always
+          args:
+            - --provider-display-name="CILogon"
+            - --insecure-oidc-allow-unverified-email
+            - --cookie-refresh=60s
+            - --whitelist-domain=cilogon.org
+          envFrom:
+            - secretRef:
+                name: oauth2-secret-cilogon
+            - configMapRef:
+                name: oauth2-configmap-cilogon
+          ports:
+            - containerPort: 4188
+              protocol: TCP

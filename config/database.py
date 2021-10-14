@@ -23,7 +23,7 @@ from regapp.config.env import ENV
 DATABASES = {
     'default': ENV.db_url(
         var='DB_URL',
-        default='sqlite:///'+os.path.join(os.getcwd(), 'mss.db')
+        default='sqlite:///' + os.path.join(os.getcwd(), 'mss.db')
     )
 }
 

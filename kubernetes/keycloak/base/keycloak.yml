@@ -5,7 +5,7 @@ metadata:
   name: mss-keycloak
   namespace: keycloak
   labels:
-   app: mss-keycloak
+    app: mss-keycloak
 spec:
   instances: 1
   keycloakDeploymentSpec:

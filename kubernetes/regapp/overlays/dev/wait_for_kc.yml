@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -6,6 +7,6 @@ spec:
   template:
     spec:
       initContainers:
-      - name: wait-for-kc
-        image: mghpcc/regapp-util
-        command: ['sh', '-c', "wget --tries=0 --retry-on-http-error=404,503,502 --wait=5 --no-check-certificate --retry-connrefused  --output-file=/dev/null https://keycloak.mss.mghpcc.org/auth/realms/mss/.well-known/openid-configuration"]
+        - name: wait-for-kc
+          image: mghpcc/regapp-util
+          command: ['sh', '-c', "wget --tries=0 --retry-on-http-error=404,503,502 --wait=5 --no-check-certificate --retry-connrefused  --output-file=/dev/null https://keycloak.mss.mghpcc.org/auth/realms/mss/.well-known/openid-configuration"]

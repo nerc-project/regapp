@@ -10,9 +10,9 @@ metadata:
   name: regapp-ingress
 spec:
   tls:
-  - hosts:
-      - regapp.mss.mghpcc.org
-    secretName: regapp-tls  # pragma: allowlist secret
+    - hosts:
+        - regapp.mss.mghpcc.org
+      secretName: regapp-tls  # pragma: allowlist secret
   rules:
     - host: regapp.mss.mghpcc.org
       http:

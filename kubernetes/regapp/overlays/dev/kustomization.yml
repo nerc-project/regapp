@@ -3,8 +3,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- minikube_storageclass.yml
-- ../../base
+  - minikube_storageclass.yml
+  - ../../base
 
 images:
   - name: image-registry.openshift-image-registry.svc:5000/regapp/regapp-db
@@ -13,11 +13,11 @@ images:
     newName: mghpcc/regapp
 
 patches:
-- patch: |-
-    - op: replace
-      path: /spec/volumeClaimTemplates/0/spec/storageClassName
-      value: minikube-dev-storage
-  target:
-    kind: StatefulSet
-- path: wait_for_kc.yml
-- path: devel_switch.yml
+  - patch: |-
+      - op: replace
+        path: /spec/volumeClaimTemplates/0/spec/storageClassName
+        value: minikube-dev-storage
+    target:
+      kind: StatefulSet
+  - path: wait_for_kc.yml
+  - path: devel_switch.yml

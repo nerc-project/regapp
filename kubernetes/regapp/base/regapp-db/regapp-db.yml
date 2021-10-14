@@ -33,13 +33,13 @@ spec:
               mountPath: /var/lib/postgresql/data
 
   volumeClaimTemplates:
-  - spec:
-      accessModes: ["ReadWriteOnce"]
-      storageClassName: "ocs-storagecluster-ceph-rbd"
-      resources:
-        requests:
-          storage: 1Gi
-    metadata:
-      name: regapp-db-volume-mount
-      labels:
-        app.kubernetes.io/name: regapp-db-volume-mount
+    - spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "ocs-storagecluster-ceph-rbd"
+        resources:
+          requests:
+            storage: 1Gi
+      metadata:
+        name: regapp-db-volume-mount
+        labels:
+          app.kubernetes.io/name: regapp-db-volume-mount

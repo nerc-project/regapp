@@ -11,7 +11,7 @@ metadata:
   namespace: keycloak
 spec:
   targetNamespaces:
-  - keycloak
+    - keycloak
 ---
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription

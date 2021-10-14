@@ -7,9 +7,9 @@ resources:
   - ../../base
 
 patches:
-- patch: |-
-    - op: replace
-      path: /spec/volumeClaimTemplates/0/spec/storageClassName
-      value: minikube-dev-storage
-  target:
-    kind: StatefulSet
+  - patch: |-
+      - op: replace
+        path: /spec/volumeClaimTemplates/0/spec/storageClassName
+        value: minikube-dev-storage
+    target:
+      kind: StatefulSet

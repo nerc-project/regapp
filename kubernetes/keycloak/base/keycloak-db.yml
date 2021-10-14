@@ -28,14 +28,14 @@ spec:
               mountPath: /var/lib/postgresql/data
 
   volumeClaimTemplates:
-  - metadata:
-      name: keycloak-postgresql
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      storageClassName: "ocs-storagecluster-ceph-rbd"
-      resources:
-        requests:
-          storage: 1Gi
+    - metadata:
+        name: keycloak-postgresql
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "ocs-storagecluster-ceph-rbd"
+        resources:
+          requests:
+            storage: 1Gi
 
 ---
 apiVersion: v1
@@ -44,8 +44,8 @@ metadata:
   name: keycloak-postgresql-external
 spec:
   ports:
-  - port: 5432
-    name: postgres
+    - port: 5432
+      name: postgres
   clusterIP: None
   selector:
     app: keycloak-postgresql

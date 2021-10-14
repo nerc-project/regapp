@@ -24,11 +24,11 @@ spec:
   lookupPolicy:
     local: true
   tags:
-  - name: latest
-    from:
-      kind: DockerImage
-      name: ghcr.io/nerc-project/regapp:ghcr
-    importPolicy:
-      scheduled: true
-    referencePolicy:
-      type: Source
+    - name: latest
+      from:
+        kind: DockerImage
+        name: ghcr.io/nerc-project/regapp:ghcr
+      importPolicy:
+        scheduled: true
+      referencePolicy:
+        type: Source

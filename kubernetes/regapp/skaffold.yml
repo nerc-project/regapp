@@ -1,3 +1,4 @@
+---
 # skaffold.yaml
 apiVersion: skaffold/v2beta20
 kind: Config
