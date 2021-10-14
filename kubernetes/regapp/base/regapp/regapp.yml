@@ -25,13 +25,13 @@ spec:
           image: image-registry.openshift-image-registry.svc:5000/regapp/regapp:latest
           imagePullPolicy: IfNotPresent
           workingDir: "/code"
-          command: 
-            - "/scripts/entrypoint.sh"              
+          command:
+            - "/scripts/entrypoint.sh"
           envFrom:
             - configMapRef:
                 name: regapp-configmap
             - secretRef:
-                name: regapp-secrets                
+                name: regapp-secrets
           ports:
             - containerPort: 8123
           volumeMounts:

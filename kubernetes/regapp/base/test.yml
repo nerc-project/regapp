@@ -17,5 +17,5 @@ spec:
         - name: regapp-test
           image: busybox:latest
           imagePullPolicy: IfNotPresent
-          command: [ "/bin/sh", "-c", "--" ]    
-          args: [ "while true; do sleep 30; done;" ]
+          command: ["/bin/sh", "-c", "--"]
+          args: ["while true; do sleep 30; done;"]

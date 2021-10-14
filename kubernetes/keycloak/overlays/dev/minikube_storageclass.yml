@@ -1,7 +1,7 @@
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
-metadata: 
+metadata:
   name: minikube-dev-storage
 provisioner: k8s.io/minikube-hostpath
 reclaimPolicy: Delete

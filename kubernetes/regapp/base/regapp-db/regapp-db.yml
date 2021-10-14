@@ -31,10 +31,10 @@ spec:
           volumeMounts:
             - name: regapp-db-volume-mount
               mountPath: /var/lib/postgresql/data
-  
+
   volumeClaimTemplates:
   - spec:
-      accessModes: [ "ReadWriteOnce" ]
+      accessModes: ["ReadWriteOnce"]
       storageClassName: "ocs-storagecluster-ceph-rbd"
       resources:
         requests:

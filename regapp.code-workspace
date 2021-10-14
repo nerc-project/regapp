@@ -1,16 +1,16 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-	],
-	"settings": {
-		"python.defaultInterpreterPath": "~/development/ENVS/nerc/bin/python",
-		"python.linting.flake8Enabled": true,
-		"python.linting.pylintEnabled": false,
-		"python.analysis.extraPaths": [
-			"${workspaceFolder}/.."
-		],
-		"editor.parameterHints.enabled": false
-	}
+    "folders": [
+        {
+            "path": "."
+        },
+    ],
+    "settings": {
+        "python.defaultInterpreterPath": "~/development/ENVS/nerc/bin/python",
+        "python.linting.flake8Enabled": true,
+        "python.linting.pylintEnabled": false,
+        "python.analysis.extraPaths": [
+            "${workspaceFolder}/.."
+        ],
+        "editor.parameterHints.enabled": false
+    }
 }

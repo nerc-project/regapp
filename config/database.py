@@ -15,15 +15,15 @@ from regapp.config.env import ENV
 # Examples:
 #
 # MariaDB:
-#  DB_URL=mysql://user:password@127.0.0.1:3306/database
+#  DB_URL=mysql://user:password@127.0.0.1:3306/database  # pragma: allowlist secret
 #
 # Postgresql:
-#  DB_URL=psql://user:password@127.0.0.1:8458/database
+#  DB_URL=psql://user:password@127.0.0.1:8458/database  # pragma: allowlist secret
 # ------------------------------------------------------------------------------
 DATABASES = {
     'default': ENV.db_url(
         var='DB_URL',
-        default='sqlite:///'+os.path.join(os.getcwd(), 'nercra.db')
+        default='sqlite:///' + os.path.join(os.getcwd(), 'nercra.db')
     )
 }
 

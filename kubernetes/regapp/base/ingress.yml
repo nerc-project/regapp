@@ -1,18 +1,18 @@
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
-metadata:  
+metadata:
   annotations:
     nginx.ingress.kubernetes.io/proxy-buffering: "on"
     nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
     nginx.ingress.kubernetes.io/proxy-buffer-size: "256k"
-    nginx.ingress.kubernetes.io/proxy-max-temp-file-size: "1024m"  
+    nginx.ingress.kubernetes.io/proxy-max-temp-file-size: "1024m"
   name: regapp-ingress
 spec:
   tls:
   - hosts:
       - regapp.nerc.mghpcc.org
-    secretName: regapp-tls
+    secretName: regapp-tls  # pragma: allowlist secret
   rules:
     - host: regapp.nerc.mghpcc.org
       http:
@@ -56,4 +56,3 @@ spec:
                 name: oauth2-proxy
                 port:
                   number: 4188
-

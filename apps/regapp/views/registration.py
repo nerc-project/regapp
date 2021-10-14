@@ -145,12 +145,11 @@ def registration(request):
             username = cilogon_uinfo.get('eppn', None)
 
         form = CreateAccountForm(initial={
-                'first_name': cilogon_uinfo.get('given_name', None),
-                'last_name': cilogon_uinfo.get('family_name', None),
-                'username': username,
-                'email': cilogon_uinfo.get('email', None),
-            }
-        )
+            'first_name': cilogon_uinfo.get('given_name', None),
+            'last_name': cilogon_uinfo.get('family_name', None),
+            'username': username,
+            'email': cilogon_uinfo.get('email', None),
+        })
 
     return render(
         request,
@@ -271,22 +270,15 @@ def logout(request):
     # redirect the user to logout of the IdP
 
     redirect_to_regapp = (
-        request.META['HTTP_X_FORWARDED_PROTO'] +
-        "://" +
-        request.META['HTTP_X_FORWARDED_HOST'] +
-        reverse('site_index')
+        request.META['HTTP_X_FORWARDED_PROTO'] + "://" + request.META['HTTP_X_FORWARDED_HOST'] + reverse('site_index')
     )
 
     redirect_to_keycloak = (
-        settings.CILOGON_LOGOUT_URL +
-        "?" +
-        urlencode({'redirect_uri': redirect_to_regapp})
+        settings.CILOGON_LOGOUT_URL + "?" + urlencode({'redirect_uri': redirect_to_regapp})
     )
 
     redirect_to_oauth2_proxy = (
-        settings.OAUTH2PROXY_CILOGON_LOGOUT_URL +
-        "?" +
-        urlencode({'rd': redirect_to_keycloak})
+        settings.OAUTH2PROXY_CILOGON_LOGOUT_URL + "?" + urlencode({'rd': redirect_to_keycloak})
     )
 
     return redirect(redirect_to_oauth2_proxy)
