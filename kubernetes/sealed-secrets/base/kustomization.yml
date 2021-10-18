@@ -4,5 +4,5 @@ kind: Kustomization
 
 namespace: sealed-secrets
 resources:
-  - namespace.yml
   - customkeys.yml
+  - sealed_secrets_ocp.yml

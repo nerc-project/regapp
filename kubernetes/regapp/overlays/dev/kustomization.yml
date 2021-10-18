@@ -7,9 +7,9 @@ resources:
   - ../../base
 
 images:
-  - name: image-registry.openshift-image-registry.svc:5000/regapp/regapp-db
+  - name: ghcr.io/nerc-project/regapp-db:master
     newName: mghpcc/regapp-db
-  - name: image-registry.openshift-image-registry.svc:5000/regapp/regapp
+  - name: ghcr.io/nerc-project/regapp:master
     newName: mghpcc/regapp
 
 patches:

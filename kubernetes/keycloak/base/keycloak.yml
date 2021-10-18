@@ -8,13 +8,13 @@ metadata:
     app: mss-keycloak
 spec:
   instances: 1
-  keycloakDeploymentSpec:
-    experimental:
-      env:
-        - name: KEYCLOAK_LOGLEVEL
-          value: "DEBUG"
-        - name: ROOT_LOGLEVEL
-          value: "DEBUG"
+  # keycloakDeploymentSpec:
+  #   experimental:
+  #     env:
+  #       - name: KEYCLOAK_LOGLEVEL
+  #         value: "DEBUG"
+  #       - name: ROOT_LOGLEVEL
+  #         value: "DEBUG"
   externalDatabase:
     enabled: true
   externalAccess:

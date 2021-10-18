@@ -1,9 +1,0 @@
----
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-namespace: sealed-secrets
-resources:
-  - ../../base
-  # - https://raw.githubusercontent.com/disposab1e/sealed-secrets-operator-helm/master/examples/ocp.yaml
-  - sealed_secrets_ocp.yml

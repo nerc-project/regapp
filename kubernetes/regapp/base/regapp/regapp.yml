@@ -10,8 +10,6 @@ spec:
       app: regapp
   template:
     metadata:
-      # annotations:
-      #   alpha.image.policy.openshift.io/resolve-names: '*'
       labels:
         app: regapp
     spec:
@@ -20,9 +18,10 @@ spec:
           emptyDir: {}
 
       containers:
-
         - name: regapp-container
-          image: image-registry.openshift-image-registry.svc:5000/regapp/regapp:latest
+          # image: regapp:latest
+          image: ghcr.io/nerc-project/regapp:master
+          # image: image-registry.openshift-image-registry.svc:5000/regapp/regapp:latest
           imagePullPolicy: IfNotPresent
           workingDir: "/code"
           command:

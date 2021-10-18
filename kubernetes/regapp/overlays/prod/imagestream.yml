@@ -5,12 +5,12 @@ metadata:
   name: regapp-db
 spec:
   lookupPolicy:
-    local: true
+    local: false
   tags:
     - name: latest
       from:
         kind: DockerImage
-        name: ghcr.io/nerc-project/regapp-db:ghcr
+        name: ghcr.io/nerc-project/regapp-db:master
       importPolicy:
         scheduled: true
       referencePolicy:
@@ -22,12 +22,12 @@ metadata:
   name: regapp
 spec:
   lookupPolicy:
-    local: true
+    local: false
   tags:
     - name: latest
       from:
         kind: DockerImage
-        name: ghcr.io/nerc-project/regapp:ghcr
+        name: ghcr.io/nerc-project/regapp:master
       importPolicy:
         scheduled: true
       referencePolicy:

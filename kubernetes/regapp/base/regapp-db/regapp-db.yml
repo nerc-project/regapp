@@ -3,8 +3,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: regapp-db
-  labels:
-    app.kubernetes.io/name: regapp-db
 spec:
   serviceName: regapp-db
   replicas: 1
@@ -14,12 +12,13 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: regapp-db-container
         app: regapp-db
     spec:
       containers:
         - name: regapp-db-container
-          image: image-registry.openshift-image-registry.svc:5000/regapp/regapp-db:latest
+          # image: regapp-db:latest
+          # image: image-registry.openshift-image-registry.svc:5000/regapp/regapp-db:latest
+          image: ghcr.io/nerc-project/regapp-db:master
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:

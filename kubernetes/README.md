@@ -1,0 +1,1 @@
+For installation instructions visit https://github.com/nerc-project/regapp/wiki/Install
