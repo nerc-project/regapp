@@ -16,6 +16,6 @@ spec:
       containers:
         - name: regapp-test
           image: busybox:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           command: ["/bin/sh", "-c", "--"]
           args: ["while true; do sleep 30; done;"]

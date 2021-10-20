@@ -22,7 +22,8 @@ spec:
           # image: regapp:latest
           image: ghcr.io/nerc-project/regapp:master
           # image: image-registry.openshift-image-registry.svc:5000/regapp/regapp:latest
-          imagePullPolicy: IfNotPresent
+          # imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           workingDir: "/code"
           command:
             - "/scripts/entrypoint.sh"

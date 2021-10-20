@@ -19,7 +19,8 @@ spec:
           # image: regapp-db:latest
           # image: image-registry.openshift-image-registry.svc:5000/regapp/regapp-db:latest
           image: ghcr.io/nerc-project/regapp-db:master
-          imagePullPolicy: IfNotPresent
+          #imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           envFrom:
             - configMapRef:
                 name: regapp-db-configmap

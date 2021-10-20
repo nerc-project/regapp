@@ -6,6 +6,7 @@ let NUM_WORKERS="2*`nproc`+1"
 export DJANGO_SETTINGS_MODULE=regapp.config.settings
 
 python manage.py collectstatic --noinput
+python manage.py migrate
 
 if [ "$1" = "--devel" ]; then
         uvicorn regapp.config.asgi:application --reload --reload-include=*.j2 --host=0.0.0.0 --port=8123
