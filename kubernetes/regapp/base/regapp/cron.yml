@@ -14,7 +14,7 @@ spec:
         spec:
           containers:
             - name: regreaper
-              image: image-registry.openshift-image-registry.svc:5000/regapp/regapp:latest
+              image: ghcr.io/nerc-project/regapp:master
               imagePullPolicy: IfNotPresent
               workingDir: "/code"
               command:

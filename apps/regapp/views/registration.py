@@ -4,15 +4,12 @@ Copyright (c) 2021 MGHPCC
 All rights reserved. No warranty, explicit or implicit, provided.
 """
 
+from .utils import get_user_confirmation
 from ..forms import CreateAccountForm
 from ..models import AccountAction
 from urllib.parse import urlencode
-from secrets import token_urlsafe
-from smtplib import SMTPException
 from django.conf import settings
-from django.core.mail import send_mail
 from django.shortcuts import redirect, render
-from django.template.loader import get_template
 from django.urls import reverse
 import requests
 import logging
@@ -167,25 +164,9 @@ def sendvalidation(request):
         pending_registration = AccountAction.objects.get(
             linked_sub=cilogon_uinfo['sub']
         )
-        regcode = token_urlsafe(16)
-        pending_registration.regcode = regcode
-        pending_registration.save()
 
-        create_tmpl = get_template(
-            "registration/account_create_email.j2"
-        )
-        msg = create_tmpl.render({
-            "pending_registration": pending_registration,
-            "regcode": regcode
-        })
-
-        send_mail(
-            "MSS Account Creation Validation",
-            msg,
-            "support@mss.mghpcc.org",
-            [pending_registration.email],
-            fail_silently=False
-        )
+        # Sends validation email to user
+        get_user_confirmation(pending_registration, pending_registration.email)
 
     except AccountAction.DoesNotExist as e:
         logger.error(
@@ -195,15 +176,14 @@ def sendvalidation(request):
         ctx['error'] = e
         pending_registration = None
 
-    except SMTPException as smtp_error:
+    except RuntimeError as error:
         logger.error(
-            "Error attempting to send email for account "
-            f"creation for sub {cilogon_uinfo['sub']}. Exception: {smtp_error}"
+            f"Error attempting to validate user registration: {error}"
         )
-        ctx['error'] = smtp_error
+        ctx['error'] = error
         # TODO: Redirect user some place
         # where they can try again and/or contact support.
-        raise smtp_error
+        raise error
 
     ctx['email'] = pending_registration.email
 

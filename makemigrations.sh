@@ -1,5 +1,9 @@
 #! /bin/bash
 
+echo "##############################################"
+echo "Make sure to unset minikube docker-env if set!"
+echo "##############################################"
+
 REGAPP_REPO=ghcr.io
 PROJECT_LOCATION=/home/jculbert/development/nerc
 REGAPP_IMAGE=$REGAPP_REPO/nerc-project/regapp:master
@@ -10,6 +14,7 @@ docker pull $REGAPP_IMAGE
 docker run --rm \
 -e "PYTHONPATH=/code" \
 -e "DJANGO_SECRET_KEY=dummy" \
+-e "REGAPP_EMAIL_SUPPORT=dummy" \
 -e "REGAPP_EMAIL_HOST=dummy" \
 -e "REGAPP_EMAIL_USE_TLS=dummy" \
 -e "REGAPP_EMAIL_PORT=0" \

@@ -34,7 +34,8 @@ class TimeStampedModel(models.Model):
 class AccountAction(TimeStampedModel):
     OPERATION_CHOICES = {
         ('create', 'create'),
-        ('update', 'update')
+        ('update', 'update'),
+        ('update_verify_new_email', 'update with email change')
     }
     """Holds state while email is being verified"""
     regcode = models.CharField(max_length=128, unique=True, default="")

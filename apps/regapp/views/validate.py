@@ -5,12 +5,9 @@ All rights reserved. No warranty, explicit or implicit, provided.
 """
 
 import requests
-from secrets import token_urlsafe
-from smtplib import SMTPException
 from django.shortcuts import render
 from django.conf import settings
-from django.core.mail import send_mail
-from django.template.loader import get_template
+from .utils import get_user_confirmation
 from ..models import AccountAction
 import logging
 
@@ -67,35 +64,13 @@ def validate(request):
                     "verify new address."
                 )
                 http_verb = None
-                regcode = token_urlsafe(16)
-                pending_account_action.regcode = regcode
                 pending_account_action.opcode = 'update'
                 pending_account_action.save()
-                # TODO: DRY this out, profile.views.sendupdate
-                update_tmpl = get_template(
-                    "regapp/account_update_email.j2"
-                )
-                msg = update_tmpl.render({
-                    "pending_account_action": pending_account_action,
-                    "regcode": regcode,
-                })
 
-                try:
-                    send_mail(
-                        "MSS Account Update Validation",
-                        msg,
-                        "support@mss.mghpcc.org",
-                        [pending_account_action.email],
-                        fail_silently=False
-                    )
-                except SMTPException as smtp_error:
-                    logger.error(
-                        "Error sending email confirmation email."
-                        f"Exception: {smtp_error}"
-                    )
-                    # TODO: Log error and redirect user some place
-                    # where they can try again and/or contact support.
-                    raise smtp_error
+                get_user_confirmation(
+                    pending_account_action,
+                    pending_account_action.email
+                )
 
             # UPDATE (NO EMAIL CHANGE)
             elif opcode == 'update':

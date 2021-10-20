@@ -1,1 +1,3 @@
-For installation instructions visit https://github.com/nerc-project/regapp/wiki/Install
+# Regapp Kubernetes Information
+
+For installation instructions visit [Regapp wiki install doc](https://github.com/nerc-project/regapp/wiki/Install)

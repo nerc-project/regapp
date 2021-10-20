@@ -5,14 +5,11 @@ All rights reserved. No warranty, explicit or implicit, provided.
 """
 
 from urllib.parse import urlencode
-from secrets import token_urlsafe
-from smtplib import SMTPException
 from django.conf import settings
-from django.core.mail import send_mail
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.template.loader import get_template
+from .utils import get_user_confirmation
 from ..forms import CreateAccountForm
 from ..models import AccountAction
 import logging
@@ -98,55 +95,33 @@ def profile(request):
 
 
 def sendupdate(request):
+
     mss_uinfo = request.oidc_userinfo
+    validation_email = mss_uinfo.get('email', None)
 
     try:
         pending_update = AccountAction.objects.get(sub=mss_uinfo['sub'])
-        regcode = token_urlsafe(16)
-        pending_update.regcode = regcode
 
         # Check if pending update request is changing email
-        if pending_update.email != mss_uinfo.get('email', None):
+        if pending_update.email != validation_email:
             logger.debug(
                 f"Sub {pending_update.sub} is changing email from "
-                f"{mss_uinfo.get('email', None)} to "
-                f"{pending_update.email}"
+                f"{validation_email} to {pending_update.email}"
             )
+
             pending_update.opcode = 'update_verify_new_email'
-            validation_recipient = mss_uinfo['email']
-            update_with_email_tmpl = get_template(
-                "profile/account_update_email.j2"
-            )
-            msg = update_with_email_tmpl.render({
-                "old_email": mss_uinfo['email'],
-                'new_email': pending_update.email,
-                'regcode': regcode
-            })
+
         else:
             pending_update.opcode = 'update'
-            validation_recipient = pending_update.email
-            # TODO: Factor out - used in reapp_site as well...
-            update_tmpl = get_template(
-                "profile/account_update.j2"
-            )
-            msg = update_tmpl.render({
-                "pending_update": pending_update,
-                "regcode": regcode
-            })
 
         pending_update.save()
 
-        send_mail(
-            "MSS Account Update Validation",
-            msg,
-            "support@mss.mghpcc.org",
-            [validation_recipient],
-            fail_silently=False
-        )
+        get_user_confirmation(pending_update, validation_email)
 
         ctx = {
-            'validation_recipient': validation_recipient
+            'validation_recipient': validation_email
         }
+
     except AccountAction.DoesNotExist as e:
         ctx = {
             'error': e,
@@ -154,18 +129,18 @@ def sendupdate(request):
         }
         pending_update = None
 
-    except SMTPException as smtp_error:
+    except RuntimeError as error:
         logger.error(
-            "Error attempting to send email for account "
-            f"update for sub {mss_uinfo['sub']}. Exception: {smtp_error}"
+            "Error attempting to validate update for account "
+            f"{mss_uinfo['sub']}. Exception: {error}"
         )
         ctx = {
-            'error': smtp_error,
+            'error': error,
             'sub': mss_uinfo['sub']
         }
         # TODO: Redirect user some place
         # where they can try again and/or contact support.
-        raise smtp_error
+        raise error
 
     return render(request, 'profile/sendupdate.j2', ctx)
 

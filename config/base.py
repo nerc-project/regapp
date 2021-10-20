@@ -91,6 +91,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+
+EMAIL_MSS_SUPPORT = ENV.str("REGAPP_EMAIL_SUPPORT")
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = ENV.str("REGAPP_EMAIL_HOST")
 EMAIL_USE_TLS = ENV.bool('REGAPP_EMAIL_USE_TLS')
