@@ -15,17 +15,17 @@ resources:
   - regapp/configmap.yml
   - regapp/cron.yml
   - regapp/regapp.yml
-  - regapp/regapp_secrets_sealed.yml
-  - regapp/regapp_tls_secret_sealed.yml
+  - regapp/regapp_secrets_external.yml
+  - regapp/regapp_tls_secret_external.yml
   - regapp/service.yml
   #
   - regapp-db/configmap.yml
   - regapp-db/regapp-db.yml
-  - regapp-db/secrets_sealed.yml
+  - regapp-db/secrets_external.yml
   - regapp-db/service.yml
   #
   - oauth2-proxy/config.yml
-  - oauth2-proxy/secret_keycloak_sealed.yml
-  - oauth2-proxy/secret_cilogon_sealed.yml
+  - oauth2-proxy/secret_keycloak_external.yml
+  - oauth2-proxy/secret_cilogon_external.yml
   - oauth2-proxy/oauth2-proxy.yml
   - oauth2-proxy/service.yml

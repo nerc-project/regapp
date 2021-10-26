@@ -1,9 +1,12 @@
 {
     "folders": [
-        {
-            "path": "."
-        },
-    ],
+		{
+			"path": "."
+		},
+		{
+			"path": "../nerc-k8s-operators"
+		}
+	],
     "settings": {
         "python.defaultInterpreterPath": "~/development/ENVS/nerc/bin/python",
         "python.linting.flake8Enabled": true,
