@@ -11,7 +11,7 @@ from crispy_forms.helper import FormHelper
 class CreateAccountForm(forms.Form):
     username = forms.CharField(
         max_length=100,
-        label="Preferred Userame",
+        label="Preferred Username",
         initial="zoobert"
     )
     first_name = forms.CharField(
