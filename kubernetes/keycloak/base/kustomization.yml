@@ -6,8 +6,8 @@ namespace: keycloak
 
 resources:
   - ingress.yml
-  - keycloak_db_secret_sealed.yml
-  - keycloak_tls_secret_sealed.yml
-  - keycloak_pg_secret_sealed.yml
+  - keycloak_db_secret_external.yml
+  - keycloak_tls_secret_external.yml
+  - keycloak_pg_secret_external.yml
   - keycloak-db.yml
   - keycloak.yml

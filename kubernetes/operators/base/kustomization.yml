@@ -4,4 +4,3 @@ kind: Kustomization
 
 resources:
   - keycloak-operator.yml
-  - sealed_secrets-operator.yml
