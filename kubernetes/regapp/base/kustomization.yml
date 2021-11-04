@@ -9,8 +9,9 @@ resources:
   # Create manually in test env so skaffold
   # does not delete...
   # - namespace.yml
+  # need to spin keycloak and db up separately as
+  # coordinating is a pita right now
   - ingress.yml
-  # - test.yml
 
   - regapp/configmap.yml
   - regapp/cron.yml
@@ -18,11 +19,6 @@ resources:
   - regapp/regapp_secrets_external.yml
   - regapp/regapp_tls_secret_external.yml
   - regapp/service.yml
-  #
-  - regapp-db/configmap.yml
-  - regapp-db/regapp-db.yml
-  - regapp-db/secrets_external.yml
-  - regapp-db/service.yml
   #
   - oauth2-proxy/config.yml
   - oauth2-proxy/secret_keycloak_external.yml

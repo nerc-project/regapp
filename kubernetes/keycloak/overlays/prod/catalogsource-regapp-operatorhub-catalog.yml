@@ -1,0 +1,11 @@
+﻿---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: regapp-operatorhub-catalog
+  namespace: openshift-marketplace
+spec:
+  displayName: Community Source for Regapp
+  image: 'quay.io/operatorhubio/catalog:latest'
+  publisher: ''
+  sourceType: grpc

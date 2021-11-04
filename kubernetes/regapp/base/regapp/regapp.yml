@@ -16,7 +16,20 @@ spec:
       volumes:
         - name: static-data
           emptyDir: {}
-
+      # initContainers:
+      #   - name: check-db-ready
+      #     image: postgres:alpine
+      #     # command: ['sh', '-c', 'pg_isready;set']
+      #     command: ['sh', '-c',
+      #       'until pg_isready -d $DB_URL;
+      #       do echo waiting for database; sleep 2; done;
+      #       set']
+      #     env:
+      #       - name: DB_URL
+      #         valueFrom:
+      #           secretKeyRef:
+      #             name: regapp-postgres-ha-pguser-regapp-postgres-ha
+      #             key: uri
       containers:
         - name: regapp-container
           # image: regapp:latest
@@ -32,6 +45,12 @@ spec:
                 name: regapp-configmap
             - secretRef:
                 name: regapp-secrets
+          env:
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: regapp-postgres-ha-pguser-regapp-postgres-ha
+                  key: uri
           ports:
             - containerPort: 8123
           volumeMounts:

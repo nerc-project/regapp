@@ -8,10 +8,6 @@ build:
   tagPolicy:
     sha256: {}
   artifacts:
-    - image: mghpcc/regapp-util
-      context: ../../containers/regapp-util
-    - image: mghpcc/regapp-db
-      context: ../../containers/regapp-db
     - image: mghpcc/regapp
       context: ../..
       sync:

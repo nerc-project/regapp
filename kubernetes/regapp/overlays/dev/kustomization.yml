@@ -9,8 +9,10 @@ resources:
 images:
   - name: ghcr.io/nerc-project/regapp-db:master
     newName: mghpcc/regapp-db
+    newTag: latest
   - name: ghcr.io/nerc-project/regapp:master
     newName: mghpcc/regapp
+    newTag: latest
 
 patches:
   - patch: |-
@@ -19,5 +21,19 @@ patches:
         value: minikube-dev-storage
     target:
       kind: StatefulSet
-  - path: wait_for_kc.yml
+
+  - patch: |-
+      - op: add
+        path: /spec/instances/0/dataVolumeClaimSpec/storageClassName
+        value: minikube-dev-storage
+    target:
+      kind: PostgresCluster
+
+  - patch: |-
+      - op: add
+        path: /spec/backups/pgbackrest/repos/0/volume/volumeClaimSpec/storageClassName
+        value: minikube-dev-storage
+    target:
+      kind: PostgresCluster
+
   - path: devel_switch.yml
