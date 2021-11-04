@@ -62,18 +62,3 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta_regapp.outputs.tags }}
           labels: ${{ steps.meta_regapp.outputs.labels }}
-
-      # REGAPP-DB
-      - name: Extract regapp-db docker metadata
-        id: meta_regapp_db
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_DB }}
-
-      - name: Build and push regapp-db image
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-        with:
-          context: ./containers/regapp-db
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta_regapp_db.outputs.tags }}
-          labels: ${{ steps.meta_regapp_db.outputs.labels }}
