@@ -142,7 +142,7 @@ def registration(request):
 
         username = cilogon_uinfo.get('preferred_username', None)
         if username is None:
-            username = cilogon_uinfo.get('eppn', None)
+            username = cilogon_uinfo.get('email', None)
 
         form = CreateAccountForm(initial={
             'first_name': cilogon_uinfo.get('given_name', None),
