@@ -6,7 +6,7 @@ echo "##############################################"
 
 REGAPP_REPO=ghcr.io
 PROJECT_LOCATION=/home/jculbert/development/nerc
-REGAPP_IMAGE=$REGAPP_REPO/nerc-project/regapp:master
+REGAPP_IMAGE=$REGAPP_REPO/nerc-project/regapp:main
 
 docker login $REGAPP_REPO
 docker pull $REGAPP_IMAGE

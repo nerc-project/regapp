@@ -14,7 +14,7 @@ spec:
         spec:
           containers:
             - name: regreaper
-              image: ghcr.io/nerc-project/regapp:master
+              image: ghcr.io/nerc-project/regapp:main
               imagePullPolicy: Always
               workingDir: "/code"
               command:

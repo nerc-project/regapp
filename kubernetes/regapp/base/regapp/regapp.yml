@@ -50,7 +50,7 @@ spec:
                   key: password
       containers:
         - name: regapp-container
-          image: ghcr.io/nerc-project/regapp:master
+          image: ghcr.io/nerc-project/regapp:main
           imagePullPolicy: Always
           workingDir: "/code"
           command:

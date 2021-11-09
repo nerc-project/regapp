@@ -7,10 +7,10 @@ resources:
   - ../../base
 
 images:
-  - name: ghcr.io/nerc-project/regapp-db:master
+  - name: ghcr.io/nerc-project/regapp-db:main
     newName: mghpcc/regapp-db
     newTag: latest
-  - name: ghcr.io/nerc-project/regapp:master
+  - name: ghcr.io/nerc-project/regapp:main
     newName: mghpcc/regapp
     newTag: latest
 
