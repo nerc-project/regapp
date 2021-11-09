@@ -8,6 +8,7 @@ from urllib.parse import urlencode
 from django.conf import settings
 from django.http import Http404
 from django.shortcuts import redirect, render
+from django.views.decorators.cache import never_cache
 from django.urls import reverse
 from .utils import get_user_confirmation
 from ..forms import CreateAccountForm
@@ -18,6 +19,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+@never_cache
 def profile(request):
 
     """View for editing account information.
@@ -39,7 +41,8 @@ def profile(request):
         'first_name': mss_uinfo.get('given_name', None),
         'last_name': mss_uinfo.get('family_name', None),
         'username': mss_uinfo.get('preferred_username', None),
-        'email': mss_uinfo.get('email', None)
+        'email': mss_uinfo.get('email', None),
+        'research_domain': mss_uinfo.get('mss_research_domain', 'other')
     }
 
     if request.method != 'GET':
@@ -70,7 +73,8 @@ def profile(request):
                 firstName=form.cleaned_data['first_name'],
                 lastName=form.cleaned_data['last_name'],
                 email=form.cleaned_data['email'],
-                username=form.cleaned_data['username']
+                username=form.cleaned_data['username'],
+                research_domain=form.cleaned_data['research_domain']
             )
 
             pending_update.save()
@@ -94,6 +98,7 @@ def profile(request):
         })
 
 
+@never_cache
 def sendupdate(request):
 
     mss_uinfo = request.oidc_userinfo

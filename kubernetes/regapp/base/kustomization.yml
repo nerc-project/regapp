@@ -9,12 +9,12 @@ resources:
   # Create manually in test env so skaffold
   # does not delete...
   # - namespace.yml
-  # need to spin keycloak and db up separately as
-  # coordinating is a pita right now
+
   - ingress.yml
 
   - regapp/configmap.yml
   - regapp/cron.yml
+  - regapp/regapp-db.yml
   - regapp/regapp.yml
   - regapp/regapp_secrets_external.yml
   - regapp/regapp_tls_secret_external.yml

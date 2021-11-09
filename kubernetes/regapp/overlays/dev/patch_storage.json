@@ -1,0 +1,12 @@
+[
+  {
+    "op": "add",
+    "path": "/spec/instances/0/dataVolumeClaimSpec/storageClassName",
+    "value": "minikube-dev-storage"
+  },
+  {
+    "op": "add",
+    "path": "/spec/backups/pgbackrest/repos/0/volume/volumeClaimSpec/storageClassName",
+    "value": "minikube-dev-storage"
+  }
+]

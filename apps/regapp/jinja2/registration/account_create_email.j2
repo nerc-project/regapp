@@ -1,18 +1,19 @@
-MSS Account Creation Validation
+MGHPCC-SS Account Creation Validation
 
 An account with the following details is pending email
-verification at the New England Research Cloud (MSS).
+verification at the New England Research Cloud (MGHPCC-SS).
 
   * First Name:  {{ account_action.firstName }}
   * Last Name:  {{ account_action.lastName }}
   * Username:  {{ account_action.username }}
   * Email:  {{ account_action.email }}
+  * Research Domain {{ account_action.research_domain_name }}
 
 Please validate your email by visiting the following URL:
 
 https://{{ SITENAME }}{{ url('site_validate') }}?regcode={{ account_action.regcode }}
 
-If you did not initiate an account creation at MSS, please
-contact the MSS team at {{ EMAIL_MSS_SUPPORT }}.
+If you did not initiate an account creation at MGHPCC-SS, please
+contact the MGHPCC-SS team at {{ EMAIL_MSS_SUPPORT }}.
 
-The MSS Team
+The MGHPCC-SS Team

@@ -16,26 +16,41 @@ spec:
       volumes:
         - name: static-data
           emptyDir: {}
-      # initContainers:
-      #   - name: check-db-ready
-      #     image: postgres:alpine
-      #     # command: ['sh', '-c', 'pg_isready;set']
-      #     command: ['sh', '-c',
-      #       'until pg_isready -d $DB_URL;
-      #       do echo waiting for database; sleep 2; done;
-      #       set']
-      #     env:
-      #       - name: DB_URL
-      #         valueFrom:
-      #           secretKeyRef:
-      #             name: regapp-postgres-ha-pguser-regapp-postgres-ha
-      #             key: uri
+      initContainers:
+        - name: check-db-ready
+          image: postgres:alpine
+          command: ['sh', '-c',
+                    'until psql -c "select now()";
+                    do echo waiting for database; sleep 2; done;']
+          env:
+            - name: PGHOST
+              valueFrom:
+                secretKeyRef:
+                  name: regapp-postgres-ha-pguser-regapp-postgres-ha
+                  key: host
+            - name: PGPORT
+              valueFrom:
+                secretKeyRef:
+                  name: regapp-postgres-ha-pguser-regapp-postgres-ha
+                  key: port
+            - name: PGDATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: regapp-postgres-ha-pguser-regapp-postgres-ha
+                  key: dbname
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: regapp-postgres-ha-pguser-regapp-postgres-ha
+                  key: user
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: regapp-postgres-ha-pguser-regapp-postgres-ha
+                  key: password
       containers:
         - name: regapp-container
-          # image: regapp:latest
           image: ghcr.io/nerc-project/regapp:master
-          # image: image-registry.openshift-image-registry.svc:5000/regapp/regapp:latest
-          # imagePullPolicy: IfNotPresent
           imagePullPolicy: Always
           workingDir: "/code"
           command:

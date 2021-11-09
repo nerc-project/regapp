@@ -1,18 +1,19 @@
 MGHPCC Shared Services Account Update - EMAIL CHANGED (Step 2)
 
 An account update with the following details is pending
-verification with MGHPCC Shared Services (MSS).
+verification with MGHPCC Shared Services (MGHPCC-SS).
 
   * First Name:  {{ pending_account_action.firstName }}
   * Last Name:  {{ pending_account_action.lastName }}
   * Username:  {{ pending_account_action.username }}
   * Email:  {{ pending_account_action.email }}
+  * Research Domain:  {{ pending_account_action.research_domain }}
 
 Please validate the update by visiting the following URL:
 
 https://{{ SITENAME }}{{ url('site_validate') }}?regcode={{ regcode }}
 
-If you did not initiate an account update at MSS, please
-contact the MSS team at {{ EMAIL_MSS_SUPPORT }}.
+If you did not initiate an account update at MGHPCC-SS, please
+contact the MGHPCC-SS team at {{ EMAIL_MSS_SUPPORT }}.
 
-The MSS Team
+The MGHPCC-SS Team

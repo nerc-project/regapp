@@ -21,7 +21,7 @@
                     <em>{{ account_action.email }}</em>
                     <br><br>
                     Click on the link in that email to complete your account update.
-                {% elif account_action.opcode == 'update' %}
+                {% elif account_action.opcode == 'update' or account_action.opcode == 'update_display_only'%}
                     Account updated successfully.
                 {% elif account_action.opcode == 'create' %}
                     Account created successfully.
@@ -42,10 +42,8 @@
                     <dd class="col-sm-9">{{account_action.lastName}}</dd>
                     <dt class="col-sm-3">Email</dt>
                     <dd class="col-sm-9">{{account_action.email}}</dd>
-                    <!--
-                    <dt class="col-sm-3">Linked Institutional Account</dt>
-                    <dd class="col-sm-9">{{account_action.email}}</dd>
-                    -->
+                    <dt class="col-sm-3">Research Domain</dt>
+                    <dd class="col-sm-9">{{account_action.research_domain_name}}</dd>
                 </dl>
             {% endif %}
 

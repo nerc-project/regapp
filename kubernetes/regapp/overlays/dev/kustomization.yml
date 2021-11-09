@@ -15,25 +15,10 @@ images:
     newTag: latest
 
 patches:
-  - patch: |-
-      - op: replace
-        path: /spec/volumeClaimTemplates/0/spec/storageClassName
-        value: minikube-dev-storage
-    target:
-      kind: StatefulSet
-
-  - patch: |-
-      - op: add
-        path: /spec/instances/0/dataVolumeClaimSpec/storageClassName
-        value: minikube-dev-storage
-    target:
+  - target:
       kind: PostgresCluster
+    path: patch_storage.json
 
-  - patch: |-
-      - op: add
-        path: /spec/backups/pgbackrest/repos/0/volume/volumeClaimSpec/storageClassName
-        value: minikube-dev-storage
-    target:
-      kind: PostgresCluster
-
-  - path: devel_switch.yml
+patchesStrategicMerge:
+  - patch_devel_switch.yml
+  - patch_imagepullpolicy.yml

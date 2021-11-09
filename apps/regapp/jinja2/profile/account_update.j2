@@ -1,18 +1,19 @@
 MGHPCC Shared Services Account Update Validation
 
 An account update with the following details is pending
-verification for MGHPCC Shared Services (MSS).
+verification for MGHPCC Shared Services (MGHPCC-SS).
 
   * First Name: {{ account_action.firstName }}
   * Last Name: {{ account_action.lastName }}
   * Username: {{ account_action.username }}
   * Email: {{ account_action.email }}
+  * Research Domain: {{ account_action.research_domain_name }}
 
 Please validate the update by visiting the following URL:
 
 https://{{ SITENAME }}{{ url('site_validate') }}?regcode={{ account_action.regcode }}
 
 If you did not initiate an account creation at MGHPCC Shared Services, please
-contact the MSS team at {{ EMAIL_MSS_SUPPORT }}.
+contact the MGHPCC-SS team at {{ EMAIL_MSS_SUPPORT }}.
 
-The MSS Team
+The MGHPCC-SS Team

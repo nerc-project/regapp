@@ -163,6 +163,17 @@ spec:
               access.token.claim: "false"
               claim.name: "preferred_username"
               jsonType.label: "String"
+          - name: "mss_research_domain"
+            protocol: "openid-connect"
+            protocolMapper: "oidc-usermodel-property-mapper"
+            consentRequired: false
+            config:
+              userinfo.token.claim: "true"
+              user.attribute: "mss_research_domain"
+              id.token.claim: "true"
+              access.token.claim: "false"
+              claim.name: "mss_research_domain"
+              jsonType.label: "String"
           - name: "Client Host"
             protocol: "openid-connect"
             protocolMapper: "oidc-usersessionmodel-note-mapper"

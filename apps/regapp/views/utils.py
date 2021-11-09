@@ -64,17 +64,17 @@ def get_user_confirmation(account_action, validation_email):
 
     if account_action.opcode == 'create':
 
-        subject = "MSS Account Creation Validation"
+        subject = "MGHPCC-SS Account Creation Validation"
         tmpl = "registration/account_create_email.j2"
 
     elif account_action.opcode == 'update':
 
-        subject = "MSS Account Update Validation"
+        subject = "MGHPCC-SS Account Update Validation"
         tmpl = "profile/account_update.j2"
 
     elif account_action.opcode == 'update_verify_new_email':
 
-        subject = "MSS Account Update Validation"
+        subject = "MGHPCC-SS Account Update Validation"
         tmpl = "profile/account_update_email.j2"
 
     else:

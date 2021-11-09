@@ -10,6 +10,7 @@ from ..models import AccountAction
 from urllib.parse import urlencode
 from django.conf import settings
 from django.shortcuts import redirect, render
+from django.views.decorators.cache import never_cache
 from django.urls import reverse
 import requests
 import logging
@@ -17,6 +18,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+@never_cache
 def registration(request):
 
     # if this sub has a link then redirect user to profile route
@@ -130,7 +132,8 @@ def registration(request):
                 firstName=form.cleaned_data['first_name'],
                 lastName=form.cleaned_data['last_name'],
                 email=form.cleaned_data['email'],
-                username=form.cleaned_data['username']
+                username=form.cleaned_data['username'],
+                research_domain=form.cleaned_data['research_domain']
             )
             pending_registration.save()
 
@@ -146,6 +149,7 @@ def registration(request):
             'last_name': cilogon_uinfo.get('family_name', None),
             'username': username,
             'email': cilogon_uinfo.get('email', None),
+            'research_domain': '----'
         })
 
     return render(
@@ -155,6 +159,7 @@ def registration(request):
     )
 
 
+@never_cache
 def sendvalidation(request):
     cilogon_uinfo = request.oidc_userinfo
     ctx = {
@@ -201,6 +206,7 @@ def inflight(request):
     )
 
 
+@never_cache
 def accountexists(request):
 
     uid = request.GET.get('acctid', None)
@@ -233,6 +239,11 @@ def accountexists(request):
     except requests.exceptions.JSONDecodeError as decode_error:
         logger.debug(f"Error decoding server response. {decode_error}")
 
+    rd_name = AccountAction._rd_name_from_id(
+        userinfo_result['attributes']['mss_research_domain'][0]
+    )
+
+    userinfo_result['attributes']['mss_research_domain'] = [rd_name]
     return render(
         request,
         'registration/accountexists.j2',
