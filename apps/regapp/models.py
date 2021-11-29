@@ -67,7 +67,7 @@ class AccountAction(TimeStampedModel):
         choices=OPERATION_CHOICES,
         default='create'
     )
-    sub = models.CharField(max_length=128, unique=True, default="")
+    sub = models.CharField(max_length=128, unique=True, null=True)
     linked_sub = models.CharField(max_length=128, unique=True, default="")
     linked_iss = models.CharField(max_length=128, default="")
     linked_idp_name = models.CharField(max_length=128, default="")
