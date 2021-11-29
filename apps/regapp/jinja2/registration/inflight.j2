@@ -2,6 +2,7 @@
 
 {% block content %}
 
+{% if user_info is defined %}
 <div class="row">
     <div class="col">
         <h1>MGHPCC Shared Services Account Creation - Account Email Verification In Progress</h1>
@@ -34,5 +35,19 @@
         <a class="btn btn-primary" href="{{url('reg_sendvalidation')}}">Resend</a>
     </div>
 </div>
+
+{% else %}
+
+<div class="row">
+    <div class="col">
+        <h1>MGHPCC Shared Services Account Creation - Account Email Verification In Progress</h1>
+        <p class="mt-4">
+            You have reached the "Account Email Verification In Progress" page but
+            there are no account verifications for you in progress.
+       </p>
+    </div>
+</div>
+
+{% endif %}
 
 {% endblock %}

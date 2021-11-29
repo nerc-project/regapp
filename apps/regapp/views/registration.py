@@ -196,14 +196,17 @@ def sendvalidation(request):
 
 
 def inflight(request):
-    pending_registration = AccountAction.objects.get(
-        linked_sub=request.oidc_userinfo['sub']
-    )
-    return render(
-        request,
-        'registration/inflight.j2',
-        context={'user_info': pending_registration}
-    )
+
+    try:
+        pending_registration = AccountAction.objects.get(
+            linked_sub=request.oidc_userinfo['sub']
+        )
+        ctx = {'user_info': pending_registration}
+
+    except AccountAction.DoesNotExist:
+        ctx = {}
+
+    return render(request, 'registration/inflight.j2', context=ctx)
 
 
 @never_cache
