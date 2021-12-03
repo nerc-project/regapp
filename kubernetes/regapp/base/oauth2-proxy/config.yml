@@ -35,7 +35,7 @@ data:
   OAUTH2_PROXY_PASS_WHITELIST_DOMAIN: "cilogon.org"
   OAUTH2_PROXY_SKIP_OIDC_DISCOVERY: "true"
   OAUTH2_PROXY_LOGIN_URL: https://cilogon.org/authorize?idphint=urn%3Amace%3Aincommon%3Amit.edu,https%3A%2F%2Ffed.huit.harvard.edu%2Fidp%2Fshibboleth,https%3A%2F%2Fshib.bu.edu%2Fidp%2Fshibboleth
-  OAUTH2_PROXY_OIDC_JWKS_URL: https://cilogon.org/oauth2/certs 
+  OAUTH2_PROXY_OIDC_JWKS_URL: https://cilogon.org/oauth2/certs
   OAUTH2_PROXY_REDEEM_URL: https://cilogon.org/oauth2/token
   OAUTH2_PROXY_PROFILE_URL: https://cilogon.org/oauth2/userinfo
   OAUTH2_PROXY_VALIDATE_URL: https://cilogon.org/oauth2/userinfo
