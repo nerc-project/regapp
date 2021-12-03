@@ -11,6 +11,11 @@ spec:
   keycloakDeploymentSpec:
     # Supported by kc operator
     experimental:
+      # env:
+      #   - name: KEYCLOAK_LOGLEVEL
+      #     value: "DEBUG"
+      #   - name: ROOT_LOGLEVEL
+      #     value: "DEBUG"
       volumes:
         defaultMode: 0777
         items:
@@ -22,11 +27,6 @@ spec:
             items:
               - key: CLIENT_SECRET
                 path: mss_cilogon__client__secret
-      # env:
-      #   - name: KEYCLOAK_LOGLEVEL
-      #     value: "DEBUG"
-      #   - name: ROOT_LOGLEVEL
-      #     value: "DEBUG"
   externalDatabase:
     enabled: true
   externalAccess:

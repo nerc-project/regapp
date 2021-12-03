@@ -7,6 +7,7 @@ resources:
   - ../../base
 
 patches:
+
   - patch: |-
       - op: replace
         path: /spec/volumeClaimTemplates/0/spec/storageClassName
@@ -14,23 +15,9 @@ patches:
     target:
       kind: StatefulSet
 
-  # - patch: |-
-  #     - op: replace
-  #       path: /spec/source
-  #       value: operatorhubio-catalog
-  #   target:
-  #     kind: Subscription
-
   - patch: |-
       - op: replace
         path: /spec/sourceNamespace
         value: keycloak
     target:
       kind: Subscription
-
-  # - patch: |-
-  #     - op: add
-  #       path: /spec/startingCSV
-  #       value: keycloak-operator.v12.0.1
-  #   target:
-  #     kind: Subscription
