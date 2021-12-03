@@ -61,6 +61,16 @@ spec:
             - secretRef:
                 name: regapp-secrets
           env:
+            - name: REGAPP_REGAPP_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-client-secret-regapp
+                  key: CLIENT_ID
+            - name: REGAPP_REGAPP_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-client-secret-regapp
+                  key: CLIENT_SECRET
             - name: DATABASE_HOST
               valueFrom:
                 secretKeyRef:

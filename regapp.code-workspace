@@ -5,6 +5,9 @@
         },
         {
             "path": "../nerc-k8s-operators"
+        },
+        {
+            "path": "../mss-keycloak"
         }
     ],
     "settings": {

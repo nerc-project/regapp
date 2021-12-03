@@ -8,13 +8,25 @@ metadata:
     app: mss-keycloak
 spec:
   instances: 1
-  # keycloakDeploymentSpec:
-  #   experimental:
-  #     env:
-  #       - name: KEYCLOAK_LOGLEVEL
-  #         value: "DEBUG"
-  #       - name: ROOT_LOGLEVEL
-  #         value: "DEBUG"
+  keycloakDeploymentSpec:
+    # Supported by kc operator
+    experimental:
+      volumes:
+        defaultMode: 0777
+        items:
+          - name: cilogon-idp-secret
+            secrets:
+              - keycloak-cilogon-idp-secret
+            # $JBOSS_HOME/secrets - supported by kc container
+            mountPath: /opt/jboss/keycloak/secrets
+            items:
+              - key: CLIENT_SECRET
+                path: mss_cilogon__client__secret
+      # env:
+      #   - name: KEYCLOAK_LOGLEVEL
+      #     value: "DEBUG"
+      #   - name: ROOT_LOGLEVEL
+      #     value: "DEBUG"
   externalDatabase:
     enabled: true
   externalAccess:
@@ -75,7 +87,7 @@ spec:
         firstBrokerLoginFlowAlias: "browser"
         config:
           clientId: "cilogon:/client_id/ab05912d88d9f9cc5ea155accf420f3"
-          clientSecret: "CHANGEME"  # pragma: allowlist secret
+          clientSecret: ${vault.cilogon_client_secret}  # pragma: allowlist secret
           tokenUrl: "https://cilogon.org/oauth2/token"
           authorizationUrl: "https://cilogon.org/authorize"
           clientAuthMethod: "client_secret_post"
