@@ -4,7 +4,6 @@ kind: ConfigMap
 metadata:
   name: regapp-configmap
 data:
-  DEBUG: "1"
   SITENAME: regapp.mss.mghpcc.org
   OIDCRedirectURI: "/"
   REGAPP_MSS_KC_SERVER: https://keycloak.mss.mghpcc.org
