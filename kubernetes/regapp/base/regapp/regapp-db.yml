@@ -50,5 +50,5 @@ spec:
                 topologyKey: kubernetes.io/hostname
                 labelSelector:
                   matchLabels:
-                    postgres-operator.crunchydata.com/cluster: coldfront-postgres-ha
+                    postgres-operator.crunchydata.com/cluster: regapp-postgres-ha
                     postgres-operator.crunchydata.com/role: pgbouncer
