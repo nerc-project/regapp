@@ -28,4 +28,4 @@ jobs:
 
       - name: Run linters
         run: |
-          pre-commit run --all-files
+          pre-commit run --all-files -v
