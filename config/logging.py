@@ -9,7 +9,7 @@ from regapp.config.env import ENV
 
 
 # ------------------------------------------------------------------------------
-# ColdFront logging config
+# regapp logging config
 # ------------------------------------------------------------------------------
 
 MESSAGE_TAGS = {
