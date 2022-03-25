@@ -1,0 +1,12 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: regapp
+spec:
+  template:
+    spec:
+      hostAliases:
+      - ip: "140.247.152.183"
+        hostnames:
+        - "keycloak.mss.mghpcc.org"
