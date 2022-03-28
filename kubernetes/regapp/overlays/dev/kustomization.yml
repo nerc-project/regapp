@@ -27,4 +27,3 @@ patchesStrategicMerge:
   - patch_debug_switch.yml
   - patch_devel_switch.yml
   - patch_imagepullpolicy.yml
-
