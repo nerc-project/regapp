@@ -18,9 +18,13 @@ patches:
   - target:
       kind: PostgresCluster
     path: patch_storage.json
+  - target:
+      kind: Deployment
+    path: patch_etc_hosts.yml
+    
 
 patchesStrategicMerge:
   - patch_debug_switch.yml
   - patch_devel_switch.yml
   - patch_imagepullpolicy.yml
-  - patch_etc_hosts.yml
+
