@@ -4,7 +4,7 @@
   value: regappdev.mss.mghpcc.org
 - op: replace
   path: /spec/tls/0
-  value: 
+  value:
     hosts:
       - regappdev.mss.mghpcc.org
-    secretName: regappdev-tls
+    secretName: regappdev-tls  # pragma: allowlist secret

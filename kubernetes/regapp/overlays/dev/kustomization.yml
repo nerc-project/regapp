@@ -27,7 +27,7 @@ patches:
   - target:
       kind: Deployment
     path: patch_etc_hosts.yml
-    
+
 
 patchesStrategicMerge:
   - patch_debug_switch.yml
