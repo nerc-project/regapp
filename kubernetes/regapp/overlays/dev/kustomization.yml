@@ -16,6 +16,12 @@ images:
 
 patches:
   - target:
+      kind: Ingress
+    path: ingress-cert-manager-staging.yaml
+  - target:
+      kind: Ingress
+    path: ingress-host-regappdev.yaml
+  - target:
       kind: PostgresCluster
     path: patch_storage.json
   - target:

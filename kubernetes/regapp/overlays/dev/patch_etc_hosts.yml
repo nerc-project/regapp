@@ -10,3 +10,4 @@ spec:
       - ip: "140.247.152.183"
         hostnames:
         - "keycloak.mss.mghpcc.org"
+        - "keycloakdev.mss.mghpcc.org"

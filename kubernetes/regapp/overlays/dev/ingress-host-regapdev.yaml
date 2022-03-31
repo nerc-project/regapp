@@ -1,0 +1,10 @@
+---
+- op: replace
+  path: /spec/rules/0/host
+  value: regappdev.mss.mghpcc.org
+- op: replace
+  path: /spec/tls/0
+  value: 
+    hosts:
+      - regappdev.mss.mghpcc.org
+    secretName: regappdev-tls
