@@ -16,3 +16,4 @@ resources:
 
 patchesStrategicMerge:
   - patches/regapp-db.yaml
+  - patches/ingress.yaml
