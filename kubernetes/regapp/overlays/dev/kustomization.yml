@@ -15,11 +15,22 @@ images:
     newTag: latest
 
 patches:
+
+  - target:
+      kind: Ingress
+    path: ingress-host-regappdev.yaml
   - target:
       kind: PostgresCluster
     path: patch_storage.json
+  - target:
+      kind: Deployment
+    path: patch_etc_hosts.yml
+
 
 patchesStrategicMerge:
   - patch_debug_switch.yml
   - patch_devel_switch.yml
   - patch_imagepullpolicy.yml
+  - patch_config.yaml
+  - patch_configmap.yaml
+  - patch_ingress.yaml

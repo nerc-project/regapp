@@ -8,6 +8,21 @@
         },
         {
             "path": "../mss-keycloak"
+        },
+        {
+            "path": "../coldfront-plugin-keycloak"
+        },
+        {
+            "path": "../coldfront-plugin-openstack"
+        },
+        {
+            "path": "../coldfront-nerc"
+        },
+        {
+            "path": "../coldfront-ubccr"
+        },
+        {
+            "path": "../coldfront-plugin-nese"
         }
     ],
     "settings": {
