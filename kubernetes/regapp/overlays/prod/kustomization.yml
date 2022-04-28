@@ -17,3 +17,10 @@ resources:
 patchesStrategicMerge:
   - patches/regapp-db.yaml
   - patches/ingress.yaml
+  - |-
+    apiVersion: external-secrets.io/v1alpha1
+    kind: ExternalSecret
+    metadata:
+      name: regapp-tls
+      namespace: regapp
+    $patch: delete
