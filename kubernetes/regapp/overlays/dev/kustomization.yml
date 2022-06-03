@@ -15,9 +15,7 @@ images:
     newTag: latest
 
 patches:
-  - target:
-      kind: Ingress
-    path: ingress-cert-manager-staging.yaml
+
   - target:
       kind: Ingress
     path: ingress-host-regappdev.yaml
@@ -35,3 +33,5 @@ patchesStrategicMerge:
   - patch_imagepullpolicy.yml
   - patch_config.yaml
   - patch_configmap.yaml
+  - patch_ingress.yaml
+  - patch_authorization_url.yaml
