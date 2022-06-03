@@ -158,7 +158,14 @@ def logout(request):
         request.META['HTTP_X_FORWARDED_PROTO'] + "://" + request.META['HTTP_X_FORWARDED_HOST'] + reverse('site_index')
     )
 
-    redirect_to_keycloak = (settings.MSS_LOGOUT_URL + "?" + urlencode({'redirect_uri': redirect_to_regapp}))
+    redirect_to_keycloak = (
+        settings.MSS_LOGOUT_URL + "?" + urlencode(
+            {
+                'post_logout_redirect_uri': redirect_to_regapp,
+                'id_token_hint': request.oidc_userinfo['idtoken']
+            }
+        )
+    )
 
     redirect_to_oauth2_proxy = (settings.OAUTH2PROXY_MSS_LOGOUT_URL + "?" + urlencode({'rd': redirect_to_keycloak}))
 

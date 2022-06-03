@@ -98,8 +98,9 @@ class OIDCMiddleware:
         try:
             # IDToken passed as bearer
             match = HEADERPATTERN.match(request.META['HTTP_AUTHORIZATION'])
+            id_token = match['token']
             id_token_dict = jwt.decode(
-                match['token'],
+                id_token,
                 options={"verify_signature": False}
             )
 
@@ -126,6 +127,7 @@ class OIDCMiddleware:
                 )
 
             id_token_dict['display_username'] = display_username
+            id_token_dict['idtoken'] = id_token
             request.oidc_userinfo = id_token_dict
 
             logger.debug(f"Decoded idp: {request.idp}")
