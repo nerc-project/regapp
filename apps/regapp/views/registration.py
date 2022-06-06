@@ -268,7 +268,10 @@ def logout(request):
     )
 
     redirect_to_keycloak = (
-        settings.CILOGON_LOGOUT_URL + "?" + urlencode({'redirect_uri': redirect_to_regapp})
+        settings.CILOGON_LOGOUT_URL + "?" + urlencode({
+            'post_logout_redirect_uri': redirect_to_regapp,
+            'id_token_hint': request.oidc_userinfo['idtoken']
+        })
     )
 
     redirect_to_oauth2_proxy = (
