@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oauth2-configmap-kc
+data:
+  OAUTH2_PROXY_EMAIL_DOMAINS: "harvard.edu,bu.edu,mit.edu,bentley.edu,mghpcc.org,.harvard.edu,.bu.edu,.mit.edu,.bentley.edu,.mghpcc.org"
+
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oauth2-configmap-cilogon
+data:
+  OAUTH2_PROXY_LOGIN_URL: https://cilogon.org/authorize?idphint=urn%3Amace%3Aincommon%3Amit.edu,https%3A%2F%2Ffed.huit.harvard.edu%2Fidp%2Fshibboleth,https%3A%2F%2Fshib.bu.edu%2Fidp%2Fshibboleth,https%3A%2F%2Flogin.microsoftonline.com%2Fcommon%2Foauth2%2Fv2.0%2Fauthorize
+  OAUTH2_PROXY_EMAIL_DOMAINS: "harvard.edu,bu.edu,mit.edu,bentley.edu,mghpcc.org,.harvard.edu,.bu.edu,.mit.edu,.bentley.edu,.mghpcc.org"

@@ -34,4 +34,4 @@ patchesStrategicMerge:
   - patch_config.yaml
   - patch_configmap.yaml
   - patch_ingress.yaml
-  - patch_authorization_url.yaml
+  - patch_authorization.yaml
