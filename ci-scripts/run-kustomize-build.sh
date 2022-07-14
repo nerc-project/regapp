@@ -8,12 +8,21 @@ function run_kustomize() {
   if [ $? -ne 0 ]; then
     echo FAILED
     echo "${out}"
-    exit 1
+    return 1
   else
     echo OK
+    return 0
   fi
 }
 
+failed=0
 for k in $(find ${ROOT_PATH} -iname kustomization.yml -exec dirname {} \;); do
   run_kustomize "${k}"
+  if [ $? != 0 ]; then
+    failed=1;
+  fi
 done
+
+if [ $failed -eq 1 ]; then
+  exit 1
+fi
