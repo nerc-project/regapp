@@ -8,7 +8,7 @@ data:
   OIDCRedirectURI: "/"
   REGAPP_MSS_KC_SERVER: https://keycloak.mss.mghpcc.org
   REGAPP_MSS_KC_REALM: mss
-  REGAPP_EMAIL_SUPPORT: support@mss.mghpcc.org
+  REGAPP_EMAIL_SUPPORT: help@mghpcc.org
   REGAPP_EMAIL_HOST: email-smtp.us-east-1.amazonaws.com
   REGAPP_EMAIL_PORT: "587"
   REGAPP_EMAIL_USE_TLS: "1"
