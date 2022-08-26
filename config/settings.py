@@ -14,6 +14,7 @@ mss_configs = [
     'database.py',
     'auth.py',
     'logging.py',
+    'terms_and_conditions.py'
     # 'core.py',
 ]
 

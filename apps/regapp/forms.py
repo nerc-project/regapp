@@ -34,6 +34,10 @@ class CreateAccountForm(forms.Form):
         label="Research Domain"
     )
 
+    accept_privacy_statement = forms.BooleanField(
+        label="I accept NERC Privacy Statement Version 1.1.2"
+    )
+
     def clean_research_domain(self):
         rd = self.cleaned_data['research_domain']
         if rd not in [x[0] for x in AccountAction.RESEARCH_DOMAIN_CHOICES]:

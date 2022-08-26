@@ -23,4 +23,4 @@ deploy:
     paths:
       - overlays/dev
 
-  kubeContext: minikube
+  kubeContext: nerc-minikube
