@@ -4,7 +4,20 @@ kind: ConfigMap
 metadata:
   name: oauth2-configmap-kc
 data:
-  OAUTH2_PROXY_EMAIL_DOMAINS: "harvard.edu,bu.edu,mit.edu,bentley.edu,mghpcc.org,.harvard.edu,.bu.edu,.mit.edu,.bentley.edu,.mghpcc.org"
+  OAUTH2_PROXY_EMAIL_DOMAINS: "
+    harvard.edu,.harvard.edu,\
+    hbs.edu,.hbs.edu,\
+    bu.edu,.bu.edu,\
+    mit.edu,.mit.edu,\
+    bentley.edu,.bentley.edu,\
+    mghpcc.org,.mghpcc.org,\
+    umass.edu,.umass.edu,\
+    umassp.edu,.umassp.edu,\
+    umassd.edu,.umassd.edu,\
+    umassmed.edu,.umassmed.edu,\
+    uml.edu,.uml.edu,\
+    umb.edu,.umb.edu,\
+    northeastern.edu,.northeastern.edu"
 
 
 ---
@@ -24,29 +37,16 @@ data:
     https%3A%2F%2Fneuidmsso.neu.edu%2Fidp%2Fshibboleth,\
     https%3A%2F%2Flogin.microsoftonline.com%2Fcommon%2Foauth2%2Fv2.0%2Fauthorize"
   OAUTH2_PROXY_EMAIL_DOMAINS: "
-    harvard.edu,
-    .harvard.edu,
-    hbs.edu,
-    .hbs.edu,
-    bu.edu,
-    .bu.edu,
-    mit.edu,
-    .mit.edu,
-    bentley.edu,
-    .bentley.edu,
-    mghpcc.org,
-    .mghpcc.org,
-    umass.edu,
-    .umass.edu,
-    umassp.edu,
-    .umassp.edu,
-    umassd.edu,
-    .umassd.edu,
-    umassmed.edu,
-    .umassmed.edu,
-    uml.edu,
-    .uml.edu,
-    umb.edu,
-    .umb.edu,
-    northeastern.edu,
-    .northeastern.edu"
+    harvard.edu,.harvard.edu,\
+    hbs.edu,.hbs.edu,\
+    bu.edu,.bu.edu,\
+    mit.edu,.mit.edu,\
+    bentley.edu,.bentley.edu,\
+    mghpcc.org,.mghpcc.org,\
+    umass.edu,.umass.edu,\
+    umassp.edu,.umassp.edu,\
+    umassd.edu,.umassd.edu,\
+    umassmed.edu,.umassmed.edu,\
+    uml.edu,.uml.edu,\
+    umb.edu,.umb.edu,\
+    northeastern.edu,.northeastern.edu"
