@@ -5,6 +5,7 @@ All rights reserved. No warranty, explicit or implicit, provided.
 """
 
 from django import forms
+from django.conf import settings
 from crispy_forms.helper import FormHelper
 from .models import AccountAction
 
@@ -49,7 +50,12 @@ class CreateAccountForm(forms.Form):
     )
 
     accept_privacy_statement = forms.BooleanField(
-        label="I accept NERC Privacy Statement Version 1.1.2"
+        label=f"I accept {settings.TERMS_NAME} {settings.TERMS_VERSION}"
+    )
+
+    accept_privacy_statement_version = forms.CharField(
+        widget=forms.HiddenInput(),
+        value=f"{settings.TERMS_VERSION}"
     )
 
     def clean_research_domain(self):

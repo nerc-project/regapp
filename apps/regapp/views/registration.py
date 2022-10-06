@@ -17,8 +17,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-PRIVACY_STATEMENT = 
-
 
 @never_cache
 def registration(request):
@@ -153,11 +151,11 @@ def registration(request):
 
         form = CreateAccountForm(
             initial={
-            'first_name': cilogon_uinfo.get('given_name', None),
-            'last_name': cilogon_uinfo.get('family_name', None),
-            'username': username,
-            'email': cilogon_uinfo.get('email', None),
-            'research_domain': '----'
+                'first_name': cilogon_uinfo.get('given_name', None),
+                'last_name': cilogon_uinfo.get('family_name', None),
+                'username': username,
+                'email': cilogon_uinfo.get('email', None),
+                'research_domain': '----'
             }
         )
 
@@ -166,7 +164,12 @@ def registration(request):
         'registration/index.j2',
         {
             'form': form,
-            'user_info': cilogon_uinfo
+            'user_info': cilogon_uinfo,
+            'terms': {
+                'title': settings.TERMS_NAME,
+                'version': settings.TERMS_VER,
+                'content': settings.TERMS_CONTENT
+            }
         }
     )
 
