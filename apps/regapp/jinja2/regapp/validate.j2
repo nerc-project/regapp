@@ -9,43 +9,55 @@
 </div>
 <div class='row mt-4'>
     <div class='col'>
-        <p>
-            {% if account_action.error %}
+        {% if account_action.error %}
+            <p>
                 An error occurred validating your account request.<br/><br/>
                 {{ account_action.error }}
+            </p>
+        {% elif account_action.opcode == 'validatecode' %}
+            <p class="mt-4">
+                Please enter the code that you received in the field below and press Continue. 
+            </p>
+            <form id="{{form.helper.form_id}}" action="{{url('site_validate')}}" method=GET>
+                {{ csrf_input }}
+                {{ crispy(form) }}
+                <div class="float-right">
+                    <input id="confirmreg" name="confirmreg" type="submit" class="btn btn-primary" value="Continue" />
+                </div>
+            </form>
+        {% else %}
+            <p>
+            {% if account_action.opcode == 'update_verify_new_email' %}
+                An email has been sent to your account at:
+                <br><br>
+                <em>{{ account_action.email }}</em>
+                <br><br>
+                Follow the instructions in that email to complete your account setup.
+            {% elif account_action.opcode == 'update' or account_action.opcode == 'update_display_only'%}
+                Account updated successfully.
+            {% elif account_action.opcode == 'create' %}
+                Account created successfully.
             {% else %}
-                <p>
-                {% if account_action.opcode == 'update_verify_new_email' %}
-                    An email has been sent to your account at:
-                    <br><br>
-                    <em>{{ account_action.email }}</em>
-                    <br><br>
-                    Click on the link in that email to complete your account update.
-                {% elif account_action.opcode == 'update' or account_action.opcode == 'update_display_only'%}
-                    Account updated successfully.
-                {% elif account_action.opcode == 'create' %}
-                    Account created successfully.
-                {% else %}
-                    Unrecognized account action: {{ account_action.opcode }}
-                {% endif%}
-                </p>
-                <p>
-                    Account Information
-                </p>
-                <dl class="row mt-4">
+                Unrecognized account action: {{ account_action.opcode }}
+            {% endif%}
+            </p>
+            <p>
+                Account Information
+            </p>
+            <dl class="row mt-4">
 
-                    <dt class="col-sm-3">Username</dt>
-                    <dd class="col-sm-9">{{account_action.username}}</dd>
-                    <dt class="col-sm-3">First Name</dt>
-                    <dd class="col-sm-9">{{account_action.firstName}}</dd>
-                    <dt class="col-sm-3">Last Name</dt>
-                    <dd class="col-sm-9">{{account_action.lastName}}</dd>
-                    <dt class="col-sm-3">Email</dt>
-                    <dd class="col-sm-9">{{account_action.email}}</dd>
-                    <dt class="col-sm-3">Research Domain</dt>
-                    <dd class="col-sm-9">{{account_action.research_domain_name}}</dd>
-                </dl>
-            {% endif %}
+                <dt class="col-sm-3">Username</dt>
+                <dd class="col-sm-9">{{account_action.username}}</dd>
+                <dt class="col-sm-3">First Name</dt>
+                <dd class="col-sm-9">{{account_action.firstName}}</dd>
+                <dt class="col-sm-3">Last Name</dt>
+                <dd class="col-sm-9">{{account_action.lastName}}</dd>
+                <dt class="col-sm-3">Email</dt>
+                <dd class="col-sm-9">{{account_action.email}}</dd>
+                <dt class="col-sm-3">Research Domain</dt>
+                <dd class="col-sm-9">{{account_action.research_domain_name}}</dd>
+            </dl>
+        {% endif %}
 
     </div>
 </div>
