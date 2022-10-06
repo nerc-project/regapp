@@ -9,6 +9,20 @@ from crispy_forms.helper import FormHelper
 from .models import AccountAction
 
 
+class ConfirmAccountForm(forms.Form):
+    regcode = forms.CharField(
+        max_length=100,
+        label="Registration Code"
+    )
+
+    def __init__(self, *args, **kwargs):
+        kwargs['auto_id'] = 'regconfirm_%s'
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.form_id = "confirmationform"
+
+
 class CreateAccountForm(forms.Form):
     username = forms.CharField(
         max_length=100,
