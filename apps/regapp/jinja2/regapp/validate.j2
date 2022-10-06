@@ -16,7 +16,7 @@
             </p>
         {% elif account_action.opcode == 'validatecode' %}
             <p class="mt-4">
-                Please enter the code that you received in the field below and press Continue. 
+                Please enter the code that you received in the field below and press Continue.
             </p>
             <form id="{{form.helper.form_id}}" action="{{url('site_validate')}}" method=GET>
                 {{ csrf_input }}
