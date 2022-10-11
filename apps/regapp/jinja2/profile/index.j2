@@ -16,6 +16,13 @@
 
         <h4>Account Profile information</h4>
 
+        {% if not form.accept_privacy_statement.value() %}
+        <p>
+            Please read the <a href="{{url('site_terms')}}"> {{terms.title}} {{terms.version}}</a> and accept
+            the terms by checking the box in the form below.
+        </p>
+        {% endif %}
+
         <form id="{{form.helper.form_id}}" action="{{request.path_info}}" method="GET">
             {{ csrf_input }}
             {{ crispy(form) }}

@@ -15,15 +15,20 @@
 
     <style>
         .asteriskField {
-            display: none;
+            visibility: hidden;
         }
-        .requiredField::after {
+        .asteriskField:after {
+            visibility: visible;
             content: '(required)';
             font-style: italic;
             font-size: smaller;
             color: #6c757d;
             display: inline;
             position: static;
+        }
+
+        .terms_modal {
+            max-width: 75%
         }
     </style>
 

@@ -50,12 +50,12 @@ class CreateAccountForm(forms.Form):
     )
 
     accept_privacy_statement = forms.BooleanField(
-        label=f"I accept {settings.TERMS_NAME} {settings.TERMS_VERSION}"
+        label=f"I accept {settings.TERMS_NAME} {settings.TERMS_VER}"
     )
 
     accept_privacy_statement_version = forms.CharField(
         widget=forms.HiddenInput(),
-        value=f"{settings.TERMS_VERSION}"
+        initial=f"{settings.TERMS_VER}"
     )
 
     def clean_research_domain(self):

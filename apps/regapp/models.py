@@ -89,6 +89,11 @@ class AccountAction(TimeStampedModel):
         choices=RESEARCH_DOMAIN_CHOICES,
         default='other'
     )
+    accepted_terms_version = models.CharField(
+        max_length=32,
+        null=True,
+        default=None
+    )
 
     @property
     def research_domain_name(self):

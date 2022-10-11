@@ -36,6 +36,11 @@ urlpatterns = [
         views.validate.validate,
         name="site_validate"
     ),
+    path(
+        'terms/',
+        views.regapp.terms,
+        name="site_terms"
+    ),
     # #######################################
     # Registration - authenticated at CILogon
     # #######################################

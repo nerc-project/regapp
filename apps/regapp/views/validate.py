@@ -4,6 +4,8 @@ Copyright (c) 2021 MGHPCC
 All rights reserved. No warranty, explicit or implicit, provided.
 """
 
+from datetime import datetime, timezone
+import json
 import requests
 from django.shortcuts import render, redirect
 from django.conf import settings
@@ -63,12 +65,21 @@ def validate(request):
                 'Content-Type': 'application/json'
             }
 
+            accepted_terms = {
+                "ver": pending_account_action.accepted_terms_version,
+                "date": datetime.now(timezone.utc).isoformat(),
+                "ip": request.META['HTTP_X_REAL_IP']
+            }
+
             data["firstName"] = pending_account_action.firstName
             data["lastName"] = pending_account_action.lastName
             data["email"] = pending_account_action.email
             data["username"] = pending_account_action.username
             data["attributes"]['mss_research_domain'] = (
                 pending_account_action.research_domain
+            )
+            data['attributes']['accepted_terms'] = (
+                json.dumps(accepted_terms)
             )
             data["emailVerified"] = True
             data["enabled"] = True

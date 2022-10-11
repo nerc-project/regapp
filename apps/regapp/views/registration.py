@@ -126,18 +126,25 @@ def registration(request):
         logger.info(f"Creating account action for sub {cilogon_uinfo['sub']}")
         form = CreateAccountForm(request.GET)
         if form.is_valid():
+            cleaned = form.cleaned_data
             # Create pending registration
+            if cleaned['accept_privacy_statement']:
+                accepted_terms = cleaned['accept_privacy_statement_version']
+            else:
+                accepted_terms = None
+
             pending_registration = AccountAction(
                 regcode="",
                 opcode="create",
                 linked_sub=cilogon_uinfo['sub'],
                 linked_iss=cilogon_uinfo['iss'],
                 linked_idp_name=cilogon_uinfo['idp_name'],
-                firstName=form.cleaned_data['first_name'],
-                lastName=form.cleaned_data['last_name'],
-                email=form.cleaned_data['email'],
-                username=form.cleaned_data['username'],
-                research_domain=form.cleaned_data['research_domain']
+                firstName=cleaned['first_name'],
+                lastName=cleaned['last_name'],
+                email=cleaned['email'],
+                username=cleaned['username'],
+                research_domain=cleaned['research_domain'],
+                accepted_terms_version=accepted_terms
             )
             pending_registration.save()
 

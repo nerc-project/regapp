@@ -4,6 +4,7 @@ Copyright (c) 2021 MGHPCC
 All rights reserved. No warranty, explicit or implicit, provided.
 """
 
+import json
 from urllib.parse import urlencode
 from django.conf import settings
 from django.http import Http404
@@ -37,12 +38,21 @@ def profile(request):
     # Profile is protected under path that authenticates
     # via MSS IdP. Userinfo in this session is from MSS.
     mss_uinfo = request.oidc_userinfo
+    accepted_terms_json = mss_uinfo['accepted_terms']
+    accepted_ver = None
+    if accepted_terms_json:
+        accepted_terms = json.loads(accepted_terms_json)
+        if accepted_terms['ver'] == settings.TERMS_VER:
+            accepted_ver = accepted_terms['ver']
+
     data = {
         'first_name': mss_uinfo.get('given_name', None),
         'last_name': mss_uinfo.get('family_name', None),
         'username': mss_uinfo.get('preferred_username', None),
         'email': mss_uinfo.get('email', None),
-        'research_domain': mss_uinfo.get('mss_research_domain', 'other')
+        'research_domain': mss_uinfo.get('mss_research_domain', 'other'),
+        'accept_privacy_statement': accepted_ver == settings.TERMS_VER,
+        'accept_privacy_statement_version': settings.TERMS_VER
     }
 
     if request.method != 'GET':
@@ -67,14 +77,21 @@ def profile(request):
                 logger.debug("Updates were inflight. Silently deleting them")
                 updates_inflight.delete()
 
+            cleaned = form.cleaned_data
+            if cleaned['accept_privacy_statement']:
+                accepted_terms = cleaned['accept_privacy_statement_version']
+            else:
+                accepted_terms = None
+
             pending_update = AccountAction(
                 regcode="",
                 sub=mss_uinfo['sub'],
-                firstName=form.cleaned_data['first_name'],
-                lastName=form.cleaned_data['last_name'],
-                email=form.cleaned_data['email'],
-                username=form.cleaned_data['username'],
-                research_domain=form.cleaned_data['research_domain']
+                firstName=cleaned['first_name'],
+                lastName=cleaned['last_name'],
+                email=cleaned['email'],
+                username=cleaned['username'],
+                research_domain=cleaned['research_domain'],
+                accepted_terms_version=accepted_terms
             )
 
             pending_update.save()
@@ -94,7 +111,11 @@ def profile(request):
         account_form.fields['username'].widget.attrs['readonly'] = True
 
         return render(request, 'profile/index.j2', {
-            'form': account_form
+            'form': account_form,
+            'terms': {
+                'title': settings.TERMS_NAME,
+                'version': settings.TERMS_VER
+            }
         })
 
 
