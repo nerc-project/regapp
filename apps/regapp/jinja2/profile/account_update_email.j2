@@ -6,16 +6,16 @@ been requested.
  * Old Email: {{ old_email }}
  * New Email: {{ account_action.email }}
 
-If you choose to proceed, we will send you a confirmation
-email at the new address. That email will contain a link
-that you must click to verify your new email and to complete
-this account update.
+Your confimation code for this update is:
+
+{{ account_action.regcode }}
+
+Please visit https://{{ SITENAME }}{{ url('site_validate') }} and enter
+your confirmation code to continue the account update process.
 
 If you did not initiate this account update, please
 contact the MGHPCC Shared Services team at {{ EMAIL_MSS_SUPPORT }}.
 
 Click the link below if you want to proceed.
-
-https://{{ SITENAME }}{{ url('site_validate') }}?regcode={{ account_action.regcode }}
 
 The MGHPCC Shared Services Team

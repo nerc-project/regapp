@@ -108,7 +108,11 @@ def registration(request):
         return redirect(target)
 
     # Initiate account creation
-    # Handling as get to survive oidc redirection
+    # Handling as GET to survive oidc redirection.
+    # Yet another reason to use apache/mod_auth_oidc which
+    # supports a OIDCPreservePost parameter that uses
+    # html5 session storage and js to survive...
+
     # TODO: Handle more sensibly...
     if request.method != "GET":
         logger.error(
@@ -138,6 +142,7 @@ def registration(request):
             pending_registration.save()
 
             return redirect('reg_sendvalidation')
+
     else:
 
         username = cilogon_uinfo.get('preferred_username', None)
@@ -264,18 +269,23 @@ def logout(request):
     # redirect the user to logout of the IdP
 
     redirect_to_regapp = (
-        request.META['HTTP_X_FORWARDED_PROTO'] + "://" + request.META['HTTP_X_FORWARDED_HOST'] + reverse('site_index')
+        f"{request.META['HTTP_X_FORWARDED_PROTO']}://"
+        f"{request.META['HTTP_X_FORWARDED_HOST']}{reverse('site_index')}"
     )
 
+    kc_logout_payload = urlencode({
+        'post_logout_redirect_uri': redirect_to_regapp,
+        'id_token_hint': request.oidc_userinfo['idtoken']
+    })
     redirect_to_keycloak = (
-        settings.CILOGON_LOGOUT_URL + "?" + urlencode({
-            'post_logout_redirect_uri': redirect_to_regapp,
-            'id_token_hint': request.oidc_userinfo['idtoken']
-        })
+        f"{settings.CILOGON_LOGOUT_URL}?"
+        f"{kc_logout_payload}"
     )
 
+    oauth2_proxy_payload = urlencode({'rd': redirect_to_keycloak})
     redirect_to_oauth2_proxy = (
-        settings.OAUTH2PROXY_CILOGON_LOGOUT_URL + "?" + urlencode({'rd': redirect_to_keycloak})
+        f"{settings.OAUTH2PROXY_CILOGON_LOGOUT_URL}?"
+        f"{oauth2_proxy_payload}"
     )
 
     return redirect(redirect_to_oauth2_proxy)

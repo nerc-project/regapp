@@ -11,6 +11,8 @@ from django.views.decorators.cache import never_cache
 from django.utils.http import urlencode
 from .utils import get_user_confirmation
 from ..models import AccountAction
+from ..forms import ConfirmAccountForm
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -18,12 +20,22 @@ logger = logging.getLogger(__name__)
 
 @never_cache
 def validate(request):
-    regcode = request.GET.get('regcode', None)
+
+    # forms with GET to survive oidc redirects
+    form = ConfirmAccountForm(request.GET)
+    if form.is_valid():
+        regcode = form.cleaned_data['regcode']
+    else:
+        ctx = {
+            'form': ConfirmAccountForm(),
+            'account_action': {'opcode': 'validatecode'}
+        }
+        return render(request, 'regapp/validate.j2', ctx)
 
     data = {
         "attributes": {}
     }
-    if regcode is None:
+    if not regcode:
         logmsg = "No regcode supplied. Cannot complete registration."
         logger.warn(logmsg)
         data["error"] = logmsg
