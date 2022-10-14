@@ -97,4 +97,9 @@ urlpatterns = [
         views.profile.sendupdate,
         name="profile_sendupdate"
     ),
+    path(
+        'profile/terms/',
+        views.profile.terms,
+        name="profile_terms"
+    ),
 ]

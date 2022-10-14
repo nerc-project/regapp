@@ -4,20 +4,34 @@ Copyright (c) 2021 MGHPCC
 All rights reserved. No warranty, explicit or implicit, provided.
 """
 
+from datetime import datetime, timezone
 import json
+import requests
 from urllib.parse import urlencode
 from django.conf import settings
+from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.views.decorators.cache import never_cache
 from django.urls import reverse
 from .utils import get_user_confirmation
-from ..forms import CreateAccountForm
+from ..forms import ConfirmTermsForm, CreateAccountForm
 from ..models import AccountAction
 import logging
 
 
 logger = logging.getLogger(__name__)
+
+
+def _accepted_version(request):
+    mss_uinfo = request.oidc_userinfo
+    accepted_terms_json = mss_uinfo.get('accepted_terms', None)
+    accepted_ver = None
+    if accepted_terms_json:
+        accepted_terms = json.loads(accepted_terms_json)
+        if accepted_terms['ver'] == settings.TERMS_VER:
+            accepted_ver = accepted_terms['ver']
+    return accepted_ver
 
 
 @never_cache
@@ -37,13 +51,8 @@ def profile(request):
 
     # Profile is protected under path that authenticates
     # via MSS IdP. Userinfo in this session is from MSS.
+    accepted_ver = _accepted_version(request)
     mss_uinfo = request.oidc_userinfo
-    accepted_terms_json = mss_uinfo['accepted_terms']
-    accepted_ver = None
-    if accepted_terms_json:
-        accepted_terms = json.loads(accepted_terms_json)
-        if accepted_terms['ver'] == settings.TERMS_VER:
-            accepted_ver = accepted_terms['ver']
 
     data = {
         'first_name': mss_uinfo.get('given_name', None),
@@ -169,6 +178,93 @@ def sendupdate(request):
         raise error
 
     return render(request, 'profile/sendupdate.j2', ctx)
+
+
+@never_cache
+def terms(request):
+
+    # Signals update as oppsed to get. For redirect survival.
+    if 'accept_privacy_statement_version' in request.GET:
+        form = ConfirmTermsForm(request.GET)
+
+        if form.is_valid():
+            sub = request.oidc_userinfo['sub']
+
+            accepted_terms = {
+                "ver": form.cleaned_data['accept_privacy_statement_version'],
+                "date": datetime.now(timezone.utc).isoformat(),
+                "ip": request.META['HTTP_X_REAL_IP']
+            }
+
+            api_endpoint = (
+                f"{settings.MSS_KC_SERVER}/auth/admin/realms/"
+                f"{settings.MSS_KC_REALM}/users/{sub}"
+            )
+
+            print(api_endpoint)
+
+            headers = {
+                'Authorization': f"Bearer {request.client_token}",
+                'Content-Type': 'application/json'
+            }
+
+            r = requests.request(
+                'GET',
+                api_endpoint,
+                headers=headers
+            )
+
+            user_data = r.json()
+            if not user_data.get('attributes', None):
+                user_data['attributes'] = {}
+
+            user_data['attributes']['accepted_terms'] = json.dumps(accepted_terms)
+
+            r = requests.request(
+                'PUT',
+                api_endpoint,
+                json=user_data,
+                headers=headers
+            )
+
+            # Redirect to oauth2-proxy logout to clear
+            # session cookie with return here. This
+            # should auto login and renew the
+            # id_token. Need to do this otherwise change
+            # will not show to the user (i.e. will get
+            # prompted again to agree to tsandcs)
+            target = (
+                f"{settings.OAUTH2PROXY_MSS_LOGOUT_URL}?"
+                f"{urlencode({'rd': reverse('profile_terms')})}"
+            )
+            return redirect(target)
+        else:
+            # Not sure how here - form posted but not valid
+            # TODO: better exception or review if we can get
+            # here at all
+            raise Exception("form not valid??")
+    else:
+        accepted_ver = _accepted_version(request)
+
+    if accepted_ver != settings.TERMS_VER:
+        form = ConfirmTermsForm()
+        messages.warning(
+            request,
+            (
+                "MSS Terms have changed. "
+                "Please review and agree to the new terms"
+            )
+        )
+    else:
+        form = None
+
+    context = {
+        'terms_name': settings.TERMS_NAME,
+        'terms_version': settings.TERMS_VER,
+        'terms_content': settings.TERMS_CONTENT,
+        'form': form
+    }
+    return render(request, 'profile/terms.j2', context)
 
 
 def logout(request):

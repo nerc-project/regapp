@@ -33,3 +33,4 @@ def get_regapp_terms():
 
 
 TERMS_CONTENT = get_regapp_terms()
+DEFAULT_TERMS_GRACE_DAYS = ENV.int('DEFAULT_TERMS_GRACE_DAYS', default=90)

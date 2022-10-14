@@ -1,0 +1,29 @@
+{% extends "regapp/base.j2" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col">
+        <h1>MGHPCC Shared Services Account Portal - Terms and Conditions</h1>
+        <hr>
+        <h3>{{terms_name}} {{terms_version}}<h3>
+    </div>
+</div>
+<div class='row mt-4'>
+    <div class='col'>
+        {{terms_content|safe}}
+    </div>
+</div>
+
+{% if form %}
+    <hr/>
+    <form id="{{form.helper.form_id}}" action="{{request.path_info}}" method="GET">
+        {{ csrf_input }}
+        {{ crispy(form) }}
+        <div class="float-right">
+            <input id="updateaccount" name="updateaccount" type="submit" class="btn btn-primary" value="Accept MSS Terms" />
+        </div>
+    </form>
+{% endif %}
+
+{% endblock %}
