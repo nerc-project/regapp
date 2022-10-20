@@ -4,8 +4,6 @@ Copyright (c) 2021 MGHPCC
 All rights reserved. No warranty, explicit or implicit, provided.
 """
 
-from datetime import datetime, timezone
-import json
 import requests
 from django.shortcuts import render, redirect
 from django.conf import settings
@@ -14,6 +12,7 @@ from django.utils.http import urlencode
 from .utils import get_user_confirmation
 from ..models import AccountAction
 from ..forms import ConfirmAccountForm
+from ..regapp_utils import accepted_terms_json
 
 import logging
 
@@ -65,12 +64,6 @@ def validate(request):
                 'Content-Type': 'application/json'
             }
 
-            accepted_terms = {
-                "ver": pending_account_action.accepted_terms_version,
-                "date": datetime.now(timezone.utc).isoformat(),
-                "ip": request.META['HTTP_X_REAL_IP']
-            }
-
             data["firstName"] = pending_account_action.firstName
             data["lastName"] = pending_account_action.lastName
             data["email"] = pending_account_action.email
@@ -78,8 +71,9 @@ def validate(request):
             data["attributes"]['mss_research_domain'] = (
                 pending_account_action.research_domain
             )
-            data['attributes']['accepted_terms'] = (
-                json.dumps(accepted_terms)
+            data['attributes']['accepted_terms'] = accepted_terms_json(
+                pending_account_action.accepted_terms_version,
+                request.META['HTTP_X_REAL_IP']
             )
             data["emailVerified"] = True
             data["enabled"] = True
@@ -196,10 +190,6 @@ def validate(request):
                             f"Acocunt {opcode} completed successfully for "
                             f"subject {pending_account_action.sub}."
                         )
-
-                        # TODO: This is a little too tied to knowing
-                        # oauth2proxy internals. Signout url should
-                        # come from config...
 
                         # If this is an update, we need to clear the session
                         # cookie held by oauth2proxy as info token is now

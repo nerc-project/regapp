@@ -8,6 +8,8 @@ from requests.auth import HTTPBasicAuth
 import requests
 from django.conf import settings
 import logging
+import json
+from datetime import datetime, timezone
 
 logger = logging.getLogger(__name__)
 
@@ -45,3 +47,23 @@ def get_client_token():
         )
 
     return client_token
+
+
+def get_accepted_version(request):
+    mss_uinfo = request.oidc_userinfo
+    accepted_terms_json = mss_uinfo.get('accepted_terms', None)
+    accepted_ver = None
+    if accepted_terms_json:
+        accepted_terms = json.loads(accepted_terms_json)
+        accepted_ver = accepted_terms.get('ver', None)
+    return accepted_ver
+
+
+def accepted_terms_json(ver, ip="unknown"):
+    accepted_terms = {
+        "ver": ver,
+        "date": datetime.now(timezone.utc).isoformat(),
+        "ip": ip
+    }
+
+    return json.dumps(accepted_terms)

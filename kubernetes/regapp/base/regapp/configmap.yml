@@ -15,3 +15,7 @@ data:
   REGAPP_DJANGO_LOG_LEVEL: INFO
   REGAPP_REGAPP_LOG_LEVEL: DEBUG
   REGAPP_REAPER_MAX_AGE: "86400"
+  REGAPP_TERMS_VERSION: "v1.0.1"
+  REGAPP_TERMS_LOCATION: "https://api.github.com/repos/nerc-project/nerc-eulas/contents/regapp_terms.md?ref=v1.0.1"
+  REGAPP_TERMS_NAME: "NERC Privacy Statement"
+  REGAPP_DEFAULT_TERMS_GRACE_DAYS: "90"

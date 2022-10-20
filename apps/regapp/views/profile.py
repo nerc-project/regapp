@@ -4,8 +4,6 @@ Copyright (c) 2021 MGHPCC
 All rights reserved. No warranty, explicit or implicit, provided.
 """
 
-from datetime import datetime, timezone
-import json
 import requests
 from urllib.parse import urlencode
 from django.conf import settings
@@ -14,24 +12,15 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.views.decorators.cache import never_cache
 from django.urls import reverse
+
 from .utils import get_user_confirmation
 from ..forms import ConfirmTermsForm, CreateAccountForm
 from ..models import AccountAction
+from ..regapp_utils import get_accepted_version, accepted_terms_json
 import logging
 
 
 logger = logging.getLogger(__name__)
-
-
-def _accepted_version(request):
-    mss_uinfo = request.oidc_userinfo
-    accepted_terms_json = mss_uinfo.get('accepted_terms', None)
-    accepted_ver = None
-    if accepted_terms_json:
-        accepted_terms = json.loads(accepted_terms_json)
-        if accepted_terms['ver'] == settings.TERMS_VER:
-            accepted_ver = accepted_terms['ver']
-    return accepted_ver
 
 
 @never_cache
@@ -51,7 +40,7 @@ def profile(request):
 
     # Profile is protected under path that authenticates
     # via MSS IdP. Userinfo in this session is from MSS.
-    accepted_ver = _accepted_version(request)
+    accepted_ver = get_accepted_version(request)
     mss_uinfo = request.oidc_userinfo
 
     data = {
@@ -88,9 +77,11 @@ def profile(request):
 
             cleaned = form.cleaned_data
             if cleaned['accept_privacy_statement']:
-                accepted_terms = cleaned['accept_privacy_statement_version']
+                accepted_terms_version = (
+                    cleaned['accept_privacy_statement_version']
+                )
             else:
-                accepted_terms = None
+                accepted_terms_version = None
 
             pending_update = AccountAction(
                 regcode="",
@@ -100,7 +91,7 @@ def profile(request):
                 email=cleaned['email'],
                 username=cleaned['username'],
                 research_domain=cleaned['research_domain'],
-                accepted_terms_version=accepted_terms
+                accepted_terms_version=accepted_terms_version
             )
 
             pending_update.save()
@@ -109,7 +100,6 @@ def profile(request):
                 "Errors in profile update form submission. "
                 f"{form.errors}"
             )
-            print(form.errors)
 
         return redirect('profile_sendupdate')
 
@@ -123,7 +113,8 @@ def profile(request):
             'form': account_form,
             'terms': {
                 'title': settings.TERMS_NAME,
-                'version': settings.TERMS_VER
+                'version': settings.TERMS_VER,
+                'content': settings.TERMS_CONTENT
             }
         })
 
@@ -190,18 +181,10 @@ def terms(request):
         if form.is_valid():
             sub = request.oidc_userinfo['sub']
 
-            accepted_terms = {
-                "ver": form.cleaned_data['accept_privacy_statement_version'],
-                "date": datetime.now(timezone.utc).isoformat(),
-                "ip": request.META['HTTP_X_REAL_IP']
-            }
-
             api_endpoint = (
                 f"{settings.MSS_KC_SERVER}/auth/admin/realms/"
                 f"{settings.MSS_KC_REALM}/users/{sub}"
             )
-
-            print(api_endpoint)
 
             headers = {
                 'Authorization': f"Bearer {request.client_token}",
@@ -218,7 +201,10 @@ def terms(request):
             if not user_data.get('attributes', None):
                 user_data['attributes'] = {}
 
-            user_data['attributes']['accepted_terms'] = json.dumps(accepted_terms)
+            user_data['attributes']['accepted_terms'] = accepted_terms_json(
+                form.cleaned_data['accept_privacy_statement_version'],
+                request.META['HTTP_X_REAL_IP']
+            )
 
             r = requests.request(
                 'PUT',
@@ -244,7 +230,7 @@ def terms(request):
             # here at all
             raise Exception("form not valid??")
     else:
-        accepted_ver = _accepted_version(request)
+        accepted_ver = get_accepted_version(request)
 
     if accepted_ver != settings.TERMS_VER:
         form = ConfirmTermsForm()
