@@ -9,6 +9,27 @@ from django.conf import settings
 from crispy_forms.helper import FormHelper
 from .models import AccountAction
 
+MSS_ORGANIZATIONS = [
+    ('BU', 'Boston University'),
+    ('MIT', 'Massachusetts Institute of Technology'),
+    ('HU', 'Harvard University'),
+    ('RH', 'Red Hat')
+]
+
+
+class WayfForm(forms.Form):
+    mss_organization = forms.ChoiceField(
+        choices=[('', '-----')] + MSS_ORGANIZATIONS,
+        label="Organization"
+    )
+
+    def __init__(self, *args, **kwargs):
+        kwargs['auto_id'] = 'wayf_%s'
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.form_id = "wayfform"
+
 
 class ConfirmAccountForm(forms.Form):
     regcode = forms.CharField(

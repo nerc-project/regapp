@@ -41,6 +41,11 @@ urlpatterns = [
         views.regapp.terms,
         name="site_terms"
     ),
+    path(
+        'wayf/',
+        views.regapp.wayf,
+        name="site_wayf"
+    ),
     # #######################################
     # Registration - authenticated at CILogon
     # #######################################
