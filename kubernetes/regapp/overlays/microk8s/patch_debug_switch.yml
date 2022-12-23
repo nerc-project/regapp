@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: regapp-configmap
+data:
+  DEBUG: "1"

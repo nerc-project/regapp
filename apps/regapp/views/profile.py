@@ -182,7 +182,7 @@ def terms(request):
             sub = request.oidc_userinfo['sub']
 
             api_endpoint = (
-                f"{settings.MSS_KC_SERVER}/auth/admin/realms/"
+                f"{settings.MSS_KC_SERVER}/admin/realms/"
                 f"{settings.MSS_KC_REALM}/users/{sub}"
             )
 

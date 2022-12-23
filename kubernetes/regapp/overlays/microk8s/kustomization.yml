@@ -1,0 +1,32 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+
+images:
+  - name: ghcr.io/nerc-project/regapp-db:main
+    newName: mghpcc/regapp-db
+    newTag: latest
+  - name: ghcr.io/nerc-project/regapp:main
+    newName: mghpcc/regapp
+    newTag: latest
+
+patches:
+
+  - target:
+      kind: Ingress
+    path: ingress-host-regappdev.yaml
+  - target:
+      kind: Deployment
+    path: patch_etc_hosts.yml
+
+
+patchesStrategicMerge:
+  - patch_debug_switch.yml
+  - patch_devel_switch.yml
+  - patch_imagepullpolicy.yml
+  - patch_config.yaml
+  - patch_configmap.yaml
+  - patch_authorization.yaml

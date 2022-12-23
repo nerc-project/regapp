@@ -52,7 +52,7 @@ def registration(request):
     if pending_registration is None:
 
         api_endpoint = (
-            f"{settings.MSS_KC_SERVER}/auth/admin/realms/"
+            f"{settings.MSS_KC_SERVER}/admin/realms/"
             f"{settings.MSS_KC_REALM}/users"
         )
         headers = {
@@ -236,7 +236,7 @@ def accountexists(request):
 
     uid = request.GET.get('acctid', None)
     api_endpoint = (
-        f"{settings.MSS_KC_SERVER}/auth/admin/realms/"
+        f"{settings.MSS_KC_SERVER}/admin/realms/"
         f"{settings.MSS_KC_REALM}/users/{uid}"
     )
     headers = {

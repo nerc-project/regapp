@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 def get_client_token():
     client_token = None
     token_url = (
-        f"{settings.MSS_KC_SERVER}/auth/realms/"
+        f"{settings.MSS_KC_SERVER}/realms/"
         f"{settings.MSS_KC_REALM}/protocol/openid-connect/token"
     )
 

@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
     API_ENDPOINT_USERS = (
-        f"{settings.MSS_KC_SERVER}/auth/admin/realms/"
+        f"{settings.MSS_KC_SERVER}/admin/realms/"
         f"{settings.MSS_KC_REALM}/users"
     )
     help = 'MGHPCC-SS terms maintenance utility'

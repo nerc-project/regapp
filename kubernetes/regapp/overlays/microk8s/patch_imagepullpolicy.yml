@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oauth2-proxy
+spec:
+  template:
+    spec:
+      containers:
+        - name: oauth2-proxy-kc
+          imagePullPolicy: IfNotPresent
+        - name: oauth2-proxy-cilogon
+          imagePullPolicy: IfNotPresent
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: regapp
+spec:
+  template:
+    spec:
+      containers:
+        - name: regapp-container
+          imagePullPolicy: IfNotPresent
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: regreaper
+spec:
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: regreaper
+              imagePullPolicy: IfNotPresent

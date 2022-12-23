@@ -55,7 +55,7 @@ def validate(request):
             opcode = pending_account_action.opcode
 
             api_endpoint = (
-                f"{settings.MSS_KC_SERVER}/auth/admin/realms/"
+                f"{settings.MSS_KC_SERVER}/admin/realms/"
                 f"{settings.MSS_KC_REALM}/users"
             )
 

@@ -1,0 +1,13 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: not-important
+spec:
+  template:
+    spec:
+      hostAliases:
+      - ip: "54.208.123.89"
+        hostnames:
+        - "keycloak.mss.mghpcc.org"
+        - "keycloakdev.mss.mghpcc.org"
