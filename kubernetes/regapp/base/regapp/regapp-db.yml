@@ -5,7 +5,7 @@ metadata:
   name: regapp-postgres-ha
   namespace: regapp
 spec:
-  #image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:centos8-13.4-1
+  # image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:centos8-13.4-1
   postgresVersion: 13
   instances:
     - name: regapp-pgha1
@@ -28,7 +28,7 @@ spec:
                     postgres-operator.crunchydata.com/instance-set: regapp-pgha1
   backups:
     pgbackrest:
-      #image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:centos8-2.35-0
+      # image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:centos8-2.35-0
       global:
         repo1-retention-full: "14"
         repo1-retention-full-type: time
@@ -39,7 +39,7 @@ spec:
       repos:
         - name: repo1
           schedules:
-            full: "0 1 0 * 1"
+            full: "0 1 * * 1"
             differential: "0 3 * * *"
           volume:
             volumeClaimSpec:
@@ -50,7 +50,7 @@ spec:
                   storage: 5Gi
   proxy:
     pgBouncer:
-      #image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbouncer:centos8-1.15-3
+      # image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbouncer:centos8-1.15-3
       replicas: 2
       affinity:
         podAntiAffinity:
