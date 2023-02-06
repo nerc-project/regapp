@@ -13,7 +13,7 @@ spec:
     group: cert-manager.io
     kind: ClusterIssuer
     name: letsencrypt-prod
-  secretName: regappdev-tls
+  secretName: regappdev-tls  # noqa: E501 # pragma: allowlist secret
   usages:
     - server auth
     - client auth
