@@ -89,7 +89,30 @@ class AccountAction(TimeStampedModel):
         choices=RESEARCH_DOMAIN_CHOICES,
         default='other'
     )
+    accepted_terms_version = models.CharField(
+        max_length=32,
+        null=True,
+        default=None
+    )
 
     @property
     def research_domain_name(self):
         return AccountAction._rd_name_from_id(self.research_domain)
+
+
+class UserNotification(TimeStampedModel):
+    NOTIFICATION_CHOICES = {
+        ('terms', 'Terms agreement is out of date'),
+    }
+    sub = models.CharField(max_length=128)
+    firstName = models.CharField(max_length=128)
+    lastName = models.CharField(max_length=128)
+    email = models.EmailField(max_length=128)
+    username = models.CharField(max_length=128)
+    notification_date = models.DateTimeField()
+    notification_type = models.CharField(
+        max_length=32,
+        choices=NOTIFICATION_CHOICES,
+        default='terms'
+    )
+    notification_data = models.JSONField()

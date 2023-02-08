@@ -12,6 +12,7 @@ from django.utils.http import urlencode
 from .utils import get_user_confirmation
 from ..models import AccountAction
 from ..forms import ConfirmAccountForm
+from ..regapp_utils import accepted_terms_json
 
 import logging
 
@@ -54,7 +55,7 @@ def validate(request):
             opcode = pending_account_action.opcode
 
             api_endpoint = (
-                f"{settings.MSS_KC_SERVER}/auth/admin/realms/"
+                f"{settings.MSS_KC_SERVER}/admin/realms/"
                 f"{settings.MSS_KC_REALM}/users"
             )
 
@@ -69,6 +70,10 @@ def validate(request):
             data["username"] = pending_account_action.username
             data["attributes"]['mss_research_domain'] = (
                 pending_account_action.research_domain
+            )
+            data['attributes']['accepted_terms'] = accepted_terms_json(
+                pending_account_action.accepted_terms_version,
+                request.META['HTTP_X_REAL_IP']
             )
             data["emailVerified"] = True
             data["enabled"] = True
@@ -185,10 +190,6 @@ def validate(request):
                             f"Acocunt {opcode} completed successfully for "
                             f"subject {pending_account_action.sub}."
                         )
-
-                        # TODO: This is a little too tied to knowing
-                        # oauth2proxy internals. Signout url should
-                        # come from config...
 
                         # If this is an update, we need to clear the session
                         # cookie held by oauth2proxy as info token is now

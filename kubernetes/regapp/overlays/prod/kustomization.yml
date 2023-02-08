@@ -14,12 +14,20 @@ resources:
   - secrets/pgo-s3-conf.yaml
   - secrets/pgo-pgbackrest-secrets.yaml
 
+patches:
+  - target:
+      group: external-secrets.io
+      version: v1beta1
+      kind: ExternalSecret
+      name: '.*'
+    path: patches/external_secrets_api_version.yaml
+
 patchesStrategicMerge:
   - patches/regapp-db.yaml
   - patches/ingress.yaml
   - patches/patch_authorization.yaml
   - |-
-    apiVersion: external-secrets.io/v1alpha1
+    apiVersion: external-secrets.io/v1beta1
     kind: ExternalSecret
     metadata:
       name: regapp-tls

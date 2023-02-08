@@ -70,7 +70,7 @@ MSS_KC_CLIENT_SECRET = ENV.str('REGAPP_REGAPP_CLIENT_SECRET')
 MSS_LOGOUT_URL = ENV.str(
     'REGAPP_MSS_LOGOUT_URL',
     (
-        f"{MSS_KC_SERVER}/auth/realms/"
+        f"{MSS_KC_SERVER}/realms/"
         f"{MSS_KC_REALM}/protocol/openid-connect/logout"
     )
 )

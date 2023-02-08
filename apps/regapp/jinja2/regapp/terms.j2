@@ -1,0 +1,18 @@
+{% extends "regapp/base.j2" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col">
+        <h1>MGHPCC Shared Services Account Portal - Terms and Conditions</h1>
+        <hr>
+        <h3>{{terms_name}} {{terms_version}}<h3>
+    </div>
+</div>
+<div class='row mt-4'>
+    <div class='col'>
+        {{terms_content|safe}}
+    </div>
+</div>
+
+{% endblock %}

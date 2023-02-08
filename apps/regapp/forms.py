@@ -5,6 +5,7 @@ All rights reserved. No warranty, explicit or implicit, provided.
 """
 
 from django import forms
+from django.conf import settings
 from crispy_forms.helper import FormHelper
 from .models import AccountAction
 
@@ -21,6 +22,25 @@ class ConfirmAccountForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.form_id = "confirmationform"
+
+
+class ConfirmTermsForm(forms.Form):
+
+    accept_privacy_statement = forms.BooleanField(
+        label=f"I accept {settings.TERMS_NAME} {settings.TERMS_VER}"
+    )
+
+    accept_privacy_statement_version = forms.CharField(
+        widget=forms.HiddenInput(),
+        initial=f"{settings.TERMS_VER}"
+    )
+
+    def __init__(self, *args, **kwargs):
+        kwargs['auto_id'] = 'regterms_%s'
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.form_id = "termsform"
 
 
 class CreateAccountForm(forms.Form):
@@ -46,6 +66,15 @@ class CreateAccountForm(forms.Form):
     research_domain = forms.ChoiceField(
         choices=[('', '-----')] + list(AccountAction.RESEARCH_DOMAIN_CHOICES),
         label="Research Domain"
+    )
+
+    accept_privacy_statement = forms.BooleanField(
+        label=f"I accept {settings.TERMS_NAME} {settings.TERMS_VER}"
+    )
+
+    accept_privacy_statement_version = forms.CharField(
+        widget=forms.HiddenInput(),
+        initial=f"{settings.TERMS_VER}"
     )
 
     def clean_research_domain(self):

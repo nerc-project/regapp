@@ -6,7 +6,7 @@ metadata:
 data:
   SITENAME: regapp.mss.mghpcc.org
   OIDCRedirectURI: "/"
-  REGAPP_MSS_KC_SERVER: https://keycloak.mss.mghpcc.org
+  REGAPP_MSS_KC_SERVER: https://keycloak.mss.mghpcc.org/auth
   REGAPP_MSS_KC_REALM: mss
   REGAPP_EMAIL_SUPPORT: help@mghpcc.org
   REGAPP_EMAIL_HOST: email-smtp.us-east-1.amazonaws.com
@@ -15,3 +15,7 @@ data:
   REGAPP_DJANGO_LOG_LEVEL: INFO
   REGAPP_REGAPP_LOG_LEVEL: DEBUG
   REGAPP_REAPER_MAX_AGE: "86400"
+  REGAPP_TERMS_VERSION: "v1.0.0"
+  REGAPP_TERMS_LOCATION: "https://api.github.com/repos/nerc-project/nerc-eulas/contents/EULA.md?ref=v1.0.0"
+  REGAPP_TERMS_NAME: "EULA"
+  REGAPP_DEFAULT_TERMS_GRACE_DAYS: "90"
