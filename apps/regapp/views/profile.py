@@ -203,7 +203,7 @@ def terms(request):
 
             user_data['attributes']['accepted_terms'] = accepted_terms_json(
                 form.cleaned_data['accept_privacy_statement_version'],
-                request.META['HTTP_X_REAL_IP']
+                request.META.get('HTTP_X_FORWARDED_FOR', "unknown ip address")
             )
 
             r = requests.request(
