@@ -16,6 +16,6 @@ data:
   REGAPP_REGAPP_LOG_LEVEL: DEBUG
   REGAPP_REAPER_MAX_AGE: "86400"
   REGAPP_TERMS_VERSION: "v1.0.0"
-  REGAPP_TERMS_LOCATION: "https://api.github.com/repos/nerc-project/nerc-eulas/contents/EULA.md?ref=v1.0.0"
+  REGAPP_TERMS_LOCATION: "https://raw.githubusercontent.com/nerc-project/nerc-eulas/v1.0.0/EULA.md"
   REGAPP_TERMS_NAME: "EULA"
   REGAPP_DEFAULT_TERMS_GRACE_DAYS: "90"
