@@ -73,7 +73,7 @@ def validate(request):
             )
             data['attributes']['accepted_terms'] = accepted_terms_json(
                 pending_account_action.accepted_terms_version,
-                request.META['HTTP_X_REAL_IP']
+                request.META.get('HTTP_X_FORWARDED_FOR', "unknown ip address")
             )
             data["emailVerified"] = True
             data["enabled"] = True
