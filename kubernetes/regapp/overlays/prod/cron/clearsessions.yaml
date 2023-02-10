@@ -1,0 +1,62 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: clearsessions
+  namespace: regapp
+spec:
+  schedule: "0 1 * * *"
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 1800
+      template:
+        metadata:
+          annotations:
+            alpha.image.policy.openshift.io/resolve-names: '*'
+        spec:
+          containers:
+            - name: clearsessions
+              image: ghcr.io/nerc-project/regapp:main
+              imagePullPolicy: Always
+              workingDir: "/code"
+              command:
+                - python
+                - manage.py
+                - clearsessions
+              env:
+                - name: REGAPP_REGAPP_CLIENT_ID
+                  value: DONTCARE
+                - name: REGAPP_REGAPP_CLIENT_SECRET
+                  value: DONTCARE
+                - name: DATABASE_HOST
+                  valueFrom:
+                    secretKeyRef:
+                      name: regapp-postgres-ha-pguser-regapp-postgres-ha
+                      key: host
+                - name: DATABASE_PORT
+                  valueFrom:
+                    secretKeyRef:
+                      name: regapp-postgres-ha-pguser-regapp-postgres-ha
+                      key: port
+                - name: DATABASE_NAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: regapp-postgres-ha-pguser-regapp-postgres-ha
+                      key: dbname
+                - name: DATABASE_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: regapp-postgres-ha-pguser-regapp-postgres-ha
+                      key: user
+                - name: DATABASE_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: regapp-postgres-ha-pguser-regapp-postgres-ha
+                      key: password
+              envFrom:
+                - configMapRef:
+                    name: regapp-configmap
+                - secretRef:
+                    name: regapp-secrets
+
+          restartPolicy: OnFailure
