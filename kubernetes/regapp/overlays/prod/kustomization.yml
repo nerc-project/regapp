@@ -13,6 +13,7 @@ resources:
   - namespace.yml
   - secrets/pgo-s3-conf.yaml
   - secrets/pgo-pgbackrest-secrets.yaml
+  - cron/clearsessions.yaml
 
 patches:
   - target:
