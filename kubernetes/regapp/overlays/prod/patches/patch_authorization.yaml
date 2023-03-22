@@ -18,7 +18,8 @@ data:
     umb.edu,.umb.edu,\
     northeastern.edu,.northeastern.edu,\
     wpi.edu,.wpi.edu,\
-    redhat.com,.redhat.com"
+    redhat.com,.redhat.com,\
+    uri.edu,.uri.edu"
 
 
 ---
@@ -37,6 +38,7 @@ data:
     https%3A%2F%2Fshibboleth.umassmed.edu%2Fidp%2Fshibboleth,\
     https%3A%2F%2Fneuidmsso.neu.edu%2Fidp%2Fshibboleth,\
     https%3A%2F%2Fidp.wpi.edu%2Fidp%2Fshibboleth,\
+    https%3A%2F%2Fsso.uri.edu%2Fidp,\
     http%3A%2F%2Fgoogle.com%2Faccounts%2Fo8%2Fid,\
     https%3A%2F%2Flogin.microsoftonline.com%2Fcommon%2Foauth2%2Fv2.0%2Fauthorize"
   OAUTH2_PROXY_EMAIL_DOMAINS: "harvard.edu,.harvard.edu,\
@@ -53,4 +55,5 @@ data:
     umb.edu,.umb.edu,\
     northeastern.edu,.northeastern.edu,\
     wpi.edu,.wpi.edu,\
-    redhat.com,.redhat.com"
+    redhat.com,.redhat.com,\
+    uri.edu,.uri.edu"
