@@ -19,7 +19,8 @@ data:
     northeastern.edu,.northeastern.edu,\
     wpi.edu,.wpi.edu,\
     redhat.com,.redhat.com,\
-    uri.edu,.uri.edu"
+    uri.edu,.uri.edu,\
+    codeforboston.org,.codeforboston.org"
 
 
 ---
@@ -56,4 +57,5 @@ data:
     northeastern.edu,.northeastern.edu,\
     wpi.edu,.wpi.edu,\
     redhat.com,.redhat.com,\
-    uri.edu,.uri.edu"
+    uri.edu,.uri.edu,\
+    codeforboston.org,.codeforboston.org"
