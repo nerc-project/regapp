@@ -4,7 +4,7 @@ metadata:
   name: regapp-postgres-ha
   namespace: regapp
 spec:
-  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:centos8-13.4-1
+  image: default-route-openshift-image-registry.apps.nerc-shift-1.rc.fas.harvard.edu/postgres-operator/crunchy-postgres:latest
   postgresVersion: 13
   instances:
     - name: regapp-pgha1
@@ -27,7 +27,7 @@ spec:
                     postgres-operator.crunchydata.com/instance-set: regapp-pgha1
   backups:
     pgbackrest:
-      image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:centos8-2.35-0
+      image: default-route-openshift-image-registry.apps.nerc-shift-1.rc.fas.harvard.edu/postgres-operator/crunchy-pgbackrest:latest
       configuration:
       - secret:
           name: pgo-s3-conf
@@ -66,7 +66,7 @@ spec:
           region: "us-east-1"
   proxy:
     pgBouncer:
-      image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbouncer:centos8-1.15-3
+      image: default-route-openshift-image-registry.apps.nerc-shift-1.rc.fas.harvard.edu/postgres-operator/crunchy-pgbouncer:latest
       replicas: 2
       affinity:
         podAntiAffinity:
