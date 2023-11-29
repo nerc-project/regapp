@@ -81,7 +81,7 @@ def get_user_confirmation(account_action, validation_email):
         # This should not happen...
         errmsg = (
             "Account action has unrecognized "
-            f"opcode { account_action.opcode }"
+            f"opcode {account_action.opcode}"
         )
         logger.error(errmsg)
         raise RuntimeError(errmsg)
