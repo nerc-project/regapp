@@ -20,7 +20,10 @@ data:
     wpi.edu,.wpi.edu,\
     redhat.com,.redhat.com,\
     uri.edu,.uri.edu,\
-    codeforboston.org,.codeforboston.org"
+    codeforboston.org,.codeforboston.org,\
+    dartmouth.edu,.dartmouth.edu,\
+    yale.edu,.yale.edu,\
+    utoronto.ca,.utoronto.ca"
 
 
 ---
@@ -41,7 +44,10 @@ data:
     https%3A%2F%2Fidp.wpi.edu%2Fidp%2Fshibboleth,\
     https%3A%2F%2Fsso.uri.edu%2Fidp,\
     http%3A%2F%2Fgoogle.com%2Faccounts%2Fo8%2Fid,\
-    https%3A%2F%2Flogin.microsoftonline.com%2Fcommon%2Foauth2%2Fv2.0%2Fauthorize"
+    https%3A%2F%2Flogin.microsoftonline.com%2Fcommon%2Foauth2%2Fv2.0%2Fauthorize,\
+    urn%3Amace%3Aincommon%3Adartmouth.edu,\
+    https%3A%2F%2Fauth.yale.edu%2Fidp%2Fshibboleth,\
+    https%3A%2F%2Fidpz.utorauth.utoronto.ca%2Fshibboleth"
   OAUTH2_PROXY_EMAIL_DOMAINS: "harvard.edu,.harvard.edu,\
     hbs.edu,.hbs.edu,\
     bu.edu,.bu.edu,\
@@ -58,4 +64,7 @@ data:
     wpi.edu,.wpi.edu,\
     redhat.com,.redhat.com,\
     uri.edu,.uri.edu,\
-    codeforboston.org,.codeforboston.org"
+    codeforboston.org,.codeforboston.org,\
+    dartmouth.edu,.dartmouth.edu,\
+    yale.edu,.yale.edu,\
+    utoronto.ca,.utoronto.ca"
