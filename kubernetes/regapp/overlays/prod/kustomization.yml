@@ -26,7 +26,7 @@ patches:
 patchesStrategicMerge:
   - patches/regapp-db.yaml
   - patches/ingress.yaml
-  - patches/patch_authorization.yaml
+  # - patches/patch_authorization.yaml
   - |-
     apiVersion: external-secrets.io/v1beta1
     kind: ExternalSecret
