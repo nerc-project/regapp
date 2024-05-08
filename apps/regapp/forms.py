@@ -47,7 +47,7 @@ class CreateAccountForm(forms.Form):
     username = forms.CharField(
         max_length=100,
         label="Preferred Username",
-        widget=forms.TextInput(attrs={"readonly":"readonly"})
+        widget=forms.TextInput(attrs={"readonly": "readonly"})
     )
     first_name = forms.CharField(
         max_length=100,
