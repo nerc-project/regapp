@@ -46,7 +46,8 @@ class ConfirmTermsForm(forms.Form):
 class CreateAccountForm(forms.Form):
     username = forms.CharField(
         max_length=100,
-        label="Preferred Username"
+        label="Preferred Username",
+        widget=forms.TextInput(attrs={"readonly": "readonly"})
     )
     first_name = forms.CharField(
         max_length=100,

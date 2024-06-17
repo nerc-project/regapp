@@ -64,6 +64,8 @@ def profile(request):
     if 'email' in request.GET:
         form = CreateAccountForm(request.GET, initial=data)
 
+        form.fields['username'].widget.attrs['readonly'] = True
+
         if form.is_valid():
 
             # Rock beats scissors. Kill any extant update

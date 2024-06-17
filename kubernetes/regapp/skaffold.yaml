@@ -21,6 +21,6 @@ build:
 deploy:
   kustomize:
     paths:
-      - overlays/dev
+      - overlays/microk8s
 
-  kubeContext: nerc-minikube
+  kubeContext: k8sdev
