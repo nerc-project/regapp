@@ -22,6 +22,8 @@ patches:
       kind: ExternalSecret
       name: '.*'
     path: patches/external_secrets_api_version.yaml
+  - path: patches/oauth-config.yaml
+  - path: patches/regapp-config.yaml
 
 patchesStrategicMerge:
   - patches/regapp-db.yaml

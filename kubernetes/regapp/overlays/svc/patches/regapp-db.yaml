@@ -28,22 +28,22 @@ spec:
                     postgres-operator.crunchydata.com/instance-set: regapp-pgha1
   backups:
     pgbackrest:
-      configuration:
-      - secret:
-          name: pgo-s3-conf
+      #configuration:
+      #- secret:
+      #    name: pgo-s3-conf
       # - secret:
       #     name: pgo-pgbackrest-secrets
       global:
         # repo1-cipher-type: aes-256-cbc
         # repo2-cipher-type: aes-256-cbc
-        repo2-path: /pgbackrest/postgres-operator/regapp-postgres-ha/repo2
-        repo2-s3-uri-style: path
+        #repo2-path: /pgbackrest/postgres-operator/regapp-postgres-ha/repo2
+        #repo2-s3-uri-style: path
         repo1-retention-full: "30"
         repo2-retention-full: "30"
-      manual:
-        repoName: repo2
-        options:
-          - --type=full
+      #manual:
+      #  repoName: repo2
+      #  options:
+      #    - --type=full
       repos:
       - name: repo1
         schedules:
@@ -56,14 +56,14 @@ spec:
             resources:
               requests:
                 storage: 5Gi
-      - name: repo2
-        schedules:
-          full: "0 1 * * *"
-          incremental: "0 */4 * * *"
-        s3:
-          bucket: "nerc-shift-1-backups"
-          endpoint: "holecs.rc.fas.harvard.edu"
-          region: "us-east-1"
+      #- name: repo2
+      #  schedules:
+      #    full: "0 1 * * *"
+      #    incremental: "0 */4 * * *"
+      #  s3:
+      #    bucket: "nerc-shift-1-backups"
+      #    endpoint: "holecs.rc.fas.harvard.edu"
+      #    region: "us-east-1"
   proxy:
     pgBouncer:
       replicas: 2
