@@ -24,7 +24,7 @@ spec:
             - --provider-display-name="MSS"
             - --insecure-oidc-allow-unverified-email
             - --cookie-refresh=60s
-            - --whitelist-domain=keycloak.mss.mghpcc.org
+            - --whitelist-domain=keycloak.apps.svc.nerc.mghpcc.org
           env:
             - name: OAUTH2_PROXY_CLIENT_ID
               valueFrom:

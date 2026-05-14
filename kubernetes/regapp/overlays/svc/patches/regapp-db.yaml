@@ -1,11 +1,12 @@
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
+  annotations:
+    postgres-operator.crunchydata.com/autoCreateUserSchema: "true"
   name: regapp-postgres-ha
   namespace: regapp
 spec:
-  image: default-route-openshift-image-registry.apps.nerc-shift-1.rc.fas.harvard.edu/postgres-operator/crunchy-postgres:latest
-  postgresVersion: 13
+  postgresVersion: 18
   instances:
     - name: regapp-pgha1
       replicas: 2
@@ -27,7 +28,6 @@ spec:
                     postgres-operator.crunchydata.com/instance-set: regapp-pgha1
   backups:
     pgbackrest:
-      image: default-route-openshift-image-registry.apps.nerc-shift-1.rc.fas.harvard.edu/postgres-operator/crunchy-pgbackrest:latest
       configuration:
       - secret:
           name: pgo-s3-conf
@@ -66,7 +66,6 @@ spec:
           region: "us-east-1"
   proxy:
     pgBouncer:
-      image: default-route-openshift-image-registry.apps.nerc-shift-1.rc.fas.harvard.edu/postgres-operator/crunchy-pgbouncer:latest
       replicas: 2
       affinity:
         podAntiAffinity:
