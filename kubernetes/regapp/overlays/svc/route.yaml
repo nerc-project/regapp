@@ -1,3 +1,4 @@
+---
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
@@ -16,3 +17,70 @@ spec:
     name: regapp
     weight: 100
   wildcardPolicy: None
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: regapp-profile
+spec:
+  host: regapp.apps.svc.nerc.mghpcc.org
+  path: /profile
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  to:
+    kind: Service
+    name: oauth2-proxy
+  port:
+    targetPort: 4180
+
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: regapp-oauth2kc
+spec:
+  host: regapp.apps.svc.nerc.mghpcc.org
+  path: /oauth2kc
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  to:
+    kind: Service
+    name: oauth2-proxy
+  port:
+    targetPort: 4180
+
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: regapp-registration
+spec:
+  host: regapp.apps.svc.nerc.mghpcc.org
+  path: /registration
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  to:
+    kind: Service
+    name: oauth2-proxy
+  port:
+    targetPort: 4188
+
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: regapp-oauth2cilogon
+spec:
+  host: regapp.apps.svc.nerc.mghpcc.org
+  path: /oauth2cilogon
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  to:
+    kind: Service
+    name: oauth2-proxy
+  port:
+    targetPort: 4188
