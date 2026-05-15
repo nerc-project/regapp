@@ -6,4 +6,4 @@ metadata:
 data:
   SITENAME: regapp.apps.svc.nerc.mghpcc.org
   OIDCRedirectURI: "/"
-  REGAPP_MSS_KC_SERVER: https://keycloak.apps.svc.nerc.mghpcc.org/
+  REGAPP_MSS_KC_SERVER: https://keycloak.apps.svc.nerc.mghpcc.org

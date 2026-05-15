@@ -98,6 +98,8 @@ spec:
                   key: password
             - name: REQUESTS_CA_BUNDLE
               value: ""
+            - name: CURL_CA_BUNDLE
+              value: ""
           ports:
             - containerPort: 8123
           volumeMounts:
