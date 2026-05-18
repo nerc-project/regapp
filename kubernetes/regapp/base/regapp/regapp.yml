@@ -96,6 +96,10 @@ spec:
                 secretKeyRef:
                   name: regapp-postgres-ha-pguser-regapp-postgres-ha
                   key: password
+            - name: REQUESTS_CA_BUNDLE
+              value: ""
+            - name: CURL_CA_BUNDLE
+              value: ""
           ports:
             - containerPort: 8123
           volumeMounts:

@@ -1,0 +1,79 @@
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  annotations:
+    postgres-operator.crunchydata.com/autoCreateUserSchema: "true"
+  name: regapp-postgres-ha
+  namespace: regapp
+spec:
+  postgresVersion: 18
+  instances:
+    - name: regapp-pgha1
+      replicas: 2
+      dataVolumeClaimSpec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: 11Gi
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    postgres-operator.crunchydata.com/cluster: regapp-postgres-ha
+                    postgres-operator.crunchydata.com/instance-set: regapp-pgha1
+  backups:
+    pgbackrest:
+      #configuration:
+      #- secret:
+      #    name: pgo-s3-conf
+      # - secret:
+      #     name: pgo-pgbackrest-secrets
+      global:
+        # repo1-cipher-type: aes-256-cbc
+        # repo2-cipher-type: aes-256-cbc
+        #repo2-path: /pgbackrest/postgres-operator/regapp-postgres-ha/repo2
+        #repo2-s3-uri-style: path
+        repo1-retention-full: "30"
+        repo2-retention-full: "30"
+      #manual:
+      #  repoName: repo2
+      #  options:
+      #    - --type=full
+      repos:
+      - name: repo1
+        schedules:
+          full: "0 1 * * *"
+          incremental: "0 */4 * * *"
+        volume:
+          volumeClaimSpec:
+            accessModes:
+            - "ReadWriteOnce"
+            resources:
+              requests:
+                storage: 5Gi
+      #- name: repo2
+      #  schedules:
+      #    full: "0 1 * * *"
+      #    incremental: "0 */4 * * *"
+      #  s3:
+      #    bucket: "nerc-shift-1-backups"
+      #    endpoint: "holecs.rc.fas.harvard.edu"
+      #    region: "us-east-1"
+  proxy:
+    pgBouncer:
+      replicas: 2
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    postgres-operator.crunchydata.com/cluster: regapp-postgres-ha
+                    postgres-operator.crunchydata.com/role: pgbouncer
