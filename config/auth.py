@@ -58,7 +58,7 @@ MSS_KC_SERVER = ENV.str(
 )
 
 MSS_KC_REALM = ENV.str(
-    'REGAPP_MS_KC_REALM',
+    'REGAPP_MSS_KC_REALM',
     'mss'
 )
 
